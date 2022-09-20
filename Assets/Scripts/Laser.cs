@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-
     [SerializeField] private int _speed;
 
     void Update()
@@ -18,4 +17,3 @@ public class Laser : MonoBehaviour
        
     }
 }
-//Can write this.gameObject or simply gameObject. Writing "this" just helps you know

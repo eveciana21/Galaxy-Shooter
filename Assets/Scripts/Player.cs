@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _canFire = 0f;
     [SerializeField] private float _fireRate = 0.35f;
+    
+    [SerializeField] private int _playerLives = 3;
 
     
     void Start()
@@ -26,6 +28,7 @@ public class Player : MonoBehaviour
             {
                 FireLaser();
             }
+
     }
      void ControlMovement()
      {
@@ -34,11 +37,9 @@ public class Player : MonoBehaviour
         //transform.Translate(Vector3.right * horizontal * _speed * Time.deltaTime);
        float vertical = Input.GetAxis("Vertical");
         //transform.Translate(Vector3.up * vertical * _speed * Time.deltaTime);
-     
-        Vector3 direction = new Vector3(horizontal, vertical, 0);
+       Vector3 direction = new Vector3(horizontal, vertical, 0);
        
         transform.Translate(direction * _speed * Time.deltaTime);
-
 
         //X position
         if (transform.position.x > 11.25f)
@@ -59,6 +60,20 @@ public class Player : MonoBehaviour
         Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
     }
 
+    public void Damage()
+        {
+             _playerLives -= 1;
+
+        if(_playerLives < 1)
+        {
+            Destroy(this.gameObject);
+            Debug.Log("You died!");
+        }
+
+
+
+       
+    }
 
     }
 
