@@ -7,6 +7,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private GameObject _enemyContainer;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(2);
+    
+    [SerializeField] private bool _isPlayerAlive;
 
 
     void Start()
@@ -23,18 +25,23 @@ public class SpawnManager : MonoBehaviour
     IEnumerator EnemySpawn()
     {
 
-        while (true)
+        while (_isPlayerAlive == true)
         {
-            Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0); 
+            Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, _spawnLocation, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return _waitForSeconds;
         }
-      
-        }
-        
 
     }
+
+    public void PlayerDead ()
+    {
+        _isPlayerAlive = false;
+    }
+
+
+}
 
 
 
