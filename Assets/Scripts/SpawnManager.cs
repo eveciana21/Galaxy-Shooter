@@ -5,11 +5,10 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
-    [SerializeField] private GameObject _tripleShotPowerupPrefab;
-    [SerializeField] private GameObject _speedPowerupPrefab;
     [SerializeField] private GameObject _enemyContainer;
     [SerializeField] private GameObject _powerupContainer;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(2);
+    [SerializeField] private GameObject[] _powerups;
     
     
     [SerializeField] private bool _isPlayerAlive;
@@ -24,7 +23,6 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator EnemySpawn()
     {
-
         while (_isPlayerAlive == true)
         {
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
@@ -32,21 +30,20 @@ public class SpawnManager : MonoBehaviour
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return _waitForSeconds;
         }
-
     }
 
     IEnumerator PowerupSpawn()
     {
         while (_isPlayerAlive == true)
         {
+            int _randomPowerup = Random.Range(0, 3);
+
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
-            GameObject newPowerup = Instantiate(_tripleShotPowerupPrefab, _spawnLocation, Quaternion.identity);
+            GameObject newPowerup = Instantiate(_powerups[2], _spawnLocation, Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(Random.Range(3, 10));
+            yield return new WaitForSeconds(Random.Range(2,3));
         }
     }
-
-    
 
     public void PlayerDead ()
     {

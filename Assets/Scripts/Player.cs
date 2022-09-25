@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField] private float _speed = 2.5f;
+    private float _speedMultiplier = 2f;
 
     [SerializeField] private GameObject _laserPrefab;
 
@@ -18,6 +19,9 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _tripleShotIsActive;
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private bool _isSpeedPowerUpActive;
+    [SerializeField] private bool _isShieldPowerUpActive;
+    [SerializeField] GameObject _shieldPrefab;
+
 
 
     void Start()
@@ -51,7 +55,9 @@ public class Player : MonoBehaviour
         //transform.Translate(Vector3.up * vertical * _speed * Time.deltaTime);
         
         Vector3 direction = new Vector3(horizontal, vertical, 0);
+
         transform.Translate(direction * _speed * Time.deltaTime);
+
         //X position
         if (transform.position.x > 11.25f)
         {
@@ -83,8 +89,14 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _playerLives -= 1;
+        if (_isShieldPowerUpActive == true)
+        {
+            _isShieldPowerUpActive = false;
+            return;
 
+        }
+        _playerLives -= 1;
+        
         if (_playerLives < 1)
         {
             _spawnManager.PlayerDead();
@@ -102,27 +114,48 @@ public class Player : MonoBehaviour
     {
         if(_tripleShotIsActive==true)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(10);
             _tripleShotIsActive = false;
         }
     }
 
-    public void SpeedActive()
+
+    public void SpeedBoostActive()
     {
         _isSpeedPowerUpActive = true;
-        StartCoroutine(SpeedActiveTime());
+        _speed *= _speedMultiplier;
+        StartCoroutine(SpeedBoostActiveTime());
     }
 
 
-    IEnumerator SpeedActiveTime()
+    IEnumerator SpeedBoostActiveTime()
     {
         if (_isSpeedPowerUpActive == true)
-        {   
+        {
+            _speed /= _speedMultiplier;
             yield return new WaitForSeconds(5);
             _isSpeedPowerUpActive = false;
         }
     }
+
+    public void ShieldActive ()
+    {
+        _isShieldPowerUpActive = true;
+        Instantiate(_shieldPrefab, transform.position, Quaternion.identity);
+        StartCoroutine(ShieldActiveTime());
+    }
+
+    IEnumerator ShieldActiveTime()
+    {
+        if (_isShieldPowerUpActive == true)
+        {
+            yield return new WaitForSeconds(10);
+            _isShieldPowerUpActive = false;
+        }
+    }
+    
 }
+
 
 
 
