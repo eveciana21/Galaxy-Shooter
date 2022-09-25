@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
+
     [SerializeField] private int _speed;
 
     void Update()
@@ -13,7 +14,13 @@ public class Laser : MonoBehaviour
        if (transform.position.y > 7.5f)
         {
             Destroy(this.gameObject);
+
+            if(transform.parent != null)
+            Destroy(transform.parent.gameObject);
         }
+
+ 
+        
        
     }
 }

@@ -5,8 +5,12 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private GameObject _tripleShotPowerupPrefab;
+    [SerializeField] private GameObject _speedPowerupPrefab;
     [SerializeField] private GameObject _enemyContainer;
+    [SerializeField] private GameObject _powerupContainer;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(2);
+    
     
     [SerializeField] private bool _isPlayerAlive;
 
@@ -14,13 +18,9 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(EnemySpawn());
-
+        StartCoroutine(PowerupSpawn());
     }
 
-    void Update()
-    {
-
-    }
 
     IEnumerator EnemySpawn()
     {
@@ -34,6 +34,19 @@ public class SpawnManager : MonoBehaviour
         }
 
     }
+
+    IEnumerator PowerupSpawn()
+    {
+        while (_isPlayerAlive == true)
+        {
+            Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
+            GameObject newPowerup = Instantiate(_tripleShotPowerupPrefab, _spawnLocation, Quaternion.identity);
+            newPowerup.transform.parent = _powerupContainer.transform;
+            yield return new WaitForSeconds(Random.Range(3, 10));
+        }
+    }
+
+    
 
     public void PlayerDead ()
     {
