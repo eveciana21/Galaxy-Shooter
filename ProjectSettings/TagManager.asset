@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Laser
   - TripleShot
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -46,6 +47,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 3050428079
+    locked: 0
+  - name: Shield
+    uniqueID: 2603977125
     locked: 0
   - name: Foreground
     uniqueID: 703287083

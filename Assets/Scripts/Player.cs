@@ -20,20 +20,33 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private bool _isSpeedPowerUpActive;
     [SerializeField] private bool _isShieldPowerUpActive;
-    [SerializeField] GameObject _shieldPrefab;
+    [SerializeField] GameObject _shieldVisualizer;
+    private int _score;
+    private UIManager _uiManager;
+    
 
 
 
     void Start()
     {
+
+
+        _shieldVisualizer.SetActive(false);
+
         transform.position = new Vector3(0, 0, 0);
 
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-        
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         if (_spawnManager == null)
         {
             Debug.Log("Spawn Manager is null");
-        }    
+        }
+
+        if(_uiManager == null)
+        {
+            Debug.Log("UI Manager is null");
+        }
 
     }
 
@@ -56,8 +69,16 @@ public class Player : MonoBehaviour
         
         Vector3 direction = new Vector3(horizontal, vertical, 0);
 
-        transform.Translate(direction * _speed * Time.deltaTime);
 
+        if (_isSpeedPowerUpActive == false)
+        {
+            transform.Translate(direction * _speed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(direction * _speed * _speedMultiplier * Time.deltaTime);
+            Debug.Log("Speed:" + _speed * _speedMultiplier);
+        }
         //X position
         if (transform.position.x > 11.25f)
         {
@@ -92,8 +113,8 @@ public class Player : MonoBehaviour
         if (_isShieldPowerUpActive == true)
         {
             _isShieldPowerUpActive = false;
+            _shieldVisualizer.SetActive(false);
             return;
-
         }
         _playerLives -= 1;
         
@@ -107,7 +128,8 @@ public class Player : MonoBehaviour
     public void TripleShotActive()
     {
         _tripleShotIsActive = true;
-        StartCoroutine(TripleShotActiveTime());
+        StopCoroutine("TripleShotActiveTime");
+        StartCoroutine("TripleShotActiveTime");
     }
 
     IEnumerator TripleShotActiveTime()
@@ -123,7 +145,6 @@ public class Player : MonoBehaviour
     public void SpeedBoostActive()
     {
         _isSpeedPowerUpActive = true;
-        _speed *= _speedMultiplier;
         StartCoroutine(SpeedBoostActiveTime());
     }
 
@@ -132,28 +153,24 @@ public class Player : MonoBehaviour
     {
         if (_isSpeedPowerUpActive == true)
         {
-            _speed /= _speedMultiplier;
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(10);
             _isSpeedPowerUpActive = false;
         }
     }
 
     public void ShieldActive ()
     {
+        
         _isShieldPowerUpActive = true;
-        Instantiate(_shieldPrefab, transform.position, Quaternion.identity);
-        StartCoroutine(ShieldActiveTime());
+        _shieldVisualizer.SetActive(true);
     }
 
-    IEnumerator ShieldActiveTime()
+   public void AddToScore (int points)
     {
-        if (_isShieldPowerUpActive == true)
-        {
-            yield return new WaitForSeconds(10);
-            _isShieldPowerUpActive = false;
-        }
+        _score =+ points;
+        _uiManager.UpdateScore(_score);      
     }
-    
+
 }
 
 
