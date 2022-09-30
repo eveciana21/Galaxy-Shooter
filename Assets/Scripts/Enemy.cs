@@ -6,9 +6,11 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Player _player;
+    //private GameObject _playerGameobject;
 
     void Start()
     {
+        //_player = _playerGameobject.GetComponent<Player>();
         _player = GameObject.Find("Player").GetComponent<Player>();
 
         transform.position = new Vector3 (Random.Range(9,-9),7.5f,0);

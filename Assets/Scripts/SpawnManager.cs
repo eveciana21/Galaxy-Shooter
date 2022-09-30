@@ -9,8 +9,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _powerupContainer;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(2);
     [SerializeField] private GameObject[] _powerups;
-    
-    
     [SerializeField] private bool _isPlayerAlive;
 
 
@@ -37,11 +35,10 @@ public class SpawnManager : MonoBehaviour
         while (_isPlayerAlive == true)
         {
             int _randomPowerup = Random.Range(0, 3);
-
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
             GameObject newPowerup = Instantiate(_powerups[_randomPowerup], _spawnLocation, Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(Random.Range(2,3));
+            yield return new WaitForSeconds(Random.Range(5,10));
         }
     }
 

@@ -6,23 +6,29 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Text _scoreText;
+    [SerializeField] private Sprite [] _livesSprite;
+    [SerializeField] private Image _livesDisplayImage;
     
     
-    private Player _player;
 
 
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
         _scoreText.text = "Score: " + 0;
     }
 
     public void UpdateScore (int playerScore)
     {
-        _scoreText.text = "Score: " + playerScore.ToString();
-        Debug.Log("50 " + playerScore);
+        _scoreText.text = "Score: " + playerScore.ToString();       
     }
 
+    public void UpdateLives(int currentLives)
+    {
+
+        _livesDisplayImage.sprite = _livesSprite[currentLives];
+
+
+    }
 
 
 

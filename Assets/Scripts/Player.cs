@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _canFire = 0f;
     [SerializeField] private float _fireRate = 0.35f;
 
-    [SerializeField] private int _playerLives = 3;
+    [SerializeField] private int _playerLives;
 
     private SpawnManager _spawnManager;
     [SerializeField] private bool _tripleShotIsActive;
@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isSpeedPowerUpActive;
     [SerializeField] private bool _isShieldPowerUpActive;
     [SerializeField] GameObject _shieldVisualizer;
+    
     private int _score;
     private UIManager _uiManager;
     
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+
         if (_isShieldPowerUpActive == true)
         {
             _isShieldPowerUpActive = false;
@@ -117,6 +119,9 @@ public class Player : MonoBehaviour
             return;
         }
         _playerLives -= 1;
+        _uiManager.UpdateLives(_playerLives);
+
+
         
         if (_playerLives < 1)
         {
@@ -167,7 +172,7 @@ public class Player : MonoBehaviour
 
    public void AddToScore (int points)
     {
-        _score =+ points;
+        _score += points;
         _uiManager.UpdateScore(_score);      
     }
 

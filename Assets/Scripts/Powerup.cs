@@ -5,6 +5,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField] private float _speed;
+
     [SerializeField] private int powerupID;
 
     void Start()
@@ -26,25 +27,30 @@ public class Powerup : MonoBehaviour
         if (other.tag == "Player")
         {
             Player player = other.transform.GetComponent<Player>();
+
             if (player !=null)
             {
                 switch (powerupID)
                 {
                     case 0:
                         player.TripleShotActive();
-                            break;
+                        break;
                     case 1:
                         player.SpeedBoostActive();
-                            break;
+                        break;
                     case 2:
                         player.ShieldActive();
                         break;
-
-
                 }
+
+
+
+                Destroy(this.gameObject);
+                
+
             }
 
-            Destroy(this.gameObject);
+
         }
     }
 
