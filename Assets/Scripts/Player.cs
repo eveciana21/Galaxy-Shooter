@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -24,20 +25,22 @@ public class Player : MonoBehaviour
     
     private int _score;
     private UIManager _uiManager;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
+    private GameManager _gameManager;
     
 
 
 
     void Start()
     {
-
-
         _shieldVisualizer.SetActive(false);
 
         transform.position = new Vector3(0, 0, 0);
 
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
 
         if (_spawnManager == null)
         {
@@ -47,6 +50,11 @@ public class Player : MonoBehaviour
         if(_uiManager == null)
         {
             Debug.Log("UI Manager is null");
+        }
+
+        if(_gameManager == null)
+        {
+            Debug.LogError("Game Manager is null");
         }
 
     }
@@ -99,7 +107,7 @@ public class Player : MonoBehaviour
 
         if (_tripleShotIsActive == true)
         {
-            _canFire = Time.time + _fireRate;
+           // _canFire = Time.time + _fireRate;
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
         else 
@@ -130,6 +138,7 @@ public class Player : MonoBehaviour
         }
     }
 
+
     public void TripleShotActive()
     {
         _tripleShotIsActive = true;
@@ -145,15 +154,12 @@ public class Player : MonoBehaviour
             _tripleShotIsActive = false;
         }
     }
-
-
     public void SpeedBoostActive()
     {
         _isSpeedPowerUpActive = true;
         StartCoroutine(SpeedBoostActiveTime());
     }
-
-
+    
     IEnumerator SpeedBoostActiveTime()
     {
         if (_isSpeedPowerUpActive == true)
@@ -165,7 +171,6 @@ public class Player : MonoBehaviour
 
     public void ShieldActive ()
     {
-        
         _isShieldPowerUpActive = true;
         _shieldVisualizer.SetActive(true);
     }

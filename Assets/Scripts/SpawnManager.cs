@@ -16,11 +16,13 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(EnemySpawn());
         StartCoroutine(PowerupSpawn());
+
     }
 
 
     IEnumerator EnemySpawn()
     {
+
         while (_isPlayerAlive == true)
         {
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
