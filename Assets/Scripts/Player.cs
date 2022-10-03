@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     {
         _shieldVisualizer.SetActive(false);
 
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = new Vector3(0, -1.75f, 0);
 
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -97,6 +97,7 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.25f, transform.position.y, 0);
         }
+
         //Y position
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.25f, 5.25f), 0);
     }
@@ -107,7 +108,6 @@ public class Player : MonoBehaviour
 
         if (_tripleShotIsActive == true)
         {
-           // _canFire = Time.time + _fireRate;
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
         else 
