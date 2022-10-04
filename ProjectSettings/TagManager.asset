@@ -49,9 +49,15 @@ TagManager:
   - name: Background
     uniqueID: 3050428079
     locked: 0
-  - name: Shield
+  - name: SubMidground
+    uniqueID: 1219182915
+    locked: 0
+  - name: Midground
     uniqueID: 2603977125
     locked: 0
   - name: Foreground
     uniqueID: 703287083
+    locked: 0
+  - name: Player
+    uniqueID: 1534232307
     locked: 0

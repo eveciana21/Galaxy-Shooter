@@ -7,11 +7,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed;
     private Player _player;
 
+    private Animator _destroyAnim;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.LogError("Player is null");
+        }
 
-        transform.position = new Vector3 (Random.Range(9,-9),7.5f,0);
+        _destroyAnim = GetComponent<Animator>();
+
+        transform.position = new Vector3(Random.Range(9, -9), 7.5f, 0);
 
     }
 
@@ -23,8 +31,8 @@ public class Enemy : MonoBehaviour
         {
             //spawn at random x position
             float randomX = Random.Range(9, -9);
-            transform.position = new Vector3 (randomX, 8, 0);
-        }       
+            transform.position = new Vector3(randomX, 8, 0);
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -37,13 +45,17 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            
-            Destroy(this.gameObject);
+            if (_destroyAnim != null)
+            {
+                _destroyAnim.SetTrigger("OnEnemyDestroy");
+                _speed = 0.5f;
+                Destroy(this.gameObject, 1.15f);
+            }
         }
 
         if (other.tag == "Laser")
         {
-            
+
             Destroy(other.gameObject);
 
             if (_player != null)
@@ -51,7 +63,13 @@ public class Enemy : MonoBehaviour
                 _player.AddToScore(50);
             }
 
-            Destroy(this.gameObject);
+            if (_destroyAnim != null)
+            {
+                _destroyAnim.SetTrigger("OnEnemyDestroy");
+                _speed = 0.5f;
+                Destroy(this.gameObject, 1.15f);
+            }
+
         }
 
 

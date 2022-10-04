@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
 
-    [SerializeField] private float _speed = 2.5f;
-    private float _speedMultiplier = 2f;
+    [SerializeField] private float _speed;
+    private float _speedMultiplier = 1.45f;
 
     [SerializeField] private GameObject _laserPrefab;
 
@@ -22,20 +22,23 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isSpeedPowerUpActive;
     [SerializeField] private bool _isShieldPowerUpActive;
     [SerializeField] GameObject _shieldVisualizer;
-    
+    [SerializeField] GameObject _thrusterSpeed;
+    [SerializeField] GameObject _thrusterMain;
+
     private int _score;
     private UIManager _uiManager;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
     private GameManager _gameManager;
-    
+
 
 
 
     void Start()
     {
         _shieldVisualizer.SetActive(false);
+        _thrusterSpeed.SetActive(false);
 
-        transform.position = new Vector3(0, -1.75f, 0);
+        transform.position = new Vector3(0, -2.5f, 0);
 
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -47,12 +50,12 @@ public class Player : MonoBehaviour
             Debug.Log("Spawn Manager is null");
         }
 
-        if(_uiManager == null)
+        if (_uiManager == null)
         {
             Debug.Log("UI Manager is null");
         }
 
-        if(_gameManager == null)
+        if (_gameManager == null)
         {
             Debug.LogError("Game Manager is null");
         }
@@ -75,9 +78,8 @@ public class Player : MonoBehaviour
         //transform.Translate(Vector3.right * horizontal * _speed * Time.deltaTime);
         float vertical = Input.GetAxis("Vertical");
         //transform.Translate(Vector3.up * vertical * _speed * Time.deltaTime);
-        
-        Vector3 direction = new Vector3(horizontal, vertical, 0);
 
+        Vector3 direction = new Vector3(horizontal, vertical, 0);
 
         if (_isSpeedPowerUpActive == false)
         {
@@ -110,8 +112,8 @@ public class Player : MonoBehaviour
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
-        else 
-        { 
+        else
+        {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         }
     }
@@ -130,7 +132,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateLives(_playerLives);
 
 
-        
+
         if (_playerLives < 1)
         {
             _spawnManager.PlayerDead();
@@ -148,7 +150,7 @@ public class Player : MonoBehaviour
 
     IEnumerator TripleShotActiveTime()
     {
-        if(_tripleShotIsActive==true)
+        if (_tripleShotIsActive == true)
         {
             yield return new WaitForSeconds(10);
             _tripleShotIsActive = false;
@@ -159,26 +161,32 @@ public class Player : MonoBehaviour
         _isSpeedPowerUpActive = true;
         StartCoroutine(SpeedBoostActiveTime());
     }
-    
+
     IEnumerator SpeedBoostActiveTime()
     {
         if (_isSpeedPowerUpActive == true)
         {
+            _thrusterSpeed.SetActive(true);
+            _thrusterMain.SetActive(false);
+
             yield return new WaitForSeconds(10);
+
             _isSpeedPowerUpActive = false;
+            _thrusterMain.SetActive(true);
+            _thrusterSpeed.SetActive(false);
         }
     }
 
-    public void ShieldActive ()
+    public void ShieldActive()
     {
         _isShieldPowerUpActive = true;
         _shieldVisualizer.SetActive(true);
     }
 
-   public void AddToScore (int points)
+    public void AddToScore(int points)
     {
         _score += points;
-        _uiManager.UpdateScore(_score);      
+        _uiManager.UpdateScore(_score);
     }
 
 }
