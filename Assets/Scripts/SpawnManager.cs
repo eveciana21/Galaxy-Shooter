@@ -11,6 +11,7 @@ public class SpawnManager : MonoBehaviour
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(2);
     [SerializeField] private GameObject[] _powerups;
     [SerializeField] private bool _isPlayerAlive;
+    [SerializeField] private float _speed;
 
 
     public void StartSpawning()
@@ -23,7 +24,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator EnemySpawn()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
         
         while (_isPlayerAlive == true)
         {
@@ -52,7 +53,7 @@ public class SpawnManager : MonoBehaviour
     {
         while(_isPlayerAlive == true)
         {
-            yield return new WaitForSeconds(0);
+            yield return new WaitForSeconds(10);
             Vector3 _spawnLocation = new Vector3(Random.Range(-9, 9), 8, 0);
             GameObject newAsteroid = Instantiate(_asteroidPrefab, _spawnLocation, Quaternion.identity);
             newAsteroid.transform.parent = _enemyContainer.transform;
@@ -66,6 +67,9 @@ public class SpawnManager : MonoBehaviour
     {
         _isPlayerAlive = false;
     }
+
+
+
 
 
 }

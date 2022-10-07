@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -12,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
 
     [SerializeField] private float _canFire = 0f;
-    [SerializeField] private float _fireRate = 0.35f;
+    [SerializeField] private float _fireRate = 0.25f;
 
     [SerializeField] private int _playerLives;
 
@@ -25,6 +23,9 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _thrusterSpeed;
     [SerializeField] GameObject _thrusterMain;
 
+    [SerializeField] GameObject _leftSmoke, _rightSmoke;
+    [SerializeField] GameObject _explosionPrefab;
+    
     private int _score;
     private UIManager _uiManager;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
@@ -33,10 +34,14 @@ public class Player : MonoBehaviour
 
 
 
+
     void Start()
     {
         _shieldVisualizer.SetActive(false);
         _thrusterSpeed.SetActive(false);
+        _leftSmoke.SetActive(false);
+        _rightSmoke.SetActive(false);
+
 
         transform.position = new Vector3(0, -2.5f, 0);
 
@@ -101,6 +106,16 @@ public class Player : MonoBehaviour
         }
 
         //Y position
+        if(_isSpeedPowerUpActive==true)
+        {
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -2.50f, 5.25f), 0);
+
+        }
+        else
+        {
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.00f, 5.25f), 0);
+
+        }
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.25f, 5.25f), 0);
     }
 
@@ -129,6 +144,18 @@ public class Player : MonoBehaviour
             return;
         }
         _playerLives -= 1;
+
+        if (_playerLives == 2)
+        {
+
+            _leftSmoke.SetActive(true);
+        }
+        else if( _playerLives == 1)
+        {
+            _rightSmoke.SetActive(true);
+        }
+       
+        
         _uiManager.UpdateLives(_playerLives);
 
 
@@ -136,6 +163,7 @@ public class Player : MonoBehaviour
         if (_playerLives < 1)
         {
             _spawnManager.PlayerDead();
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }
