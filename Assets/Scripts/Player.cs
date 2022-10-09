@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Game Manager is null");
         }
-        
+
         if (_audioSource == null)
         {
             Debug.LogError("AudioSource on player is null");
@@ -88,15 +88,6 @@ public class Player : MonoBehaviour
         ControlMovement();
 
 
-        if (_moveLeft == true)
-
-        {
-            transform.Translate(new Vector3(-1, 0, 0) * _speed * Time.deltaTime);
-            MovingAnimation();
-
-        }
-
-
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             FireLaser();
@@ -112,6 +103,24 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, vertical, 0);
 
+        //TURNING ANIMATION
+        if (horizontal < 0)
+        {
+            _turnAnim.SetBool("Left_Turn_anim", true);
+            _turnAnim.SetBool("Right_Turn_anim", false);
+        }
+        else if (horizontal > 0)
+        {
+            _turnAnim.SetBool("Right_Turn_anim", true);
+            _turnAnim.SetBool("Left_Turn_anim", false);
+        }
+        else
+        {
+            _turnAnim.SetBool("Right_Turn_anim", false);
+            _turnAnim.SetBool("Left_Turn_anim", false);
+        }
+
+        //SPEED POWERUP
         if (_isSpeedPowerUpActive == false)
         {
             transform.Translate(direction * _speed * Time.deltaTime);
@@ -121,6 +130,7 @@ public class Player : MonoBehaviour
             transform.Translate(direction * _speed * _speedMultiplier * Time.deltaTime);
             Debug.Log("Speed:" + _speed * _speedMultiplier);
         }
+
         //X position
         if (transform.position.x > 11.25f)
         {
@@ -154,8 +164,8 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         }
-
         _audioSource.Play();
+        _audioSource.volume = 0.25f;
     }
 
 
@@ -186,6 +196,7 @@ public class Player : MonoBehaviour
         if (_playerLives < 1)
         {
             _spawnManager.PlayerDead();
+
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
             Destroy(this.gameObject);
@@ -220,7 +231,6 @@ public class Player : MonoBehaviour
     {
         if (_isSpeedPowerUpActive == true)
         {
-            AudioSource.PlayClipAtPoint(_speedBoostPowerup,transform.position);
             _thrusterSpeed.SetActive(true);
             _thrusterMain.SetActive(false);
 
@@ -244,20 +254,6 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_score);
     }
 
-
-
-    void MovingAnimation()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _moveLeft = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            _moveRight = true;
-        }
-    }
 }
 
 

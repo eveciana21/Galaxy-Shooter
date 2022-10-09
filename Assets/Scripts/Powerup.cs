@@ -9,12 +9,13 @@ public class Powerup : MonoBehaviour
     [SerializeField] private int powerupID;
 
     [SerializeField] AudioClip _powerupAudio;
-    [SerializeField] private float _volume = 1.0f;
+    private float _volume = 1f;
 
 
     void Start()
     {
         transform.position=new Vector3(Random.Range(-9, 9),8f, 0);
+
     }
 
     void Update()
@@ -33,7 +34,7 @@ public class Powerup : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
 
             AudioSource.PlayClipAtPoint(_powerupAudio, transform.position, _volume);
-
+            
             if (player !=null)
             {
                 switch (powerupID)
@@ -49,10 +50,8 @@ public class Powerup : MonoBehaviour
                         break;
                 }
 
-
                 Destroy(this.gameObject);
                 
-
             }
 
 
