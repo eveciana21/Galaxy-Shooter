@@ -6,18 +6,25 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Player _player;
-
     private Animator _destroyAnim;
+    [SerializeField] GameObject _explosionPrefab;
+    
+
+    
+    //[SerializeField] AudioClip _explosionAudio;
+    //private AudioSource _audioSource;
 
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        
+
         if (_player == null)
         {
             Debug.LogError("Player is null");
         }
 
-        _destroyAnim = GetComponent<Animator>();
+
 
         transform.position = new Vector3(Random.Range(9, -9), 7.5f, 0);
 
@@ -39,18 +46,18 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Player")
         {
-            Player player = other.transform.GetComponent<Player>();
 
-            if (player != null)
+            if (_player != null)
             {
-                player.Damage();
+                _player.Damage();
             }
-            if (_destroyAnim != null)
-            {
-                _destroyAnim.SetTrigger("OnEnemyDestroy");
-                _speed = 0.5f;
-                Destroy(this.gameObject, 1.15f);
-            }
+
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+
+
+
+            Destroy(this.gameObject,0.05f);
+
         }
 
         if (other.tag == "Laser")
@@ -62,13 +69,17 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddToScore(50);
             }
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
-            if (_destroyAnim != null)
-            {
-                _destroyAnim.SetTrigger("OnEnemyDestroy");
+
+
+
                 _speed = 0.5f;
-                Destroy(this.gameObject, 1.15f);
-            }
+
+
+            Destroy(this.gameObject,0.05f);
+
+
 
         }
 
@@ -76,8 +87,5 @@ public class Enemy : MonoBehaviour
 
 
     }
-
-
-
 
 }

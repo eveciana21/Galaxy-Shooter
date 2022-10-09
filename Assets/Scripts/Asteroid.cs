@@ -9,6 +9,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private GameObject _explosionPrefab;
     [SerializeField] private bool _isAsteroidDestroyed;
     SpawnManager _spawnManager;
+    [SerializeField] AudioClip _explosionAudio;
 
 
 
@@ -17,6 +18,7 @@ public class Asteroid : MonoBehaviour
         transform.position = new Vector3(0, 4.5f, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _player = GameObject.Find("Player").GetComponent<Player>();
+        
     }
 
     void Update()
@@ -31,6 +33,7 @@ public class Asteroid : MonoBehaviour
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
+
             Destroy(other.gameObject);
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, 0.1f);
@@ -40,6 +43,7 @@ public class Asteroid : MonoBehaviour
         {
 
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+
             _player.Damage();
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, 0.1f);

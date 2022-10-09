@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1192408739509769209}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.96, z: 0}
-  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -137,3 +137,4 @@ MonoBehaviour:
   _speed: 10
   _explosionPrefab: {fileID: 6914487444124827508, guid: 6f0d63a50fdd9774490fe302073f08b1, type: 3}
   _isAsteroidDestroyed: 0
+  _explosionAudio: {fileID: 0}

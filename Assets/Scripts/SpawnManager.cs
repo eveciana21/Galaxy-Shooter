@@ -37,27 +37,28 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerupSpawn()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(1);
         
         while (_isPlayerAlive == true)
         {
             int _randomPowerup = Random.Range(0, 3);
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
-            GameObject newPowerup = Instantiate(_powerups[_randomPowerup], _spawnLocation, Quaternion.identity);
+            GameObject newPowerup = Instantiate(_powerups[1], _spawnLocation, Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(Random.Range(3, 7));
+            yield return new WaitForSeconds(Random.Range(3, 4));
         }
     }
 
     IEnumerator AsteroidSpawn ()
     {
-        while(_isPlayerAlive == true)
+        yield return new WaitForSeconds(8);
+
+        while (_isPlayerAlive == true)
         {
-            yield return new WaitForSeconds(10);
             Vector3 _spawnLocation = new Vector3(Random.Range(-9, 9), 8, 0);
             GameObject newAsteroid = Instantiate(_asteroidPrefab, _spawnLocation, Quaternion.identity);
             newAsteroid.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds (Random.Range (3,4));
+            yield return new WaitForSeconds (Random.Range (3,8));
 
         }
     }
