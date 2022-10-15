@@ -25,16 +25,16 @@ public class Player : MonoBehaviour
 
     [SerializeField] GameObject _leftSmoke, _rightSmoke;
     [SerializeField] GameObject _explosionPrefab;
+    [SerializeField] GameObject _tinyExplosionPrefab;
 
     private int _score;
     private UIManager _uiManager;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
     private GameManager _gameManager;
     Animator _turnAnim;
-    private bool _moveLeft, _moveRight;
+    //private bool _moveLeft, _moveRight;
 
     [SerializeField] AudioClip _laserAudio;
-    [SerializeField] AudioClip _speedBoostPowerup;
     AudioSource _audioSource;
 
 
@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         }
         _audioSource.Play();
-        _audioSource.volume = 0.25f;
+        _audioSource.volume = 0.3f;
     }
 
 
@@ -203,6 +203,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag=="Enemy Laser")
+        {
+            Damage();
+            Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+
+            Destroy(other.gameObject);
+        }
+    }
 
     public void TripleShotActive()
     {
@@ -253,6 +263,12 @@ public class Player : MonoBehaviour
         _score += points;
         _uiManager.UpdateScore(_score);
     }
+
+    public void SubtractFromScore(int points)
+    {
+        _score -= points;
+        _uiManager.UpdateScore(_score);
+    }    
 
 }
 

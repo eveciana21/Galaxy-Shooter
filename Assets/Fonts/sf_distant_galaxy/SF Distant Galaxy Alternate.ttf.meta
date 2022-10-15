@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 883e727fc17a1c14880f55bf5682612c
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - SF Distant Galaxy Alternate
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 683eff706aa5cee458aea98fd9b279b6, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

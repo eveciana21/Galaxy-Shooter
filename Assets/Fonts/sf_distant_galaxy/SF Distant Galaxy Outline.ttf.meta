@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 155aa9f6033020f47a6d94867dc9f266
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - SF Distant Galaxy Outline
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: f1693a221227fe148b83934ede6453bc, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

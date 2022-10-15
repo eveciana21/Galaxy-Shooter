@@ -9,7 +9,7 @@ public class MiniAsteroid : MonoBehaviour
     private Player _player;
     [SerializeField] private GameObject _explosionPrefab;
     private float _rotation;
-    [SerializeField] AudioSource _explosionAudio;
+    //[SerializeField] AudioSource _explosionAudio;
 
     void Start()
     {
@@ -42,6 +42,7 @@ public class MiniAsteroid : MonoBehaviour
         {
             Destroy(other.gameObject);
 
+            _player.AddToScore(10);
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
 
@@ -54,7 +55,7 @@ public class MiniAsteroid : MonoBehaviour
             {
                 _player.Damage();
             }
-
+            _player.SubtractFromScore(10);
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
 

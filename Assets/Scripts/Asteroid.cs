@@ -9,7 +9,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private GameObject _explosionPrefab;
     [SerializeField] private bool _isAsteroidDestroyed;
     SpawnManager _spawnManager;
-    [SerializeField] AudioClip _explosionAudio;
+    //[SerializeField] AudioClip _explosionAudio;
 
 
 
@@ -19,6 +19,11 @@ public class Asteroid : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         
+        if(_explosionPrefab == null)
+        {
+            Debug.LogError("Asteroid explosion is null");
+        }
+
     }
 
     void Update()

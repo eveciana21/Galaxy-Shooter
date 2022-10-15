@@ -9,18 +9,23 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private bool _isPressed;
     private float _speed = 15;
     [SerializeField] GameObject _playerShip;
+    [SerializeField] GameObject _controlsText;
+    private bool _controlsButtonPressed;
 
     private void Start()
     {
-        if(_playerShip != null)
+        if (_playerShip != null)
         {
-           _playerShip.transform.position = new Vector3(0f, -7.25f, 0);
+            _playerShip.transform.position = new Vector3(0f, -7.25f, 0);
         }
+
+        _controlsText.SetActive(false);
+
     }
 
     private void Update()
     {
-        if (_isPressed == true && _playerShip!=null)
+        if (_isPressed == true && _playerShip != null)
         {
             LoadGame();
         }
@@ -40,9 +45,23 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ControlScreen()
+    {
+        _controlsText.SetActive(true);
+    }
+
+
+
+
 
     
-    
+
+
 
 
 

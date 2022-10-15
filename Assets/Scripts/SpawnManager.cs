@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyContainer;
     [SerializeField] private GameObject _powerupContainer;
     [SerializeField] private GameObject _asteroidPrefab;
-    private WaitForSeconds _waitForSeconds = new WaitForSeconds(2);
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(1.5f);
     [SerializeField] private GameObject[] _powerups;
     [SerializeField] private bool _isPlayerAlive;
     [SerializeField] private float _speed;
@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerupSpawn()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(10);
         
         while (_isPlayerAlive == true)
         {
@@ -45,7 +45,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
             GameObject newPowerup = Instantiate(_powerups[_randomPowerup], _spawnLocation, Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(Random.Range(3, 4));
+            yield return new WaitForSeconds(Random.Range(10, 15));
         }
     }
 
