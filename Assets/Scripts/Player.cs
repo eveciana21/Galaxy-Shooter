@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField] private float _speed;
-    private float _speedMultiplier = 1.45f;
+    private float _speedMultiplier = 1.8f;//1.45f;
 
     [SerializeField] private GameObject _laserPrefab;
 
@@ -19,29 +19,46 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private bool _isSpeedPowerUpActive;
     [SerializeField] private bool _isShieldPowerUpActive;
-    [SerializeField] GameObject _shieldVisualizer;
-    [SerializeField] GameObject _thrusterSpeed;
-    [SerializeField] GameObject _thrusterMain;
+    [SerializeField] private int _shieldHealth;
 
-    [SerializeField] GameObject _leftSmoke, _rightSmoke;
-    [SerializeField] GameObject _explosionPrefab;
-    [SerializeField] GameObject _tinyExplosionPrefab;
+    //[SerializeField] private GameObject _shieldVisualizer;
+
+    [SerializeField] private GameObject _thrusterSpeed;
+    [SerializeField] private GameObject _thrusterMain;
+
+    [SerializeField] private GameObject _leftSmoke, _rightSmoke;
+    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _tinyExplosionPrefab;
+
 
     private int _score;
     private UIManager _uiManager;
-    private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
+    private WaitForSeconds _waitForSeconds02 = new WaitForSeconds(0.2f);
     private GameManager _gameManager;
-    Animator _turnAnim;
-    //private bool _moveLeft, _moveRight;
+    private Animator _turnAnim;
 
-    [SerializeField] AudioClip _laserAudio;
-    AudioSource _audioSource;
+    [SerializeField] private AudioClip _laserAudio;
+    private AudioSource _audioSource;
+
+    private Renderer _shieldColor;
+    private SpriteRenderer _spriteRenderer;
+
+    private Color _originalColor = new Color(1, 1, 1, 1);
+    private Color _colorOne = new Color(12, 0, 91);
+    private Color _colorTwo = new Color(0, 3, 10);
+
+    private bool _damageTaken;
+
+    private Collider2D _collider;
+
+
+
 
 
 
     void Start()
     {
-        _shieldVisualizer.SetActive(false);
+        //_shieldVisualizer.SetActive(false);
         _thrusterSpeed.SetActive(false);
         _leftSmoke.SetActive(false);
         _rightSmoke.SetActive(false);
@@ -55,6 +72,12 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _turnAnim = gameObject.GetComponent<Animator>();
+
+        _shieldColor = GetComponent<Renderer>();
+
+        _collider = GetComponent<Collider2D>();
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
 
 
@@ -88,7 +111,7 @@ public class Player : MonoBehaviour
         ControlMovement();
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _damageTaken == false)
         {
             FireLaser();
         }
@@ -121,15 +144,20 @@ public class Player : MonoBehaviour
         }
 
         //SPEED POWERUP
-        if (_isSpeedPowerUpActive == false)
+        if (Input.GetKey(KeyCode.LeftShift) && _isSpeedPowerUpActive == true && _damageTaken == false)
         {
-            transform.Translate(direction * _speed * Time.deltaTime);
+            transform.Translate(direction * _speed * _speedMultiplier * Time.deltaTime);
+            _thrusterSpeed.SetActive(true);
+            _thrusterMain.SetActive(false);
+            Debug.Log("Speed:" + _speed * _speedMultiplier);
         }
         else
         {
-            transform.Translate(direction * _speed * _speedMultiplier * Time.deltaTime);
-            Debug.Log("Speed:" + _speed * _speedMultiplier);
+            transform.Translate(direction * _speed * Time.deltaTime);
+            _thrusterMain.SetActive(true);
+            _thrusterSpeed.SetActive(false);
         }
+
 
         //X position
         if (transform.position.x > 11.25f)
@@ -171,15 +199,29 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-
         if (_isShieldPowerUpActive == true)
         {
-            _isShieldPowerUpActive = false;
-            _shieldVisualizer.SetActive(false);
-            return;
+            _shieldHealth -= 1;
+
+            if (_shieldHealth == 1)
+            {
+                _shieldColor.material.color = _colorTwo;
+            }
+
+            if (_shieldHealth == 0)
+            {
+                _shieldColor.material.color = _originalColor;
+                _isShieldPowerUpActive = false;
+                Invincible();
+                return;
+            }
         }
 
-        _playerLives -= 1;
+        if (_isShieldPowerUpActive == false)
+        {
+            _playerLives -= 1;
+            Invincible();
+        }
 
         if (_playerLives == 2)
         {
@@ -205,8 +247,9 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag=="Enemy Laser")
+        if (other.tag == "Enemy Laser")
         {
+
             Damage();
             Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
 
@@ -241,21 +284,18 @@ public class Player : MonoBehaviour
     {
         if (_isSpeedPowerUpActive == true)
         {
-            _thrusterSpeed.SetActive(true);
-            _thrusterMain.SetActive(false);
-
             yield return new WaitForSeconds(10);
-
             _isSpeedPowerUpActive = false;
-            _thrusterMain.SetActive(true);
-            _thrusterSpeed.SetActive(false);
         }
     }
+
+
 
     public void ShieldActive()
     {
         _isShieldPowerUpActive = true;
-        _shieldVisualizer.SetActive(true);
+        _shieldColor.material.color = _colorOne;
+        _shieldHealth = 2;
     }
 
     public void AddToScore(int points)
@@ -268,7 +308,49 @@ public class Player : MonoBehaviour
     {
         _score -= points;
         _uiManager.UpdateScore(_score);
-    }    
+    }
+
+    void Invincible()
+    {
+        _damageTaken = true;
+        StartCoroutine(DamageDelay());
+
+        if (_damageTaken == true)
+        {
+            StartCoroutine(SpriteFlicker());
+        }
+    }
+
+    IEnumerator DamageDelay()
+    {
+        while (_damageTaken == true)
+        {
+            _collider.enabled = false;
+            yield return new WaitForSeconds(2);
+            _collider.enabled = true;
+            _damageTaken = false;
+        }
+    }
+
+    IEnumerator SpriteFlicker()
+    {
+        while (_damageTaken == true)
+        {
+            _spriteRenderer.enabled = false;
+            
+            
+            yield return new WaitForSeconds(0.2f);
+
+            _spriteRenderer.enabled = true;
+
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+
+
+
+
 
 }
 

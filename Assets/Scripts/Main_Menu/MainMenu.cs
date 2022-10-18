@@ -10,7 +10,6 @@ public class MainMenu : MonoBehaviour
     private float _speed = 15;
     [SerializeField] GameObject _playerShip;
     [SerializeField] GameObject _controlsText;
-    private bool _controlsButtonPressed;
 
     private void Start()
     {

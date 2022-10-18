@@ -6,10 +6,8 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Player _player;
-    private Animator _destroyAnim;
-    [SerializeField] GameObject _explosionPrefab;
-    [SerializeField] GameObject _enemyLaserPrefab;
-    private bool _canFire;
+    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _enemyLaserPrefab;
     private float _canFireLaser;
     private float _fireRate;
 
@@ -42,7 +40,6 @@ public class Enemy : MonoBehaviour
             Debug.LogError("Enemy laser is null");
         }
 
-       // _canFireLaser = Random.Range(5f, 8f);
 
 
     }
@@ -52,7 +49,6 @@ public class Enemy : MonoBehaviour
 
         CalculateMovement();
 
-       // FireLaser();
         
     }
 
@@ -60,7 +56,7 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds (Random.Range (1.0f,4.0f));
+            yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));//4.0f));
             FireLaser();
         }
     }
@@ -108,7 +104,10 @@ public class Enemy : MonoBehaviour
         {
             if (_player != null)
             {
+                
                 _player.Damage();
+
+
             }
             _player.SubtractFromScore(50);
 
@@ -131,7 +130,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-
+    
 
 
 
