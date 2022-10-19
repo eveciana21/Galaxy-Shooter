@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _thrusterSpeed;
     [SerializeField] private GameObject _thrusterMain;
+    [SerializeField] private GameObject _leftThruster, _rightThruster;
+
 
     [SerializeField] private GameObject _leftSmoke, _rightSmoke;
     [SerializeField] private GameObject _explosionPrefab;
@@ -33,7 +35,7 @@ public class Player : MonoBehaviour
 
     private int _score;
     private UIManager _uiManager;
-    private WaitForSeconds _waitForSeconds02 = new WaitForSeconds(0.2f);
+    private WaitForSeconds _waitForSeconds02 = new WaitForSeconds(0.15f);
     private GameManager _gameManager;
     private Animator _turnAnim;
 
@@ -314,11 +316,8 @@ public class Player : MonoBehaviour
     {
         _damageTaken = true;
         StartCoroutine(DamageDelay());
-
-        if (_damageTaken == true)
-        {
-            StartCoroutine(SpriteFlicker());
-        }
+        StartCoroutine(SpriteFlicker());
+        
     }
 
     IEnumerator DamageDelay()
@@ -337,13 +336,15 @@ public class Player : MonoBehaviour
         while (_damageTaken == true)
         {
             _spriteRenderer.enabled = false;
-            
-            
-            yield return new WaitForSeconds(0.2f);
+            _leftThruster.SetActive(false);
+            _rightThruster.SetActive(false);
+                   
+            yield return _waitForSeconds02;
 
             _spriteRenderer.enabled = true;
-
-            yield return new WaitForSeconds(0.2f);
+            _leftThruster.SetActive(true);
+            _rightThruster.SetActive(true);
+            yield return _waitForSeconds02;
         }
     }
 

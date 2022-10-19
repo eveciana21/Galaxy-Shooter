@@ -436,6 +436,8 @@ MonoBehaviour:
   _shieldHealth: 0
   _thrusterSpeed: {fileID: 654233656}
   _thrusterMain: {fileID: 1138282115}
+  _leftThruster: {fileID: 1525154736}
+  _rightThruster: {fileID: 829792254}
   _leftSmoke: {fileID: 325537587}
   _rightSmoke: {fileID: 2112947137}
   _explosionPrefab: {fileID: 6914487444124827508, guid: 6f0d63a50fdd9774490fe302073f08b1, type: 3}
@@ -1963,8 +1965,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138282115}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.64, z: 0}
-  m_LocalScale: {x: 0.63, y: 0.63, z: 0.63}
+  m_LocalPosition: {x: 0, y: -2.6399999, z: 0}
+  m_LocalScale: {x: 0.63000005, y: 0.63000005, z: 0.63000005}
   m_Children:
   - {fileID: 1525154737}
   - {fileID: 829792255}
