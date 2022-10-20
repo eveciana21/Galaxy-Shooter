@@ -14,8 +14,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _gameOverText;
     [SerializeField] private Text _restartLevel;
 
+    [SerializeField] private Text _ammoCount;
+
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
     private GameManager _gameManager;
+    
+    
 
 
 
@@ -28,6 +32,8 @@ public class UIManager : MonoBehaviour
         _restartLevel.gameObject.SetActive(false);
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        Text _ammoText = _ammoCount.GetComponent<Text>();
+
     }
 
     public void UpdateScore (int playerScore)
@@ -53,7 +59,6 @@ public class UIManager : MonoBehaviour
     }
 
 
-
     IEnumerator GameOverFlicker()
     {
         while (true)
@@ -72,9 +77,23 @@ public class UIManager : MonoBehaviour
         _gameManager.PressRToRestart();
     }
 
+    public void AmmoCount (int currentAmmo)
+    {
+        _ammoCount.text = "Ammo: " + currentAmmo.ToString();
+    }
 
-
-
+    public void NoAmmo()
+    {
+        _ammoCount.color = Color.red;
+    }
+    public void LowAmmo()
+    {
+        _ammoCount.color = Color.yellow;
+    }
+    public void EnoughAmmo()
+    {
+        _ammoCount.color = Color.white;
+    }
 
 
 

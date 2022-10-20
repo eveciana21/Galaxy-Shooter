@@ -53,6 +53,9 @@ public class Player : MonoBehaviour
 
     private Collider2D _collider;
 
+    [SerializeField] private int _ammo = 15;
+    private bool _noAmmoLeft;
+
 
 
 
@@ -113,8 +116,9 @@ public class Player : MonoBehaviour
         ControlMovement();
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _damageTaken == false)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _damageTaken == false && _noAmmoLeft == false)
         {
+            _ammo--;
             FireLaser();
         }
 
@@ -186,6 +190,26 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireRate;
 
+        _uiManager.AmmoCount(_ammo);
+
+        if (_ammo == 0)
+        {
+            _uiManager.NoAmmo();
+            _noAmmoLeft = true;
+        }
+        else if (_ammo <= 5)
+        {
+            _uiManager.LowAmmo();
+            _noAmmoLeft = false;
+        }
+        else if (_ammo > 5)
+        {
+            _uiManager.EnoughAmmo();
+            _noAmmoLeft = false;
+        }
+
+
+
         if (_tripleShotIsActive == true)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
@@ -195,9 +219,16 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
         }
         _audioSource.Play();
-        _audioSource.volume = 0.3f;
+        _audioSource.volume = 0.2f;
     }
 
+    public void AmmoPowerUp()
+    {
+        _ammo += 10;
+        FireLaser();
+        _uiManager.AmmoCount(_ammo);
+        _noAmmoLeft = false;
+    }
 
     public void Damage()
     {
@@ -293,6 +324,8 @@ public class Player : MonoBehaviour
 
 
 
+
+
     public void ShieldActive()
     {
         _isShieldPowerUpActive = true;
@@ -317,7 +350,6 @@ public class Player : MonoBehaviour
         _damageTaken = true;
         StartCoroutine(DamageDelay());
         StartCoroutine(SpriteFlicker());
-        
     }
 
     IEnumerator DamageDelay()
@@ -338,7 +370,7 @@ public class Player : MonoBehaviour
             _spriteRenderer.enabled = false;
             _leftThruster.SetActive(false);
             _rightThruster.SetActive(false);
-                   
+
             yield return _waitForSeconds02;
 
             _spriteRenderer.enabled = true;
