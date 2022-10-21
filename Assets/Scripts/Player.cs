@@ -116,11 +116,15 @@ public class Player : MonoBehaviour
         ControlMovement();
 
 
+
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _damageTaken == false && _noAmmoLeft == false)
         {
             _ammo--;
             FireLaser();
         }
+
+        AmmoLimits();
+
 
     }
     void ControlMovement()
@@ -188,27 +192,9 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        _canFire = Time.time + _fireRate;
-
         _uiManager.AmmoCount(_ammo);
 
-        if (_ammo == 0)
-        {
-            _uiManager.NoAmmo();
-            _noAmmoLeft = true;
-        }
-        else if (_ammo <= 5)
-        {
-            _uiManager.LowAmmo();
-            _noAmmoLeft = false;
-        }
-        else if (_ammo > 5)
-        {
-            _uiManager.EnoughAmmo();
-            _noAmmoLeft = false;
-        }
-
-
+        _canFire = Time.time + _fireRate;
 
         if (_tripleShotIsActive == true)
         {
@@ -222,12 +208,29 @@ public class Player : MonoBehaviour
         _audioSource.volume = 0.2f;
     }
 
+    void AmmoLimits()
+    {
+        if (_ammo < 1)
+        {
+            _uiManager.NoAmmo();
+            _noAmmoLeft = true;
+        }
+        else if (_ammo <=5)
+        {
+            _uiManager.LowAmmo();
+            _noAmmoLeft = false;
+        }
+        else if (_ammo > 5)
+        {
+            _uiManager.EnoughAmmo();
+            _noAmmoLeft = false;
+        }
+    }
+
     public void AmmoPowerUp()
     {
         _ammo += 10;
-        FireLaser();
         _uiManager.AmmoCount(_ammo);
-        _noAmmoLeft = false;
     }
 
     public void Damage()

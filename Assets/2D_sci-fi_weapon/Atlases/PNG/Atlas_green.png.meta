@@ -1,0 +1,589 @@
+fileFormatVersion: 2
+guid: 006f7f82ca50d224a993a4ca8304ad81
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5442340083589169892
+    second: ammo_green
+  - first:
+      213: 1471063887296936710
+    second: ammo_iso_green
+  - first:
+      213: 7357415831794460539
+    second: armor_green
+  - first:
+      213: 3092137649294962464
+    second: armor_iso_green
+  - first:
+      213: 8170374029964037584
+    second: blaster_green
+  - first:
+      213: -8786441162885005078
+    second: grenade_green
+  - first:
+      213: 8258934663192438097
+    second: flamethrower_green
+  - first:
+      213: 2490920443210793853
+    second: gun_green
+  - first:
+      213: 2140454299453753761
+    second: missile_green
+  - first:
+      213: -7602074284732470380
+    second: kit_green
+  - first:
+      213: -5231731497853037933
+    second: knife_green
+  - first:
+      213: 43431776840672991
+    second: rocket _launcher_green
+  - first:
+      213: -5879720629917334362
+    second: laser_green
+  - first:
+      213: -2697583410823666483
+    second: med_iso_green
+  - first:
+      213: 6935380798999507776
+    second: med_green
+  - first:
+      213: 6074959266926884390
+    second: machine_gun_green
+  - first:
+      213: -6373888868986473788
+    second: Atlas_green_0
+  - first:
+      213: 377378964431972348
+    second: Atlas_green_1
+  - first:
+      213: 7742669842780221598
+    second: Atlas_green_2
+  - first:
+      213: -6390052751682770176
+    second: Atlas_green_3
+  - first:
+      213: 458764661404605443
+    second: Atlas_green_4
+  - first:
+      213: -4451628812775942882
+    second: Atlas_green_5
+  - first:
+      213: -5451783366986214861
+    second: Atlas_green_6
+  - first:
+      213: -6033015994108273455
+    second: Atlas_green_7
+  - first:
+      213: -3471506869811479106
+    second: Atlas_green_8
+  - first:
+      213: -4183539681193276713
+    second: Atlas_green_9
+  - first:
+      213: -3769714300810358745
+    second: Atlas_green_10
+  - first:
+      213: -5646704137104423201
+    second: Atlas_green_11
+  - first:
+      213: -1812305029068559970
+    second: Atlas_green_12
+  - first:
+      213: 2396044483727671432
+    second: Atlas_green_13
+  - first:
+      213: -8512260683687075065
+    second: Atlas_green_14
+  - first:
+      213: -1735159217340676488
+    second: Atlas_green_15
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  cookieLightType: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Atlas_green_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1687
+        width: 470
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c2be3e08d56b87a0800000000000000
+      internalID: -6373888868986473788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_1
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 1705
+        width: 470
+        height: 293
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf72ca03b28bc3500800000000000000
+      internalID: 377378964431972348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_2
+      rect:
+        serializedVersion: 2
+        x: 1010
+        y: 1687
+        width: 470
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e907b08133d737b60800000000000000
+      internalID: 7742669842780221598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_3
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1705
+        width: 470
+        height: 293
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00be0f7d0e8f157a0800000000000000
+      internalID: -6390052751682770176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_4
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1400
+        width: 1402
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30c1686670cdd5600800000000000000
+      internalID: 458764661404605443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_5
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 1463
+        width: 131
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1598963e23a832c0800000000000000
+      internalID: -4451628812775942882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_6
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1012
+        width: 1112
+        height: 368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 332576a99ef5754b0800000000000000
+      internalID: -5451783366986214861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_7
+      rect:
+        serializedVersion: 2
+        x: 1162
+        y: 1055
+        width: 464
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dc1deaeaeb664ca0800000000000000
+      internalID: -6033015994108273455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_8
+      rect:
+        serializedVersion: 2
+        x: 1646
+        y: 1043
+        width: 169
+        height: 337
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebdfe8d05eab2dfc0800000000000000
+      internalID: -3471506869811479106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_9
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 821
+        width: 470
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7da49b643d411f5c0800000000000000
+      internalID: -4183539681193276713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_10
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 903
+        width: 499
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7201d73f0d84fabc0800000000000000
+      internalID: -3769714300810358745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_11
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 626
+        width: 989
+        height: 366
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd6892c3180e2a1b0800000000000000
+      internalID: -5646704137104423201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_12
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 505
+        width: 442
+        height: 296
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e99e6b59d2669d6e0800000000000000
+      internalID: -1812305029068559970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_13
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 590
+        width: 470
+        height: 293
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8804f9e53c5704120800000000000000
+      internalID: 2396044483727671432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_14
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 174
+        width: 470
+        height: 311
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 703ee4112006ed980800000000000000
+      internalID: -8512260683687075065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Atlas_green_15
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 174
+        width: 1044
+        height: 359
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8760aa592e97be7e0800000000000000
+      internalID: -1735159217340676488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: eab7b6a18c1330442bd18e38707b0549
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
