@@ -21,8 +21,6 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isShieldPowerUpActive;
     [SerializeField] private int _shieldHealth;
 
-    //[SerializeField] private GameObject _shieldVisualizer;
-
     [SerializeField] private GameObject _thrusterSpeed;
     [SerializeField] private GameObject _thrusterMain;
     [SerializeField] private GameObject _leftThruster, _rightThruster;
@@ -53,9 +51,15 @@ public class Player : MonoBehaviour
 
     private Collider2D _collider;
 
-    [SerializeField] private int _ammo = 15;
+    [SerializeField] private int _ammo = 30;
     private bool _noAmmoLeft;
+    [SerializeField] private bool _trySpawningAmmo;
 
+    [SerializeField] private GameObject _fighterBrigadePrefab;
+    [SerializeField] private bool _fighterBrigadeActive;
+
+    private bool _heatSeakingMissilesActive;
+    [SerializeField] private GameObject _missile;
 
 
 
@@ -63,7 +67,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        //_shieldVisualizer.SetActive(false);
         _thrusterSpeed.SetActive(false);
         _leftSmoke.SetActive(false);
         _rightSmoke.SetActive(false);
@@ -98,7 +101,6 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Game Manager is null");
         }
-
         if (_audioSource == null)
         {
             Debug.LogError("AudioSource on player is null");
@@ -112,12 +114,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
         ControlMovement();
 
-
-
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _damageTaken == false && _noAmmoLeft == false)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _noAmmoLeft == false)
         {
             _ammo--;
             FireLaser();
@@ -126,7 +125,16 @@ public class Player : MonoBehaviour
         AmmoLimits();
 
 
+        if (Input.GetKeyDown(KeyCode.P) && _fighterBrigadeActive == true)
+        {
+            Instantiate(_fighterBrigadePrefab, new Vector3(0, -9, 0), Quaternion.identity);
+            _fighterBrigadeActive = false;
+            _uiManager.FighterBrigadeNotActive();
+        }
+
     }
+
+
     void ControlMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -170,23 +178,23 @@ public class Player : MonoBehaviour
 
 
         //X position
-        if (transform.position.x > 11.25f)
+        if (transform.position.x > 10.75f)
         {
-            transform.position = new Vector3(-11.25f, transform.position.y, 0);
+            transform.position = new Vector3(-10.75f, transform.position.y, 0);
         }
-        else if (transform.position.x < -11.25f)
+        else if (transform.position.x < -10.75f)
         {
-            transform.position = new Vector3(11.25f, transform.position.y, 0);
+            transform.position = new Vector3(10.75f, transform.position.y, 0);
         }
 
         //Y position
         if (_isSpeedPowerUpActive == true)
         {
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -2.50f, 5.25f), 0);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.05f, 5.75f), 0);
         }
         else
         {
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.00f, 5.25f), 0);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.50f, 5.75f), 0);
         }
     }
 
@@ -200,34 +208,55 @@ public class Player : MonoBehaviour
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
+        else if (_heatSeakingMissilesActive==true)
+        {
+            Instantiate(_missile, transform.position, Quaternion.identity);
+        }
         else
         {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         }
+
         _audioSource.Play();
         _audioSource.volume = 0.2f;
     }
 
+    public void HeatSeakingMissiles()
+    {
+        _heatSeakingMissilesActive = true;
+    }
+
+
     void AmmoLimits()
     {
+        if (_ammo <= 5)
+        {
+            if (_trySpawningAmmo == false)
+            {
+                _spawnManager.StartSpawningAmmo();
+                _trySpawningAmmo = true;
+            }
+            _uiManager.LowAmmo();
+            _noAmmoLeft = false;
+        }
+
+        else if (_ammo > 5)
+        {
+            _trySpawningAmmo = false;
+            _spawnManager.EnoughAmmo();
+
+            _uiManager.EnoughAmmo();
+            _noAmmoLeft = false;
+        }
+
         if (_ammo < 1)
         {
             _uiManager.NoAmmo();
             _noAmmoLeft = true;
         }
-        else if (_ammo <=5)
-        {
-            _uiManager.LowAmmo();
-            _noAmmoLeft = false;
-        }
-        else if (_ammo > 5)
-        {
-            _uiManager.EnoughAmmo();
-            _noAmmoLeft = false;
-        }
     }
 
-    public void AmmoPowerUp()
+    public void AmmoPickup()
     {
         _ammo += 10;
         _uiManager.AmmoCount(_ammo);
@@ -281,6 +310,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void HealthPickup()
+    {
+        if (_playerLives < 3)
+        {
+            _playerLives++;
+            _uiManager.UpdateLives(_playerLives);
+
+            if (_playerLives == 2)
+            {
+                _rightSmoke.SetActive(false);
+            }
+            else if (_playerLives == 3)
+            {
+                _leftSmoke.SetActive(false);
+            }
+        }
+    }
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Enemy Laser")
@@ -308,10 +356,18 @@ public class Player : MonoBehaviour
             _tripleShotIsActive = false;
         }
     }
+
+    public void FighterBrigadePowerup()
+    {
+        _fighterBrigadeActive = true;
+        _uiManager.FighterBrigadePowerup();
+    }
+
+
     public void SpeedBoostActive()
     {
         _isSpeedPowerUpActive = true;
-
+        _uiManager.PressShiftToBoost();
         StopCoroutine("SpeedBoostActiveTime");
         StartCoroutine("SpeedBoostActiveTime");
     }
@@ -324,10 +380,6 @@ public class Player : MonoBehaviour
             _isSpeedPowerUpActive = false;
         }
     }
-
-
-
-
 
     public void ShieldActive()
     {
@@ -360,7 +412,7 @@ public class Player : MonoBehaviour
         while (_damageTaken == true)
         {
             _collider.enabled = false;
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
             _collider.enabled = true;
             _damageTaken = false;
         }
@@ -379,6 +431,7 @@ public class Player : MonoBehaviour
             _spriteRenderer.enabled = true;
             _leftThruster.SetActive(true);
             _rightThruster.SetActive(true);
+
             yield return _waitForSeconds02;
         }
     }

@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 
         _player = GameObject.Find("Player").GetComponent<Player>();
 
-        transform.position = new Vector3(Random.Range(9, -9), 7.5f, 0);
+        transform.position = new Vector3(Random.Range(9.4f, -9.4f), 7.5f, 0);
 
         if (_player == null)
         {
@@ -49,14 +49,13 @@ public class Enemy : MonoBehaviour
 
         CalculateMovement();
 
-        
     }
 
     IEnumerator EnemyFireDelayOnStart()
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));//4.0f));
+            yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));//4.0f));
             FireLaser();
         }
     }
@@ -68,14 +67,14 @@ public class Enemy : MonoBehaviour
         {
             _fireRate = Random.Range(3f, 10f);
             _canFireLaser = Time.time + _fireRate;
-             GameObject _enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -1.3f, 0), Quaternion.identity);
+            GameObject _enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -1.3f, 0), Quaternion.identity);
             Laser _lasers = _enemyLaser.GetComponent<Laser>();
             _lasers.EnemyFiredLaser();
 
-            
-            
+
+
             //Laser[] _lasers = _enemyLaser.GetComponentsInChildren<Laser>();
-            
+
             /*for (int i = 0; i < _lasers.Length; i++)
             {
                 _lasers[i].EnemyFiredLaser();
@@ -104,10 +103,7 @@ public class Enemy : MonoBehaviour
         {
             if (_player != null)
             {
-                
                 _player.Damage();
-
-
             }
             _player.SubtractFromScore(50);
 
@@ -124,13 +120,20 @@ public class Enemy : MonoBehaviour
                 _player.AddToScore(50);
             }
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            _speed = 0.5f;
+            _speed = 1f;
             Destroy(this.gameObject, 0.05f);
+        }
+
+        if (other.tag == "Fighters")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
         }
     }
 
 
-    
+
 
 
 

@@ -53,6 +53,15 @@ public class Asteroid : MonoBehaviour
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, 0.1f);
         }
+
+        if(other.tag == "Fighters")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(other.gameObject);
+            _spawnManager.StartSpawning();
+            Destroy(this.gameObject, 0.1f);
+        }
+
     }
 
 

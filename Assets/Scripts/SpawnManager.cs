@@ -12,7 +12,32 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject[] _powerups;
     [SerializeField] private bool _isPlayerAlive;
     [SerializeField] private float _speed;
+    [SerializeField] private bool _lowAmmo;
 
+
+    public void StartSpawningAmmo()
+    {
+        _lowAmmo = true;
+        StartCoroutine(AmmoStartSpawn());
+    }
+
+    IEnumerator AmmoStartSpawn()
+    {
+        yield return new WaitForSeconds(Random.Range(5f, 10f));
+
+        while (_lowAmmo == true)
+        {
+            Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
+            GameObject ammoPickup = Instantiate(_powerups[3], _spawnLocation, Quaternion.identity);
+            ammoPickup.transform.parent = _powerupContainer.transform;
+            yield return new WaitForSeconds(Random.Range(8f, 12f));
+        }
+    }
+
+    public void EnoughAmmo()
+    {
+        _lowAmmo = false;
+    }
 
     public void StartSpawning()
     {
@@ -24,32 +49,35 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator EnemySpawn()
     {
-        yield return new WaitForSeconds(91.5f);
-        
+        yield return new WaitForSeconds(1f);
+
         while (_isPlayerAlive == true)
         {
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, _spawnLocation, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return _waitForSeconds;
+            //yield return _waitForSeconds;
+            yield return new WaitForSeconds(5f);
         }
     }
+
+
 
     IEnumerator PowerupSpawn()
     {
-        yield return new WaitForSeconds(12);
-        
+        yield return new WaitForSeconds(10f);
+
         while (_isPlayerAlive == true)
         {
-            int _randomPowerup = Random.Range(0, 3);
+            int _randomPowerup = Random.Range(0, 6);
             Vector3 _spawnLocation = new Vector3(Random.Range(9, -9), 8, 0);
-            GameObject newPowerup = Instantiate(_powerups[3], _spawnLocation, Quaternion.identity);
+            GameObject newPowerup = Instantiate(_powerups[_randomPowerup], _spawnLocation, Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(Random.Range(10, 15));
+            yield return new WaitForSeconds(Random.Range(8f, 13f));
         }
     }
 
-    IEnumerator AsteroidSpawn ()
+    IEnumerator AsteroidSpawn()
     {
         yield return new WaitForSeconds(8);
 
@@ -58,16 +86,20 @@ public class SpawnManager : MonoBehaviour
             Vector3 _spawnLocation = new Vector3(Random.Range(-9, 9), 8, 0);
             GameObject newAsteroid = Instantiate(_asteroidPrefab, _spawnLocation, Quaternion.identity);
             newAsteroid.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds (Random.Range (3,8));
+            yield return new WaitForSeconds(Random.Range(3, 8));
 
         }
     }
+
 
 
     public void PlayerDead()
     {
         _isPlayerAlive = false;
     }
+
+
+
 
 
 

@@ -10,6 +10,8 @@ TagManager:
   - UI
   - Button
   - Enemy Laser
+  - Projectile
+  - Fighters
   layers:
   - Default
   - TransparentFX

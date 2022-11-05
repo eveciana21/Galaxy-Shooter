@@ -49,8 +49,17 @@ public class Powerup : MonoBehaviour
                         player.ShieldActive();
                         break;
                     case 3:
-                        player.AmmoPowerUp();
+                        player.AmmoPickup();
                         break;
+                    case 4:
+                        player.HealthPickup();
+                        break;
+                    case 5:
+                        player.FighterBrigadePowerup();
+                        break;
+                    //case 6:
+                      //  player.HeatSeakingMissiles();
+                       // break;
                 }
 
                 Destroy(this.gameObject);
@@ -60,9 +69,5 @@ public class Powerup : MonoBehaviour
 
         }
     }
-
-    
-
-
 
 }

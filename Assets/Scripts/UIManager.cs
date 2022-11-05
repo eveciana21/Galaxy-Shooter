@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Text _scoreText;
 
-    [SerializeField] private Sprite [] _livesSprite;
+    [SerializeField] private Sprite[] _livesSprite;
 
     [SerializeField] private Image _livesDisplayImage;
 
@@ -16,12 +16,14 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Text _ammoCount;
 
+    [SerializeField] private Text _pressP;
+    [SerializeField] private Image _fighterBrigade;
+
+    [SerializeField] private Text _pressShift;
+    [SerializeField] private bool _speedBoostActive;
+
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
     private GameManager _gameManager;
-    
-    
-
-
 
 
     void Start()
@@ -30,25 +32,28 @@ public class UIManager : MonoBehaviour
 
         _gameOverText.gameObject.SetActive(false);
         _restartLevel.gameObject.SetActive(false);
+        _fighterBrigade.gameObject.SetActive(false);
+        _pressShift.gameObject.SetActive(false);
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         Text _ammoText = _ammoCount.GetComponent<Text>();
 
+
     }
 
-    public void UpdateScore (int playerScore)
+    public void UpdateScore(int playerScore)
     {
-        _scoreText.text = "Score: " + playerScore.ToString();       
+        _scoreText.text = "Score: " + playerScore.ToString();
     }
 
     public void UpdateLives(int currentLives)
     {
         _livesDisplayImage.sprite = _livesSprite[currentLives];
 
-        if (currentLives == 0) 
+        if (currentLives == 0)
         {
             GameOverSequence();
-        }      
+        }
     }
 
     void GameOverSequence()
@@ -57,8 +62,6 @@ public class UIManager : MonoBehaviour
         StartCoroutine(GameOverFlicker());
         StartCoroutine(RestartLevel());
     }
-
-
     IEnumerator GameOverFlicker()
     {
         while (true)
@@ -69,15 +72,66 @@ public class UIManager : MonoBehaviour
             yield return _waitForSeconds;
         }
     }
-
-    IEnumerator RestartLevel ()
+    IEnumerator RestartLevel()
     {
         yield return new WaitForSeconds(1.75f);
         _restartLevel.gameObject.SetActive(true);
         _gameManager.PressRToRestart();
     }
 
-    public void AmmoCount (int currentAmmo)
+    public void FighterBrigadePowerup()
+    {
+        _fighterBrigade.gameObject.SetActive(true);
+        StartCoroutine(PressPFlicker());
+    }
+    IEnumerator PressPFlicker()
+    {
+        while (true)
+        {
+            _pressP.gameObject.SetActive(true);
+            yield return _waitForSeconds;
+            _pressP.gameObject.SetActive(false);
+            yield return _waitForSeconds;
+        }
+    }
+
+    public void FighterBrigadeNotActive()
+    {
+        _fighterBrigade.gameObject.SetActive(false);
+    }
+
+    public void PressShiftToBoost()
+    {
+        _speedBoostActive = true;
+
+        if (_speedBoostActive==true)
+        {
+            StartCoroutine(PressShiftFlicker());
+        }
+    }
+
+    IEnumerator PressShiftFlicker()
+    {
+        _pressShift.gameObject.SetActive(true);
+        yield return _waitForSeconds;
+        _pressShift.gameObject.SetActive(false);
+        yield return _waitForSeconds;
+        _pressShift.gameObject.SetActive(true);
+        yield return _waitForSeconds;
+        _pressShift.gameObject.SetActive(false);
+        yield return _waitForSeconds;
+        _pressShift.gameObject.SetActive(true);
+        yield return _waitForSeconds;
+        _pressShift.gameObject.SetActive(false);
+        yield return _waitForSeconds;
+        _pressShift.gameObject.SetActive(true);
+        yield return _waitForSeconds;
+        _pressShift.gameObject.SetActive(false);
+        yield return _waitForSeconds;
+        _speedBoostActive = false;
+    }
+
+    public void AmmoCount(int currentAmmo)
     {
         _ammoCount.text = "Ammo: " + currentAmmo.ToString();
     }

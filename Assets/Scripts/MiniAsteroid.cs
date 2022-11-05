@@ -9,8 +9,7 @@ public class MiniAsteroid : MonoBehaviour
     private Player _player;
     [SerializeField] private GameObject _explosionPrefab;
     private float _rotation;
-    //[SerializeField] AudioSource _explosionAudio;
-
+    [SerializeField] private GameObject _collectible;
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -23,7 +22,7 @@ public class MiniAsteroid : MonoBehaviour
 
     void Update()
     {
-       transform.Rotate(new Vector3(0, 0, _rotation) * _speed * Time.deltaTime);
+        transform.Rotate(new Vector3(0, 0, _rotation) * _speed * Time.deltaTime);
 
         transform.Translate(Vector3.down * _speedDown * Time.deltaTime);
 
@@ -43,6 +42,7 @@ public class MiniAsteroid : MonoBehaviour
             Destroy(other.gameObject);
 
             _player.AddToScore(10);
+
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
 
@@ -50,7 +50,7 @@ public class MiniAsteroid : MonoBehaviour
         }
 
         if (other.tag == "Player")
-    {
+        {
             if (_player != null)
             {
                 _player.Damage();
@@ -58,9 +58,11 @@ public class MiniAsteroid : MonoBehaviour
             _player.SubtractFromScore(10);
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
-
             Destroy(this.gameObject);
         }
+
+
+
     }
 
 }
