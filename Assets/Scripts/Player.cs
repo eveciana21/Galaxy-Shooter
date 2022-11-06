@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
     private bool _heatSeakingMissilesActive;
     [SerializeField] private GameObject _missile;
 
+    private float _boostPercent = 100f;
+    private float _refuelSpeed;
 
 
 
@@ -380,6 +382,18 @@ public class Player : MonoBehaviour
             _isSpeedPowerUpActive = false;
         }
     }
+
+    void SpeedBoostSlider()
+    {
+        ///if speed boost is active
+        ///slowly increase boost gauge to 100
+        ///if speed boost (shift) is pressed
+        ///slowly decrease gauge towards 0
+        ///if shift is let go
+        ///slowly increase gauge to 100
+
+    }
+
 
     public void ShieldActive()
     {

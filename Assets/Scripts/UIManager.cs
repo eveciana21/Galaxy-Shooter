@@ -20,11 +20,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _fighterBrigade;
 
     [SerializeField] private Text _pressShift;
-    [SerializeField] private bool _speedBoostActive;
+    private bool _speedBoostActive;
 
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.5f);
     private GameManager _gameManager;
 
+    [SerializeField] private Slider _boostSlider;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class UIManager : MonoBehaviour
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         Text _ammoText = _ammoCount.GetComponent<Text>();
 
+        _boostSlider.value = 0;
 
     }
 
@@ -149,6 +151,18 @@ public class UIManager : MonoBehaviour
         _ammoCount.color = Color.white;
     }
 
+
+    public void BoostSlider (float boostPercent)
+    {
+
+        _boostSlider.value = boostPercent;
+
+            //_boostSlider.maxValue = 100;
+        
+        //_boostSlider.minValue = 0;
+
+        //_boostSlider.maxValue = 100;
+    }
 
 
 }
