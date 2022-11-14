@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     [SerializeField] private float _speed;
     private float _speedMultiplier = 1.8f;//1.45f;
 
@@ -49,20 +48,24 @@ public class Player : MonoBehaviour
 
     private bool _damageTaken;
 
-    private Collider2D _collider;
-
-    [SerializeField] private int _ammo = 30;
+    private int _ammo = 1000;
     private bool _noAmmoLeft;
     [SerializeField] private bool _trySpawningAmmo;
 
     [SerializeField] private GameObject _fighterBrigadePrefab;
     [SerializeField] private bool _fighterBrigadeActive;
 
-    private bool _heatSeakingMissilesActive;
+    [SerializeField] private bool _heatSeakingMissilesActive;
     [SerializeField] private GameObject _missile;
 
-    private float _boostPercent = 100f;
-    private float _refuelSpeed;
+    private float _boostRemaining;
+    private bool _thrusterEngaged;
+    [SerializeField] private float _refuelSpeed = 20f;
+
+    [SerializeField] private GameObject _speedBoostParticleSystem;
+
+    private CameraShake _cameraShake;
+
 
 
 
@@ -72,25 +75,22 @@ public class Player : MonoBehaviour
         _thrusterSpeed.SetActive(false);
         _leftSmoke.SetActive(false);
         _rightSmoke.SetActive(false);
+        _speedBoostParticleSystem.SetActive(false);
 
         transform.position = new Vector3(0, -2.5f, 0);
 
+        //<GET COMPONENT>
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-
         _audioSource = GetComponent<AudioSource>();
-
         _turnAnim = gameObject.GetComponent<Animator>();
-
         _shieldColor = GetComponent<Renderer>();
-
-        _collider = GetComponent<Collider2D>();
-
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
 
-
+        //NULL CHECKS
         if (_spawnManager == null)
         {
             Debug.Log("Spawn Manager is null");
@@ -164,19 +164,31 @@ public class Player : MonoBehaviour
         }
 
         //SPEED POWERUP
-        if (Input.GetKey(KeyCode.LeftShift) && _isSpeedPowerUpActive == true && _damageTaken == false)
+        if (Input.GetKey(KeyCode.J) && _isSpeedPowerUpActive == true && _damageTaken == false && _thrusterEngaged == true && _boostRemaining >= 1)
         {
+            SpeedBoostSliderDecrease();
+
             transform.Translate(direction * _speed * _speedMultiplier * Time.deltaTime);
             _thrusterSpeed.SetActive(true);
             _thrusterMain.SetActive(false);
+            _speedBoostParticleSystem.SetActive(true);
+
             Debug.Log("Speed:" + _speed * _speedMultiplier);
         }
         else
         {
+            if (_isSpeedPowerUpActive == true)
+            {
+                SpeedBoostSliderIncrease();
+            }
+
             transform.Translate(direction * _speed * Time.deltaTime);
             _thrusterMain.SetActive(true);
             _thrusterSpeed.SetActive(false);
+            _speedBoostParticleSystem.SetActive(false);
+
         }
+
 
 
         //X position
@@ -210,7 +222,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
-        else if (_heatSeakingMissilesActive==true)
+        else if (_heatSeakingMissilesActive == true)
         {
             Instantiate(_missile, transform.position, Quaternion.identity);
         }
@@ -227,7 +239,6 @@ public class Player : MonoBehaviour
     {
         _heatSeakingMissilesActive = true;
     }
-
 
     void AmmoLimits()
     {
@@ -266,9 +277,11 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if (_isShieldPowerUpActive == true)
+        if (_isShieldPowerUpActive == true && _damageTaken == false)
         {
             _shieldHealth -= 1;
+            Invincible();
+            CameraShake();
 
             if (_shieldHealth == 1)
             {
@@ -284,9 +297,10 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (_isShieldPowerUpActive == false)
+        if (_isShieldPowerUpActive == false && _damageTaken == false)
         {
             _playerLives -= 1;
+            CameraShake();
             Invincible();
         }
 
@@ -312,6 +326,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void CameraShake()
+    {
+        _cameraShake.CameraShaking();
+    }
+
     public void HealthPickup()
     {
         if (_playerLives < 3)
@@ -335,11 +354,24 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Enemy Laser")
         {
+            if (_damageTaken == false)
+            {
+                Damage();
+                Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
 
-            Damage();
-            Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+                Destroy(other.gameObject);
+            }
+        }
 
-            Destroy(other.gameObject);
+        if (other.tag == "Enemy")
+        {
+            if(_damageTaken==false)
+            {
+                Damage();
+                SubtractFromScore(50);
+                Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
+                Destroy(other.gameObject);
+            }
         }
     }
 
@@ -378,20 +410,36 @@ public class Player : MonoBehaviour
     {
         if (_isSpeedPowerUpActive == true)
         {
-            yield return new WaitForSeconds(10);
+            _thrusterEngaged = true;
+            yield return new WaitForSeconds(20f);
             _isSpeedPowerUpActive = false;
+            _uiManager.BoostSlider(_boostRemaining = 0);
         }
     }
 
-    void SpeedBoostSlider()
+    void SpeedBoostSliderIncrease()
     {
-        ///if speed boost is active
-        ///slowly increase boost gauge to 100
-        ///if speed boost (shift) is pressed
-        ///slowly decrease gauge towards 0
-        ///if shift is let go
-        ///slowly increase gauge to 100
+        _uiManager.BoostSlider(_boostRemaining += Time.deltaTime * _refuelSpeed);
+        if (_boostRemaining >= 100)
+        {
+            _boostRemaining = 100f;
+        }
+    }
 
+    void SpeedBoostSliderDecrease()
+    {
+        _uiManager.BoostSlider(_boostRemaining -= Time.deltaTime * _refuelSpeed);
+        if (_boostRemaining <= 1)
+        {
+            _thrusterEngaged = false;
+            StartCoroutine(SpeedBoostCooldown());
+        }
+    }
+
+    IEnumerator SpeedBoostCooldown()
+    {
+        yield return new WaitForSeconds(1f);
+        _thrusterEngaged = true;
     }
 
 
@@ -414,7 +462,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_score);
     }
 
-    void Invincible()
+    public void Invincible()
     {
         _damageTaken = true;
         StartCoroutine(DamageDelay());
@@ -425,9 +473,7 @@ public class Player : MonoBehaviour
     {
         while (_damageTaken == true)
         {
-            _collider.enabled = false;
-            yield return new WaitForSeconds(1);
-            _collider.enabled = true;
+            yield return new WaitForSeconds(1f);
             _damageTaken = false;
         }
     }

@@ -10,13 +10,13 @@ public class MiniAsteroid : MonoBehaviour
     [SerializeField] private GameObject _explosionPrefab;
     private float _rotation;
     [SerializeField] private GameObject _collectible;
+    private CameraShake _cameraShake;
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
         _rotation = Random.Range(-1f, 1f);
-        //transform.Rotate(new Vector3(0, 0, _rotation) * _speed * Time.deltaTime);
-
     }
 
 
@@ -30,13 +30,10 @@ public class MiniAsteroid : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-
-
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
@@ -44,7 +41,6 @@ public class MiniAsteroid : MonoBehaviour
             _player.AddToScore(10);
 
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-
 
             Destroy(this.gameObject, 0.1f);
         }
@@ -56,13 +52,12 @@ public class MiniAsteroid : MonoBehaviour
                 _player.Damage();
             }
             _player.SubtractFromScore(10);
+
+            _cameraShake.CameraShaking();
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
             Destroy(this.gameObject);
         }
-
-
-
     }
 
 }

@@ -126,10 +126,6 @@ public class UIManager : MonoBehaviour
         yield return _waitForSeconds;
         _pressShift.gameObject.SetActive(false);
         yield return _waitForSeconds;
-        _pressShift.gameObject.SetActive(true);
-        yield return _waitForSeconds;
-        _pressShift.gameObject.SetActive(false);
-        yield return _waitForSeconds;
         _speedBoostActive = false;
     }
 
@@ -154,15 +150,12 @@ public class UIManager : MonoBehaviour
 
     public void BoostSlider (float boostPercent)
     {
-
         _boostSlider.value = boostPercent;
 
-            //_boostSlider.maxValue = 100;
-        
-        //_boostSlider.minValue = 0;
-
-        //_boostSlider.maxValue = 100;
+        _boostSlider.maxValue = 100f;
+        _boostSlider.minValue = 0f;
     }
+
 
 
 }

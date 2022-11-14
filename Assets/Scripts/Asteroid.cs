@@ -23,12 +23,10 @@ public class Asteroid : MonoBehaviour
         {
             Debug.LogError("Asteroid explosion is null");
         }
-
     }
 
     void Update()
     {    
-
         transform.Rotate(Vector3.forward * _speed * Time.deltaTime);
     }
 
@@ -38,7 +36,6 @@ public class Asteroid : MonoBehaviour
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
-
             Destroy(other.gameObject);
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, 0.1f);
@@ -46,7 +43,6 @@ public class Asteroid : MonoBehaviour
 
         if (other.tag == "Player")
         {
-
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
             _player.Damage();

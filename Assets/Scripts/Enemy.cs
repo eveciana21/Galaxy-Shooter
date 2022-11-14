@@ -10,20 +10,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _enemyLaserPrefab;
     private float _canFireLaser;
     private float _fireRate;
-
-
-
-
-
+    [SerializeField] private bool _damageTaken;
 
     void Start()
     {
-
-        StartCoroutine(EnemyFireDelayOnStart());
+        transform.position = new Vector3(Random.Range(9.4f, -9.4f), 7.5f, 0);
 
         _player = GameObject.Find("Player").GetComponent<Player>();
-
-        transform.position = new Vector3(Random.Range(9.4f, -9.4f), 7.5f, 0);
 
         if (_player == null)
         {
@@ -40,26 +33,22 @@ public class Enemy : MonoBehaviour
             Debug.LogError("Enemy laser is null");
         }
 
-
-
+        StartCoroutine(EnemyFireDelayOnStart());
     }
 
     void Update()
     {
-
         CalculateMovement();
-
     }
 
     IEnumerator EnemyFireDelayOnStart()
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));//4.0f));
+            yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
             FireLaser();
         }
     }
-
 
     private void FireLaser()
     {
@@ -71,15 +60,11 @@ public class Enemy : MonoBehaviour
             Laser _lasers = _enemyLaser.GetComponent<Laser>();
             _lasers.EnemyFiredLaser();
 
-
-
-            //Laser[] _lasers = _enemyLaser.GetComponentsInChildren<Laser>();
-
-            /*for (int i = 0; i < _lasers.Length; i++)
+            /*Laser[] _lasers = _enemyLaser.GetComponentsInChildren<Laser>();
+            for (int i = 0; i < _lasers.Length; i++)
             {
                 _lasers[i].EnemyFiredLaser();
-            }         
-            */
+            } */        
         }
     }
 
@@ -95,22 +80,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
-        {
-            if (_player != null)
-            {
-                _player.Damage();
-            }
-            _player.SubtractFromScore(50);
-
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(this.gameObject, 0.05f);
-        }
-
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
@@ -120,7 +91,7 @@ public class Enemy : MonoBehaviour
                 _player.AddToScore(50);
             }
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            _speed = 1f;
+            //_speed = 1f;
             Destroy(this.gameObject, 0.05f);
         }
 
@@ -131,10 +102,5 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-
-
-
-
 
 }

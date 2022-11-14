@@ -7,11 +7,6 @@ public class Laser : MonoBehaviour
 
     [SerializeField] private int _speed;
     [SerializeField] private bool _enemyFiredLaser;
-    //[SerializeField] private bool _heatSeakingMissiles;
-    //[SerializeField] private Transform _enemy;
-
-
-
 
     void Update()
     {
@@ -19,10 +14,7 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-        /*else if (_heatSeakingMissiles == true)
-        {
-            HeatSeakingMissiles();
-        }*/
+
         else
         {
             MoveDown();
@@ -64,25 +56,5 @@ public class Laser : MonoBehaviour
     {
         _enemyFiredLaser = false;
     }
-
-    /*public void HeatSeakingMissiles()
-    {
-        _heatSeakingMissiles = true;
-
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
-
-        transform.LookAt(_enemy);
-
-        if (transform.position.y > 8)
-        {
-            Destroy(this.gameObject);
-        }
-
-        if (transform.position.y < -5.5f)
-        {
-            Destroy(this.gameObject);
-        }
-    }
-    */
 
 }

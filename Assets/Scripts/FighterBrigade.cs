@@ -8,6 +8,8 @@ public class FighterBrigade : MonoBehaviour
     [SerializeField] private GameObject _fighterLaserPrefab;
     [SerializeField] private GameObject[] _fighterBrigadeArray;
     [SerializeField] private GameObject _explosionPrefab;
+    private CameraShake _camerShake;
+    private bool _onScreen;
 
     private float _canFire = 0;
     private float _fireRate = 1.75f;
@@ -15,18 +17,26 @@ public class FighterBrigade : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, -9, 0);
+        _camerShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
     }
 
     void Update()
     {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-        if (transform.position.y > 8)
+        if (transform.position.y >= -9f)
+        {
+            _onScreen = true;
+        }
+        if (transform.position.y >= 7f)
         {
             Destroy(this.gameObject);
+            _onScreen = false;
         }
 
+        FighterOnScreenCameraShake();
 
+        //SPAWNS EACH FIGHTER IN THE BRIGADE
         if (Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;
@@ -40,7 +50,14 @@ public class FighterBrigade : MonoBehaviour
             }
         }
     }
-    
+
+    private void FighterOnScreenCameraShake()
+    {
+        if (_onScreen == true)
+        {
+            _camerShake.FighterBrigadeCameraShake();
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
