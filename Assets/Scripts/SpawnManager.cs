@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private bool _lowAmmo;
 
+    [SerializeField] private GameObject[] _enemyVariant;
 
     public void StartSpawningAmmo()
     {
@@ -52,8 +53,8 @@ public class SpawnManager : MonoBehaviour
 
         while (_isPlayerAlive == true)
         {
-            Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, _spawnLocation, Quaternion.identity);
+            int _randomEnemy = Random.Range(0, 2);
+             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(1f);
         }
@@ -69,7 +70,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
             GameObject newPowerup = Instantiate(_powerups[_randomPowerup], _spawnLocation, Quaternion.identity);
             newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(Random.Range(8f, 13f));
+            yield return new WaitForSeconds(Random.Range(7f, 11f));
         }
     }
 

@@ -12,6 +12,8 @@ TagManager:
   - Enemy Laser
   - Projectile
   - Fighters
+  - RightWall
+  - LeftWall
   layers:
   - Default
   - TransparentFX

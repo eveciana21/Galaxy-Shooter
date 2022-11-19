@@ -15,7 +15,6 @@ public class Powerup : MonoBehaviour
     void Start()
     {
         transform.position=new Vector3(Random.Range(-9, 9),8f, 0);
-
     }
 
     void Update()
@@ -58,9 +57,9 @@ public class Powerup : MonoBehaviour
                     case 5:
                         player.FighterBrigadePowerup();
                         break;
-                    case 6:
-                        player.HeatSeakingMissiles();
-                        break;
+                    //case 6:
+                      //  player.HeatSeakingMissiles();
+                      //  break;
                 }
 
                 Destroy(this.gameObject);

@@ -5228,7 +5228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -2.2569008, y: 0}
+  m_AnchoredPosition: {x: -2.256897, y: 0}
   m_SizeDelta: {x: -4.5137, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &178442241
@@ -5808,7 +5808,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Ammo: 30'
+  m_Text: 'Ammo: 50'
 --- !u!222 &492151678
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11286,10 +11286,10 @@ RectTransform:
   m_Father: {fileID: 1254460104}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -343.54, y: 133}
-  m_SizeDelta: {x: 105.53, y: 42.303}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 56.45999, y: -92}
+  m_SizeDelta: {x: 105.53, y: 42.30301}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790528235
 MonoBehaviour:
@@ -12123,6 +12123,9 @@ MonoBehaviour:
   _isPlayerAlive: 1
   _speed: 5
   _lowAmmo: 0
+  _enemyVariant:
+  - {fileID: 3685129402977983647, guid: 49e520b66a74e9043af77ee936174f1b, type: 3}
+  - {fileID: 4862063264571400234, guid: a215792a2a7d2a64aa8629ce62bc3277, type: 3}
 --- !u!4 &1165893514
 Transform:
   m_ObjectHideFlags: 0
@@ -12172,7 +12175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 2.9717, y: 0}
+  m_AnchoredPosition: {x: 2.971695, y: 0}
   m_SizeDelta: {x: -2.8133, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1254460099

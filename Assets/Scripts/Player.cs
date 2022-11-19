@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
 
     private bool _damageTaken;
 
-    private int _ammo = 1000;
+    private int _ammo = 50;
     private bool _noAmmoLeft;
     [SerializeField] private bool _trySpawningAmmo;
 
@@ -126,14 +126,12 @@ public class Player : MonoBehaviour
 
         AmmoLimits();
 
-
         if (Input.GetKeyDown(KeyCode.P) && _fighterBrigadeActive == true)
         {
             Instantiate(_fighterBrigadePrefab, new Vector3(0, -9, 0), Quaternion.identity);
             _fighterBrigadeActive = false;
             _uiManager.FighterBrigadeNotActive();
         }
-
     }
 
 
@@ -186,10 +184,7 @@ public class Player : MonoBehaviour
             _thrusterMain.SetActive(true);
             _thrusterSpeed.SetActive(false);
             _speedBoostParticleSystem.SetActive(false);
-
         }
-
-
 
         //X position
         if (transform.position.x > 10.75f)
@@ -271,7 +266,7 @@ public class Player : MonoBehaviour
 
     public void AmmoPickup()
     {
-        _ammo += 10;
+        _ammo += 50;
         _uiManager.AmmoCount(_ammo);
     }
 
@@ -365,7 +360,7 @@ public class Player : MonoBehaviour
 
         if (other.tag == "Enemy")
         {
-            if(_damageTaken==false)
+            if (_damageTaken == false)
             {
                 Damage();
                 SubtractFromScore(50);

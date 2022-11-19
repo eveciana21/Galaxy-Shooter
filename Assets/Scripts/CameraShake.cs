@@ -9,7 +9,6 @@ public class CameraShake : MonoBehaviour
 
     private float _shakeDuration;
 
-    private bool _fighterBrigade;
 
 
 
@@ -25,7 +24,7 @@ public class CameraShake : MonoBehaviour
     IEnumerator CameraShakingTime()
     {
         Vector3 _originalPos = transform.position;
-        _shakeDuration = Time.time + 0.35f;
+        _shakeDuration = Time.time + 0.22f;
 
         while (_shakeDuration > Time.time)
         {
@@ -37,19 +36,17 @@ public class CameraShake : MonoBehaviour
         }
         transform.position = _originalPos;
     }
-
-
+    
     public void FighterBrigadeCameraShake()
     {
         StartCoroutine(FighterBrigadeShake());
     }
-
-    IEnumerator FighterBrigadeShake ()
+    IEnumerator FighterBrigadeShake()
     {
         Vector3 _originalPos = transform.position;
         _shakeDuration = Time.time + 0.2f;
 
-        while (_shakeDuration>Time.time)
+        while (_shakeDuration > Time.time)
         {
             _xShake = Random.Range(-0.025f, 0.025f);
             _yShake = Random.Range(0.985f, 1.025f);
