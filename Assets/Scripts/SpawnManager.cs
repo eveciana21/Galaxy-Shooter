@@ -54,9 +54,9 @@ public class SpawnManager : MonoBehaviour
         while (_isPlayerAlive == true)
         {
             int _randomEnemy = Random.Range(0, 2);
-             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
     }
 

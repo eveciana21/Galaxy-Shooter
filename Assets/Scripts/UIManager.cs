@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Slider _boostSlider;
 
+    [SerializeField] private Slider _ammoSlider;
+
     void Start()
     {
         _scoreText.text = "Score: " + 0;
@@ -40,6 +42,7 @@ public class UIManager : MonoBehaviour
         Text _ammoText = _ammoCount.GetComponent<Text>();
 
         _boostSlider.value = 0;
+        _ammoSlider.value = 50;
 
     }
 
@@ -106,7 +109,7 @@ public class UIManager : MonoBehaviour
     {
         _speedBoostActive = true;
 
-        if (_speedBoostActive==true)
+        if (_speedBoostActive == true)
         {
             StartCoroutine(PressShiftFlicker());
         }
@@ -131,7 +134,15 @@ public class UIManager : MonoBehaviour
 
     public void AmmoCount(int currentAmmo)
     {
-        _ammoCount.text = "Ammo: " + currentAmmo.ToString();
+        _ammoCount.text = "Ammo: " + currentAmmo.ToString() + "/50";
+    }
+
+    public void AmmoSlider(int ammoCount)
+    {
+        _ammoSlider.value = ammoCount;
+
+        _ammoSlider.minValue = 0;
+        _ammoSlider.maxValue = 50;
     }
 
     public void NoAmmo()
@@ -148,13 +159,21 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void BoostSlider (float boostPercent)
+    public void BoostSlider(float boostPercent)
     {
         _boostSlider.value = boostPercent;
 
         _boostSlider.maxValue = 100f;
         _boostSlider.minValue = 0f;
     }
+
+
+
+
+
+
+
+
 
 
 

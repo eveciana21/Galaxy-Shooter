@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     private int _ammo = 50;
     private bool _noAmmoLeft;
     [SerializeField] private bool _trySpawningAmmo;
+    private int _ammoRefuelSpeed;
 
     [SerializeField] private GameObject _fighterBrigadePrefab;
     [SerializeField] private bool _fighterBrigadeActive;
@@ -210,6 +211,8 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
         _uiManager.AmmoCount(_ammo);
+        _uiManager.AmmoSlider(_ammo);
+
 
         _canFire = Time.time + _fireRate;
 
@@ -268,7 +271,14 @@ public class Player : MonoBehaviour
     {
         _ammo += 50;
         _uiManager.AmmoCount(_ammo);
+        _uiManager.AmmoSlider(_ammo);
+
+        if (_ammo >= 50)
+        {
+            _ammo = 50;
+        }
     }
+
 
     public void Damage()
     {
@@ -436,6 +446,8 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _thrusterEngaged = true;
     }
+
+
 
 
     public void ShieldActive()
