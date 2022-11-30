@@ -29,6 +29,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Slider _ammoSlider;
 
+    [SerializeField] private Text[] _waves;
+
+
+
     void Start()
     {
         _scoreText.text = "Score: " + 0;
@@ -38,11 +42,16 @@ public class UIManager : MonoBehaviour
         _fighterBrigade.gameObject.SetActive(false);
         _pressShift.gameObject.SetActive(false);
 
+
+
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         Text _ammoText = _ammoCount.GetComponent<Text>();
 
         _boostSlider.value = 0;
         _ammoSlider.value = 50;
+
+        WavesStartPos();
+
 
     }
 
@@ -167,9 +176,49 @@ public class UIManager : MonoBehaviour
         _boostSlider.minValue = 0f;
     }
 
+    private void WavesStartPos()
+    {
+        for (int i = 0; i < _waves.Length; i++)
+        {
+            _waves[i].gameObject.SetActive(false);
+        }
+    }
 
+    public void WaveOneUI()
+    {
+        _waves[0].gameObject.SetActive(true);
+        StartCoroutine(WaveOnScreenTime());
+    }
+    public void WaveTwoUI()
+    {
+        _waves[1].gameObject.SetActive(true);
+        StartCoroutine(WaveOnScreenTime());
+    }
+    public void WaveThreeUI()
+    {
+        _waves[2].gameObject.SetActive(true);
+        StartCoroutine(WaveOnScreenTime());
+    }
+    public void WaveFourUI()
+    {
+        _waves[3].gameObject.SetActive(true);
+        StartCoroutine(WaveOnScreenTime());
+    }
+    public void WaveFiveUI()
+    {
+        _waves[4].gameObject.SetActive(true);
+        StartCoroutine(WaveOnScreenTime());
+    }
 
+    IEnumerator WaveOnScreenTime()
+    {
+        yield return new WaitForSeconds(5);
 
+        for (int i = 0; i < _waves.Length; i++)
+        {
+            _waves[i].gameObject.SetActive(false);
+        }
+    }
 
 
 

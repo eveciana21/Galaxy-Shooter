@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    private float _speedMultiplier = 1.8f;//1.45f;
+    private float _speedMultiplier = 1.8f;
 
     [SerializeField] private GameObject _laserPrefab;
 
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     private int _ammo = 50;
     private bool _noAmmoLeft;
     [SerializeField] private bool _trySpawningAmmo;
-    private int _ammoRefuelSpeed;
+
 
     [SerializeField] private GameObject _fighterBrigadePrefab;
     [SerializeField] private bool _fighterBrigadeActive;
@@ -67,6 +67,9 @@ public class Player : MonoBehaviour
 
     private CameraShake _cameraShake;
 
+    [SerializeField] private int _currentKillCount;
+
+    private bool _trySpawningWaveUI;
 
 
 
@@ -112,7 +115,6 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserAudio;
         }
-
     }
 
     void Update()
@@ -133,6 +135,8 @@ public class Player : MonoBehaviour
             _fighterBrigadeActive = false;
             _uiManager.FighterBrigadeNotActive();
         }
+
+
     }
 
 
@@ -240,7 +244,7 @@ public class Player : MonoBehaviour
 
     void AmmoLimits()
     {
-        if (_ammo <= 5)
+        if (_ammo <= 10)
         {
             if (_trySpawningAmmo == false)
             {
@@ -251,7 +255,7 @@ public class Player : MonoBehaviour
             _noAmmoLeft = false;
         }
 
-        else if (_ammo > 5)
+        else if (_ammo > 10)
         {
             _trySpawningAmmo = false;
             _spawnManager.EnoughAmmo();
@@ -276,6 +280,7 @@ public class Player : MonoBehaviour
         if (_ammo >= 50)
         {
             _ammo = 50;
+            _uiManager.AmmoCount(_ammo);
         }
     }
 
@@ -375,10 +380,41 @@ public class Player : MonoBehaviour
                 Damage();
                 SubtractFromScore(50);
                 Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
+                CurrentKillCount();
                 Destroy(other.gameObject);
             }
         }
     }
+
+    public void CurrentKillCount()
+    {
+        _currentKillCount++;
+        Debug.Log(_currentKillCount);
+
+        if (_currentKillCount == 3)
+        {
+            _spawnManager.WaveTwo();
+            _uiManager.WaveTwoUI();
+        }
+        else if (_currentKillCount == 10)
+        {
+            _spawnManager.WaveThree();
+            _uiManager.WaveThreeUI();
+        }
+        else if (_currentKillCount == 15)
+        {
+            _spawnManager.WaveFour();
+            _uiManager.WaveFourUI();
+        }
+        else if (_currentKillCount == 20)
+        {
+            _spawnManager.WaveFive();
+            _uiManager.WaveFiveUI();
+        }
+    }
+
+
+
 
     public void TripleShotActive()
     {
@@ -461,6 +497,7 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+
     }
 
     public void SubtractFromScore(int points)

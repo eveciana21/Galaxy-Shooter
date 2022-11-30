@@ -7,18 +7,21 @@ public class EnemySideMovement : MonoBehaviour
     private float _speed = 1.8f;
 
     [SerializeField] private GameObject _explosionPrefab;
-    Vector3 _startPos;
     float _random;
 
     private float _fireRate;
     private float _canFireLaser;
     [SerializeField] private GameObject _laserPrefab;
+    Player _player;
 
     void Start()
     {
         transform.position = new Vector3(Random.Range(-8.5f, 8.5f), 8, 0);
 
         _random = Random.Range(1f, 7f);
+
+        _player = GameObject.Find("Player").GetComponent<Player>();
+
     }
 
     void Update()
@@ -59,7 +62,9 @@ public class EnemySideMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            _player.CurrentKillCount();
             Destroy(this.gameObject, 0.05f);
+
         }
     }
 

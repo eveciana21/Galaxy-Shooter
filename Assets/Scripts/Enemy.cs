@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     private float _canFireLaser;
     private float _fireRate;
     [SerializeField] private bool _damageTaken;
+    private int _currentDeaths;
 
     void Start()
     {
@@ -64,7 +65,7 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i < _lasers.Length; i++)
             {
                 _lasers[i].EnemyFiredLaser();
-            } */        
+            } */
         }
     }
 
@@ -89,7 +90,9 @@ public class Enemy : MonoBehaviour
             if (_player != null)
             {
                 _player.AddToScore(50);
+                _player.CurrentKillCount();
             }
+
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             //_speed = 1f;
             Destroy(this.gameObject, 0.05f);
@@ -102,6 +105,7 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
 
 
 
