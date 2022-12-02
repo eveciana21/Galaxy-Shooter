@@ -57,7 +57,11 @@ public class Powerup : MonoBehaviour
                     case 5:
                         player.FighterBrigadePowerup();
                         break;
-                    //case 6:
+                    case 6:
+                        player.NegativePowerupSlow();
+                        break;
+                        
+                        //case 6:
                       //  player.HeatSeakingMissiles();
                       //  break;
                 }

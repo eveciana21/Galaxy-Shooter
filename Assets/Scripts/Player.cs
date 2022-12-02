@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int _currentKillCount;
 
-    private bool _trySpawningWaveUI;
+    private bool _negativePowerupActive;
 
 
 
@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
         }
 
         //SPEED POWERUP
-        if (Input.GetKey(KeyCode.J) && _isSpeedPowerUpActive == true && _damageTaken == false && _thrusterEngaged == true && _boostRemaining >= 1)
+        if (Input.GetKey(KeyCode.J) && _isSpeedPowerUpActive == true && _damageTaken == false && _thrusterEngaged == true && _boostRemaining >= 1 && _negativePowerupActive == false)
         {
             SpeedBoostSliderDecrease();
 
@@ -176,8 +176,14 @@ public class Player : MonoBehaviour
             _thrusterMain.SetActive(false);
             _speedBoostParticleSystem.SetActive(true);
 
-            Debug.Log("Speed:" + _speed * _speedMultiplier);
+            Debug.Log("Speed Multiplier: " + _speed * _speedMultiplier);
         }
+
+        else if (_negativePowerupActive == true)
+        {
+            transform.Translate(direction * _speed/3 * Time.deltaTime);
+        }
+
         else
         {
             if (_isSpeedPowerUpActive == true)
@@ -391,7 +397,7 @@ public class Player : MonoBehaviour
         _currentKillCount++;
         Debug.Log(_currentKillCount);
 
-        if (_currentKillCount == 3)
+        if (_currentKillCount == 5)
         {
             _spawnManager.WaveTwo();
             _uiManager.WaveTwoUI();
@@ -413,7 +419,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void NegativePowerupSlow()
+    {
+        _negativePowerupActive = true;
+        _thrusterMain.gameObject.SetActive(false);
+        StartCoroutine(NegativePowerupCooldown());
+    }
 
+    IEnumerator NegativePowerupCooldown()
+    {
+        yield return new WaitForSeconds(10);
+        _negativePowerupActive = false;
+        _thrusterMain.gameObject.SetActive(true);
+    }
 
 
     public void TripleShotActive()
