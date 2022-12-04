@@ -166,4 +166,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   powerupID: 1
-  _powerupAudio: {fileID: 8300000, guid: 8b7a9ab213997f44ebf2e4186b4ea403, type: 3}
+  _powerupAudio: {fileID: 8300000, guid: 8124961ea90d91c48a2bdc2dfa93f44f, type: 3}

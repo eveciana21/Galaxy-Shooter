@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Text[] _waves;
 
-
+    [SerializeField] GameObject _dangerUI;
 
     void Start()
     {
@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
         _restartLevel.gameObject.SetActive(false);
         _fighterBrigade.gameObject.SetActive(false);
         _pressShift.gameObject.SetActive(false);
-
+        _dangerUI.gameObject.SetActive(false);
 
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
@@ -220,8 +220,26 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void DangerUI()
+    {
+        StartCoroutine("DangerFlicker");
+    }
+    public void DangerUIStop()
+    {
+         StopCoroutine("DangerFlicker");
+        _dangerUI.SetActive(false);
+    }
 
-
+    IEnumerator DangerFlicker()
+    {
+        while (true)
+        {
+            _dangerUI.SetActive(true);
+            yield return new WaitForSeconds(0.4f);
+            _dangerUI.SetActive(false);
+            yield return new WaitForSeconds(0.4f);
+        }
+    }
 
 
 

@@ -9,7 +9,7 @@ public class Powerup : MonoBehaviour
     [SerializeField] private int powerupID;
 
     [SerializeField] AudioClip _powerupAudio;
-    private float _volume = 1f;
+    private int _volume = 1;
 
 
     void Start()

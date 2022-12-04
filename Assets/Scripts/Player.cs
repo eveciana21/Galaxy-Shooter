@@ -150,12 +150,12 @@ public class Player : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, vertical, 0);
 
         //TURNING ANIMATION
-        if (horizontal < 0)
+        if (horizontal < 0 && _negativePowerupActive == false)
         {
             _turnAnim.SetBool("Left_Turn_anim", true);
             _turnAnim.SetBool("Right_Turn_anim", false);
         }
-        else if (horizontal > 0)
+        else if (horizontal > 0 && _negativePowerupActive == false)
         {
             _turnAnim.SetBool("Right_Turn_anim", true);
             _turnAnim.SetBool("Left_Turn_anim", false);
@@ -181,7 +181,7 @@ public class Player : MonoBehaviour
 
         else if (_negativePowerupActive == true)
         {
-            transform.Translate(direction * _speed/3 * Time.deltaTime);
+            transform.Translate(direction * _speed / 3 * Time.deltaTime);
         }
 
         else
@@ -192,10 +192,13 @@ public class Player : MonoBehaviour
             }
 
             transform.Translate(direction * _speed * Time.deltaTime);
-            _thrusterMain.SetActive(true);
+
+           // _thrusterMain.SetActive(true);
             _thrusterSpeed.SetActive(false);
             _speedBoostParticleSystem.SetActive(false);
         }
+
+        
 
         //X position
         if (transform.position.x > 10.75f)
@@ -327,6 +330,8 @@ public class Player : MonoBehaviour
         else if (_playerLives == 1)
         {
             _rightSmoke.SetActive(true);
+            _uiManager.DangerUI();
+
         }
 
         _uiManager.UpdateLives(_playerLives);
@@ -335,6 +340,7 @@ public class Player : MonoBehaviour
         if (_playerLives < 1)
         {
             _spawnManager.PlayerDead();
+            _uiManager.DangerUIStop();
 
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
@@ -352,6 +358,8 @@ public class Player : MonoBehaviour
         if (_playerLives < 3)
         {
             _playerLives++;
+            _uiManager.DangerUIStop();
+
             _uiManager.UpdateLives(_playerLives);
 
             if (_playerLives == 2)
@@ -422,15 +430,65 @@ public class Player : MonoBehaviour
     public void NegativePowerupSlow()
     {
         _negativePowerupActive = true;
-        _thrusterMain.gameObject.SetActive(false);
-        StartCoroutine(NegativePowerupCooldown());
+        // _thrusterMain.gameObject.SetActive(false);
+
+        StartCoroutine(ThrusterFlicker());
+
     }
 
+    IEnumerator ThrusterFlicker()
+    {
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        _thrusterMain.SetActive(false);
+
+
+        StartCoroutine(NegativePowerupCooldown());
+
+    }
     IEnumerator NegativePowerupCooldown()
     {
-        yield return new WaitForSeconds(10);
+
+        yield return new WaitForSeconds(5);
+        StartCoroutine(ThrusterFlickerEngaging());
+    }
+
+    IEnumerator ThrusterFlickerEngaging()
+    {
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        _thrusterMain.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        _thrusterMain.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+        _thrusterMain.SetActive(true);
+
         _negativePowerupActive = false;
-        _thrusterMain.gameObject.SetActive(true);
+
     }
 
 
@@ -500,9 +558,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _thrusterEngaged = true;
     }
-
-
-
 
     public void ShieldActive()
     {

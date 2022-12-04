@@ -69,16 +69,18 @@ public class SpawnManager : MonoBehaviour
     IEnumerator EnemySpawn()
     {
         yield return new WaitForSeconds(2f);
-       
+
         //WAVE ONE
         while (_isPlayerAlive == true && _spawnWaveOne == true)
         {
+            int _randomEnemy = Random.Range(0, 2);
+
             GameObject newEnemy = Instantiate(_enemyVariant[0], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
         }
         yield return new WaitForSeconds(2f);
-        
+
         //WAVE TWO
         while (_isPlayerAlive == true && _spawnWaveTwo == true)
         {
@@ -150,11 +152,15 @@ public class SpawnManager : MonoBehaviour
 
         while (_isPlayerAlive == true)
         {
-            int _randomPowerup = Random.Range(0, 6);
+            //int _randomPowerup = Random.Range(0, 7);
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
-            GameObject newPowerup = Instantiate(_powerups[_randomPowerup], _spawnLocation, Quaternion.identity);
-            newPowerup.transform.parent = _powerupContainer.transform;
-            yield return new WaitForSeconds(Random.Range(7f, 11f));
+
+            for (int i = 0; i < _powerups.Length; i++)
+            {
+                Instantiate(_powerups[i], _spawnLocation, Quaternion.identity);
+                transform.parent = _powerupContainer.transform;
+                yield return new WaitForSeconds(Random.Range(7f, 11f));
+            }
         }
     }
 

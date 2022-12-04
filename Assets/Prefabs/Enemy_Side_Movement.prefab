@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2003763887}
   - component: {fileID: 2003763888}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1392417233020108117}
   - component: {fileID: 8947007326129734569}
   - component: {fileID: 3616574073277386474}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy_Side_Movement
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -151,8 +151,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.042632826, y: 0.015857276}
-  m_Size: {x: 2.840421, y: 1.3562461}
+  m_Offset: {x: 0.04263281, y: 0.117596254}
+  m_Size: {x: 2.8404205, y: 1.0184616}
   m_Direction: 1
 --- !u!82 &8947007326129734569
 AudioSource:
@@ -264,3 +264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionPrefab: {fileID: 6914487444124827508, guid: 6f0d63a50fdd9774490fe302073f08b1, type: 3}
   _laserPrefab: {fileID: 38988297076208039, guid: 7529e70067312784e8a44c7f15092206, type: 3}
+  _laserParent:
+  - {fileID: 38988297076208039, guid: 7529e70067312784e8a44c7f15092206, type: 3}
+  - {fileID: 38988297076208039, guid: 7529e70067312784e8a44c7f15092206, type: 3}

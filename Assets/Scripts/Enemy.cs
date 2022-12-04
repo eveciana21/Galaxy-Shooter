@@ -11,13 +11,16 @@ public class Enemy : MonoBehaviour
     private float _canFireLaser;
     private float _fireRate;
     [SerializeField] private bool _damageTaken;
-    private int _currentDeaths;
+    private CameraShake _cameraShake;
 
     void Start()
     {
         transform.position = new Vector3(Random.Range(9.4f, -9.4f), 7.5f, 0);
 
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+
         _player = GameObject.Find("Player").GetComponent<Player>();
+
 
         if (_player == null)
         {
@@ -55,18 +58,27 @@ public class Enemy : MonoBehaviour
     {
         if (Time.time > _canFireLaser)
         {
-            _fireRate = Random.Range(3f, 10f);
+            _fireRate = Random.Range(3f, 7f);
             _canFireLaser = Time.time + _fireRate;
-            GameObject _enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -1.3f, 0), Quaternion.identity);
+            GameObject _enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
             Laser _lasers = _enemyLaser.GetComponent<Laser>();
             _lasers.EnemyFiredLaser();
+
 
             /*Laser[] _lasers = _enemyLaser.GetComponentsInChildren<Laser>();
             for (int i = 0; i < _lasers.Length; i++)
             {
                 _lasers[i].EnemyFiredLaser();
             } */
+
+            /*for (int i = 0; i > _lasersChildren.Length; i++)
+            {
+                Instantiate(_laserAnim[i], transform.position, Quaternion.identity);
+            }*/
+
         }
+
+
     }
 
     void CalculateMovement()
@@ -91,6 +103,7 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddToScore(50);
                 _player.CurrentKillCount();
+                _cameraShake.EnemyScreenShake();
             }
 
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);

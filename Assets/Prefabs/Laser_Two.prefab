@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3894267169703087583}
   m_Layer: 0
   m_Name: Laser_Two
-  m_TagString: Untagged
+  m_TagString: Enemy Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +168,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 11
   _enemyFiredLaser: 0
+  _enemyChildLaser:
+  - {fileID: 5145085705959087749}
+  - {fileID: 8011842125885137917}
 --- !u!1 &8011842125885137917
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,3 +307,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 11
   _enemyFiredLaser: 0
+  _enemyChildLaser: []

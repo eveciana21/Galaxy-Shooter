@@ -57,5 +57,28 @@ public class CameraShake : MonoBehaviour
         transform.position = _originalPos;
     }
 
+    public void EnemyScreenShake ()
+    {
+        StartCoroutine(EnemyDestroyedShake());
+    }
+
+    IEnumerator EnemyDestroyedShake ()
+    {
+        Vector3 _originalPos = transform.position;
+        _shakeDuration = Time.time + 0.2f;
+
+        while (_shakeDuration > Time.time)
+        {
+            _xShake = Random.Range(-0.03f, 0.025f);
+            _yShake = Random.Range(0.988f, 1.05f);
+            Vector3 _shakeDirection = new Vector3(_xShake, _yShake, transform.position.z);
+            transform.position = _shakeDirection;
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = _originalPos;
+    }
+
+
+
 }
 

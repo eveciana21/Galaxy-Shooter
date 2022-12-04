@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: -6885465799118268458}
   - component: {fileID: 5614797655786623636}
   - component: {fileID: 1417108262533314100}
-  - component: {fileID: 7138044284469707232}
   - component: {fileID: -8325019706945732836}
-  m_Layer: 0
+  - component: {fileID: 240584552897954190}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6438a8ab33845d42bdd84ef959096f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3.25
+  _speed: 4
   _explosionPrefab: {fileID: 6914487444124827508, guid: 6f0d63a50fdd9774490fe302073f08b1, type: 3}
   _enemyLaserPrefab: {fileID: 3419296253941637821, guid: 04be582e558c365439d50a82bf3bc3c3, type: 3}
   _damageTaken: 0
@@ -123,22 +123,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &7138044284469707232
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3685129402977983647}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.014614424, y: 0.041831337}
-  m_Size: {x: 2.0738301, y: 2.9186401}
-  m_Direction: 0
 --- !u!82 &-8325019706945732836
 AudioSource:
   m_ObjectHideFlags: 0
@@ -235,3 +219,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!58 &240584552897954190
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3685129402977983647}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.00999999, y: -0.0059677763}
+  serializedVersion: 2
+  m_Radius: 0.73386985

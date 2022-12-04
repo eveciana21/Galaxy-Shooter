@@ -7,6 +7,7 @@ public class Laser : MonoBehaviour
 
     [SerializeField] private int _speed;
     [SerializeField] private bool _enemyFiredLaser;
+    //[SerializeField] GameObject[] _laserChild;
 
     void Update()
     {
@@ -28,23 +29,30 @@ public class Laser : MonoBehaviour
 
         if (transform.position.y > 7.5f)
         {
-            Destroy(this.gameObject);
 
             if (transform.parent != null)
             {
                 Destroy(transform.parent.gameObject);
             }
             
+            Destroy(this.gameObject);
+
         }
 
     }
     void MoveDown()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
+  
         if (transform.position.y < -5.5)
         {
+            if(transform.parent != null)
+            {
+                Destroy(transform.parent.gameObject);
+            }
+
             Destroy(this.gameObject);
+
         }
     }
 
