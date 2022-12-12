@@ -114,7 +114,7 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Fighters")
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
     }

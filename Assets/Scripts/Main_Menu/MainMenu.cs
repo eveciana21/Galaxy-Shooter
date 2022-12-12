@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private bool _isPressed;
-    private float _speed = 15;
+    [SerializeField] private float _speed;
     [SerializeField] GameObject _playerShip;
     [SerializeField] GameObject _controlsText;
 
@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
     {
         if (_playerShip != null)
         {
-            _playerShip.transform.position = new Vector3(0f, -7.25f, 0);
+            _playerShip.transform.position = new Vector3(0f, -3.25f, 0);
         }
 
         _controlsText.SetActive(false);
@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
             _isPressed = true;
             _playerShip.transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-            if (_playerShip.transform.position.y > 10)
+            if (_playerShip.transform.position.y > 7)
             {
                 SceneManager.LoadScene(1); // Main Game Scene
                 Destroy(_playerShip);
@@ -58,7 +58,7 @@ public class MainMenu : MonoBehaviour
 
 
 
-    
+
 
 
 

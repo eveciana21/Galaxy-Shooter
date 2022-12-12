@@ -48,8 +48,6 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-
-
     public void EnoughAmmo()
     {
         _lowAmmo = false;
@@ -68,16 +66,16 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator EnemySpawn()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(6f);
 
         //WAVE ONE
         while (_isPlayerAlive == true && _spawnWaveOne == true)
         {
             int _randomEnemy = Random.Range(0, 2);
 
-            GameObject newEnemy = Instantiate(_enemyVariant[0], transform.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(_enemyVariant[1], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
         }
         yield return new WaitForSeconds(2f);
 
@@ -87,7 +85,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 2);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.7f);
+            yield return new WaitForSeconds(1.3f);
         }
         yield return new WaitForSeconds(1.2f);
 
@@ -97,7 +95,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 2);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.45f);
+            yield return new WaitForSeconds(1.15f);
         }
         yield return new WaitForSeconds(1);
 
@@ -107,7 +105,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 2);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.25f);
+            yield return new WaitForSeconds(1f);
         }
         yield return new WaitForSeconds(0.88f);
 
@@ -148,11 +146,10 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerupSpawn()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(100f);
 
         while (_isPlayerAlive == true)
         {
-            //int _randomPowerup = Random.Range(0, 7);
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
 
             for (int i = 0; i < _powerups.Length; i++)

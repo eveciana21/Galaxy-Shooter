@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
 
 
     private int _score;
+    private int _highScore;
     private UIManager _uiManager;
     private WaitForSeconds _waitForSeconds02 = new WaitForSeconds(0.15f);
     private GameManager _gameManager;
@@ -71,8 +72,9 @@ public class Player : MonoBehaviour
 
     private bool _negativePowerupActive;
 
+    [SerializeField] private bool _isPlayerAlive;
 
-
+    [SerializeField] AudioSource _gameMusic;
 
     void Start()
     {
@@ -92,7 +94,6 @@ public class Player : MonoBehaviour
         _shieldColor = GetComponent<Renderer>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
-
 
         //NULL CHECKS
         if (_spawnManager == null)
@@ -115,6 +116,12 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserAudio;
         }
+
+        _isPlayerAlive = true;
+
+        //_highScore = PlayerPrefs.GetInt("_highScore", _highScore);
+        //_uiManager.HighScore(_highScore);
+
     }
 
     void Update()
@@ -138,7 +145,11 @@ public class Player : MonoBehaviour
 
 
     }
-
+    private void OnDestroy()
+    {
+        PlayerPrefs.SetInt("_highScore", _highScore);
+        PlayerPrefs.Save();
+    }
 
     void ControlMovement()
     {
@@ -193,12 +204,11 @@ public class Player : MonoBehaviour
 
             transform.Translate(direction * _speed * Time.deltaTime);
 
-           // _thrusterMain.SetActive(true);
             _thrusterSpeed.SetActive(false);
             _speedBoostParticleSystem.SetActive(false);
         }
 
-        
+
 
         //X position
         if (transform.position.x > 10.75f)
@@ -331,7 +341,6 @@ public class Player : MonoBehaviour
         {
             _rightSmoke.SetActive(true);
             _uiManager.DangerUI();
-
         }
 
         _uiManager.UpdateLives(_playerLives);
@@ -339,11 +348,11 @@ public class Player : MonoBehaviour
 
         if (_playerLives < 1)
         {
+            _isPlayerAlive = false;
+            HighScoreText();
             _spawnManager.PlayerDead();
             _uiManager.DangerUIStop();
-
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-
             Destroy(this.gameObject);
         }
     }
@@ -391,8 +400,9 @@ public class Player : MonoBehaviour
         {
             if (_damageTaken == false)
             {
-                Damage();
                 SubtractFromScore(50);
+                Damage();
+
                 Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
                 CurrentKillCount();
                 Destroy(other.gameObject);
@@ -405,35 +415,63 @@ public class Player : MonoBehaviour
         _currentKillCount++;
         Debug.Log(_currentKillCount);
 
-        if (_currentKillCount == 5)
+        if (_currentKillCount == 10 && _isPlayerAlive == true)
         {
             _spawnManager.WaveTwo();
             _uiManager.WaveTwoUI();
         }
-        else if (_currentKillCount == 10)
+        else if (_currentKillCount == 25 && _isPlayerAlive == true)
         {
             _spawnManager.WaveThree();
             _uiManager.WaveThreeUI();
         }
-        else if (_currentKillCount == 15)
+        else if (_currentKillCount == 40 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFour();
             _uiManager.WaveFourUI();
         }
-        else if (_currentKillCount == 20)
+        else if (_currentKillCount == 55 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFive();
             _uiManager.WaveFiveUI();
         }
     }
 
+
+
     public void NegativePowerupSlow()
     {
         _negativePowerupActive = true;
-        // _thrusterMain.gameObject.SetActive(false);
+
+        if (_negativePowerupActive == true)
+        {
+            StartCoroutine(DecreaseGamePitch());
+        }
 
         StartCoroutine(ThrusterFlicker());
+    }
 
+    IEnumerator DecreaseGamePitch()
+    {
+        while (_negativePowerupActive == true)
+        {
+            _gameMusic.pitch -= 0.05f;
+
+            if (_gameMusic.pitch <= 0.7f)
+            {
+                _gameMusic.pitch = 0.7f;
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator IncreaseGamePitch()
+    {
+        while (_gameMusic.pitch < 1f)
+        {
+            _gameMusic.pitch += 0.05f;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     IEnumerator ThrusterFlicker()
@@ -456,13 +494,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         _thrusterMain.SetActive(false);
 
-
         StartCoroutine(NegativePowerupCooldown());
-
     }
     IEnumerator NegativePowerupCooldown()
     {
-
         yield return new WaitForSeconds(5);
         StartCoroutine(ThrusterFlickerEngaging());
     }
@@ -489,6 +524,7 @@ public class Player : MonoBehaviour
 
         _negativePowerupActive = false;
 
+        StartCoroutine(IncreaseGamePitch());
     }
 
 
@@ -543,6 +579,7 @@ public class Player : MonoBehaviour
         }
     }
 
+
     void SpeedBoostSliderDecrease()
     {
         _uiManager.BoostSlider(_boostRemaining -= Time.deltaTime * _refuelSpeed);
@@ -570,13 +607,27 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
-
     }
 
     public void SubtractFromScore(int points)
     {
         _score -= points;
         _uiManager.UpdateScore(_score);
+
+        if (_score <= 0)
+        {
+            _uiManager.UpdateScore(_score = 0);
+        }
+    }
+
+    private void HighScoreText()
+    {
+        if (_score > _highScore)
+        {
+            _highScore = _score;
+            Debug.Log("High Score " + _highScore);
+            _uiManager.HighScore(_highScore);
+        }
     }
 
     public void Invincible()

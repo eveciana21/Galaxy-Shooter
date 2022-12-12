@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySideMovement : MonoBehaviour
 {
-    private float _speed = 1.8f;
+    [SerializeField] private float _speed = 1.8f;
 
     [SerializeField] private GameObject _explosionPrefab;
 
@@ -20,27 +20,22 @@ public class EnemySideMovement : MonoBehaviour
 
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
         transform.position = new Vector3(Random.Range(8.5f, -8.5f), 8, 0);
 
-        _random = Random.Range(4f, 10f);
+
+        _random = 0.25f;//Random.Range(4f, 10f);
 
         _ping = transform.position.x;
         _ping = _ping + _random;
 
         _pong = transform.position.x;
-        _pong = _pong - _random;
-
-        _player = GameObject.Find("Player").GetComponent<Player>();
-
+        _pong = _pong - _random;  
     }
 
     void Update()
     {
-
         SideMovement();
-        
-
-
 
         if (transform.position.y < -8)
         {
@@ -48,10 +43,9 @@ public class EnemySideMovement : MonoBehaviour
         }
 
         FireLaser();
-
     }
 
-    private void SideMovement ()
+    private void SideMovement()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
@@ -69,42 +63,18 @@ public class EnemySideMovement : MonoBehaviour
 
     void FireLaser()
     {
-        if (Time.time > _canFireLaser)
+        if (Time.time > _canFireLaser && transform.position.y < 6)
         {
-            _fireRate = Random.Range(1.5f, 3.25f);
+            _fireRate = Random.Range(1.5f, 4f);
             _canFireLaser = Time.time + _fireRate;
             GameObject _enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
             Laser[] _laser = _enemyLaser.GetComponentsInChildren<Laser>();
 
-
-
-            for (int i = 0; i > _laser.Length; i++)
-            {
-                _laser[i].EnemyFiredLaser();
-
-                foreach (var child in _laserParent)
-                {
-                    if (child.transform.position.y < -6)
-                    {
-                        Destroy(child.transform.parent.gameObject);
-                    }
-                }
-            }
-            
-            
-             /*
             for (int i = 0; i < _laser.Length; i++)
             {
-                if (_laser[i].transform.position.y < -6)
-                {
-                    Destroy(_laser[i].gameObject);
-                }
+                _laser[i].EnemyFiredLaser();
             }
-*/
-
-
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -112,13 +82,13 @@ public class EnemySideMovement : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
+
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            _player.AddToScore(50);
             _player.CurrentKillCount();
+
             Destroy(this.gameObject, 0.05f);
-
         }
-
-
     }
 
 

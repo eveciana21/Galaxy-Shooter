@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject _dangerUI;
 
+    [SerializeField] private Text _highScore;
+    [SerializeField] private Text _highScoreValue;
+
     void Start()
     {
         _scoreText.text = "Score: " + 0;
@@ -42,22 +46,38 @@ public class UIManager : MonoBehaviour
         _fighterBrigade.gameObject.SetActive(false);
         _pressShift.gameObject.SetActive(false);
         _dangerUI.gameObject.SetActive(false);
+        _highScore.gameObject.SetActive(false);
 
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-        Text _ammoText = _ammoCount.GetComponent<Text>();
 
         _boostSlider.value = 0;
         _ammoSlider.value = 50;
 
         WavesStartPos();
-
-
     }
 
     public void UpdateScore(int playerScore)
     {
         _scoreText.text = "Score: " + playerScore.ToString();
+    }
+
+    public void HighScore (int playerHighScore)
+    {
+        _highScore.gameObject.SetActive(true);
+        _highScoreValue.text = playerHighScore.ToString();
+        StartCoroutine(HighScoreFlicker());
+    }
+
+    IEnumerator HighScoreFlicker()
+    {
+        while (true)
+        {
+            _highScoreValue.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            _highScoreValue.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     public void UpdateLives(int currentLives)
@@ -186,6 +206,7 @@ public class UIManager : MonoBehaviour
 
     public void WaveOneUI()
     {
+        
         _waves[0].gameObject.SetActive(true);
         StartCoroutine(WaveOnScreenTime());
     }
