@@ -120,6 +120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 15
   _enemyFiredLaser: 0
+  _greenSlime: {fileID: 6015660018482963672, guid: 5df957b0b38a79e4f991837397fee673, type: 3}
+  _greenExplosion: {fileID: 4199015229961659318, guid: 402ec4a70ebffe34bb0c4aee234959e0, type: 3}
 --- !u!70 &2019970775074965520
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

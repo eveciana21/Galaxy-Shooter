@@ -10,9 +10,9 @@ public class EnemySideMovement : MonoBehaviour
 
     private float _fireRate;
     private float _canFireLaser;
-    [SerializeField] private GameObject _laserPrefab;
-    Player _player;
-    [SerializeField] GameObject[] _laserParent;
+    [SerializeField] private GameObject _greenFlagellum;
+    private Player _player;
+    private CameraShake _cameraShake;
 
     private float _random;
     private float _ping, _pong;
@@ -21,6 +21,9 @@ public class EnemySideMovement : MonoBehaviour
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        StartCoroutine(FireLaserDelay());
+
         transform.position = new Vector3(Random.Range(8.5f, -8.5f), 8, 0);
 
 
@@ -30,7 +33,7 @@ public class EnemySideMovement : MonoBehaviour
         _ping = _ping + _random;
 
         _pong = transform.position.x;
-        _pong = _pong - _random;  
+        _pong = _pong - _random;
     }
 
     void Update()
@@ -39,7 +42,7 @@ public class EnemySideMovement : MonoBehaviour
 
         if (transform.position.y < -8)
         {
-            transform.position = new Vector3(transform.position.x, 8, 0);
+            Destroy(this.gameObject);
         }
 
         FireLaser();
@@ -61,18 +64,27 @@ public class EnemySideMovement : MonoBehaviour
         transform.Translate(Vector3.right * _speed * _direction * Time.deltaTime);
     }
 
+    IEnumerator FireLaserDelay()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(3.0f, 5.0f));
+            FireLaser();
+        }
+    }
     void FireLaser()
     {
-        if (Time.time > _canFireLaser && transform.position.y < 6)
+        if (_player != null)
         {
-            _fireRate = Random.Range(1.5f, 4f);
-            _canFireLaser = Time.time + _fireRate;
-            GameObject _enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-            Laser[] _laser = _enemyLaser.GetComponentsInChildren<Laser>();
-
-            for (int i = 0; i < _laser.Length; i++)
+            if (Time.time > _canFireLaser && transform.position.y < 5f)
             {
-                _laser[i].EnemyFiredLaser();
+                _fireRate = Random.Range(3f, 5f);
+                _canFireLaser = Time.time + _fireRate;
+
+                if (transform.position.y > -1.5f)
+                {
+                    Instantiate(_greenFlagellum, transform.position + new Vector3(0, -1.7f, 0), Quaternion.identity);
+                }
             }
         }
     }
@@ -83,13 +95,19 @@ public class EnemySideMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
 
+            _cameraShake.EnemyScreenShake();
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            _player.AddToScore(50);
-            _player.CurrentKillCount();
+            if (_player != null)
+            {
+                _player.AddToScore(50);
+                _player.CurrentKillCount();
+            }
 
             Destroy(this.gameObject, 0.05f);
         }
     }
+
+    
 
 
 }

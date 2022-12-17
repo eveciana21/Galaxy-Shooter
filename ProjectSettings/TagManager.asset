@@ -12,8 +12,9 @@ TagManager:
   - Enemy Laser
   - Projectile
   - Fighters
-  - RightWall
-  - LeftWall
+  - Green Slime
+  - Alien Enemy
+  - Explosion
   layers:
   - Default
   - TransparentFX

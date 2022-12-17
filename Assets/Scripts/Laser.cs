@@ -7,14 +7,16 @@ public class Laser : MonoBehaviour
 
     [SerializeField] private int _speed;
     [SerializeField] private bool _enemyFiredLaser;
-    //[SerializeField] GameObject[] _laserChild;
+
+
+
+
 
     void Update()
     {
         if (_enemyFiredLaser == false)
         {
             MoveUp();
-            
         }
 
         else
@@ -34,9 +36,8 @@ public class Laser : MonoBehaviour
             {
                 Destroy(transform.parent.gameObject);
             }
-            
-            Destroy(this.gameObject);
 
+            Destroy(this.gameObject);
         }
 
     }
@@ -46,13 +47,12 @@ public class Laser : MonoBehaviour
 
         if (transform.position.y < -5.5)
         {
-            if(transform.parent != null)
+
+            if (transform.parent != null)
             {
                 Destroy(transform.parent.gameObject);
             }
-
             Destroy(this.gameObject);
-
         }
     }
 

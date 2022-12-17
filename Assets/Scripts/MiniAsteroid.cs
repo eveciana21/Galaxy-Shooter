@@ -50,10 +50,13 @@ public class MiniAsteroid : MonoBehaviour
             if (_player != null)
             {
                 _player.Damage();
+                _player.SubtractFromScore(10);
             }
-            _player.SubtractFromScore(10);
+            if (_cameraShake != null)
+            {
+                _cameraShake.CameraShaking();
 
-            _cameraShake.CameraShaking();
+            }
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
             Destroy(this.gameObject);

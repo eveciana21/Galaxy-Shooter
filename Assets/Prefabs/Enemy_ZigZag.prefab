@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 42e8b7de1a9ef4140ac6eb95ed5fb0fd, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7396226, b: 0.95277095, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,9 +98,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.06}
+  m_Offset: {x: -0.005685687, y: 0.060000002}
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 0.7147163
 --- !u!50 &2725226067255153940
 Rigidbody2D:
   serializedVersion: 4
@@ -134,4 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd873ac6a5c4b049a5d241c6077f1cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 2.25
   _explosionPrefab: {fileID: 6914487444124827508, guid: 6f0d63a50fdd9774490fe302073f08b1, type: 3}
+  _energyBall: {fileID: 8177107801654264285, guid: 466a35099713fcd4ca5ef38a2d6ebe88, type: 3}

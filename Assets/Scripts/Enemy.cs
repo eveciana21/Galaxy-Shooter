@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
+            yield return new WaitForSeconds(Random.Range(0.65f, 1.75f));
             FireLaser();
         }
     }
@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
     {
         if (Time.time > _canFireLaser)
         {
-            _fireRate = Random.Range(3f, 7f);
+            _fireRate = Random.Range(2f, 6f);
             _canFireLaser = Time.time + _fireRate;
             GameObject _enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
             Laser _lasers = _enemyLaser.GetComponent<Laser>();

@@ -87,6 +87,19 @@ public class FighterBrigade : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        if (other.tag == "Green Slime")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+        }
+
+        if (other.tag == "Alien Enemy")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+        }
 
     }
 }
