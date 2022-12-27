@@ -46,19 +46,19 @@ public class Powerup : MonoBehaviour
                         player.SpeedBoostActive();
                         break;
                     case 2:
-                        player.ShieldActive();
+                        player.AmmoPickup();
                         break;
                     case 3:
-                        player.AmmoPickup();
+                        player.ShieldActive();
                         break;
                     case 4:
                         player.HealthPickup();
                         break;
                     case 5:
-                        player.FighterBrigadePowerup();
+                        player.NegativePowerupSlow();
                         break;
                     case 6:
-                        player.NegativePowerupSlow();
+                        player.FighterBrigadePowerup();
                         break;
                         
                         //case 6:

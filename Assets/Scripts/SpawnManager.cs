@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _powerupContainer;
     [SerializeField] private GameObject _asteroidPrefab;
     [SerializeField] private GameObject[] _powerups;
+    private int _randomPowerup;
+
     [SerializeField] private bool _isPlayerAlive;
     [SerializeField] private float _speed;
     [SerializeField] private bool _lowAmmo;
@@ -27,7 +29,13 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.Log("UI Manager is Null");
         }
+
     }
+
+
+    //Create a difficulty level setting
+    //SIMPLE, REGULAR 
+
 
     public void StartSpawningAmmo()
     {
@@ -42,7 +50,9 @@ public class SpawnManager : MonoBehaviour
         while (_lowAmmo == true)
         {
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
-            GameObject ammoPickup = Instantiate(_powerups[3], _spawnLocation, Quaternion.identity);
+            GameObject ammoPickup = Instantiate(_powerups[2], _spawnLocation, Quaternion.identity);
+            Debug.Log("Low Ammo Spawn");
+
             ammoPickup.transform.parent = _powerupContainer.transform;
             yield return new WaitForSeconds(Random.Range(6f, 11f));
         }
@@ -73,9 +83,9 @@ public class SpawnManager : MonoBehaviour
         {
             int _randomEnemy = Random.Range(0, 2);
 
-            GameObject newEnemy = Instantiate(_enemyVariant[0], transform.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(_enemyVariant[3], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.6f);
         }
         yield return new WaitForSeconds(2f);
 
@@ -150,14 +160,29 @@ public class SpawnManager : MonoBehaviour
 
         while (_isPlayerAlive == true)
         {
+            _randomPowerup = Random.Range(0, 100);
+            Debug.Log("Random Powerup Value: " + _randomPowerup);
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
 
-            for (int i = 0; i < _powerups.Length; i++)
+            if (_randomPowerup <= 35 && _randomPowerup > 10)
             {
-                Instantiate(_powerups[i], _spawnLocation, Quaternion.identity);
-                transform.parent = _powerupContainer.transform;
-                yield return new WaitForSeconds(Random.Range(7f, 11f));
+                int randomMidClass = Random.Range(3, 6);
+                GameObject newPowerup = Instantiate(_powerups[randomMidClass], transform.position, Quaternion.identity);
+                newPowerup.transform.parent = _powerupContainer.transform;
             }
+            else if (_randomPowerup > 35)
+            {
+                int randomLowClass = Random.Range(0, 3);
+                GameObject newPowerup = Instantiate(_powerups[randomLowClass], transform.position, Quaternion.identity);
+                newPowerup.transform.parent = _powerupContainer.transform;
+            }
+            if (_randomPowerup <= 10)
+            {
+                int randomHiClass = 6;
+                GameObject newPowerup = Instantiate(_powerups[randomHiClass], transform.position, Quaternion.identity);
+                newPowerup.transform.parent = _powerupContainer.transform;
+            }
+            yield return new WaitForSeconds(Random.Range(7f, 11f));
         }
     }
 

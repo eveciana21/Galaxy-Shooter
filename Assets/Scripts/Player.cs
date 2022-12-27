@@ -144,8 +144,6 @@ public class Player : MonoBehaviour
             _fighterBrigadeActive = false;
             _uiManager.FighterBrigadeNotActive();
         }
-
-
     }
     private void OnDestroy()
     {
@@ -410,6 +408,12 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+        if (other.tag == "Enemy Shielded")
+        {
+            SubtractFromScore(50);
+            Damage();
+            Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+        }
         if (other.tag == "Alien Enemy")
         {
             SubtractFromScore(50);
@@ -430,7 +434,7 @@ public class Player : MonoBehaviour
         }
         if (other.tag == "Explosion")
         {
-            if (_damageTaken==false)
+            if (_damageTaken == false)
             {
                 Damage();
                 Destroy(other.gameObject, 2f);

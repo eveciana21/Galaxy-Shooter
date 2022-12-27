@@ -37,6 +37,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _highScore;
     [SerializeField] private Text _highScoreValue;
 
+
+
+    //Add a difficulty setting 
+
+
     void Start()
     {
         _scoreText.text = "Score: " + 0;

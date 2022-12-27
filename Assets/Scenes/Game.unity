@@ -12451,11 +12451,11 @@ MonoBehaviour:
   _powerups:
   - {fileID: 599507325968944220, guid: cb68307d8e304f3479ee4e2277c4f7dc, type: 3}
   - {fileID: 4404796815275581069, guid: 6224fd1cba56ba14cb466a42cd24dcf6, type: 3}
-  - {fileID: 7623050710914777064, guid: 2f2b91e9eca4d814da22c47a102404e4, type: 3}
   - {fileID: 8337893125013117472, guid: 74af1a85d0877944e9cd57acd1d36f5d, type: 3}
+  - {fileID: 7623050710914777064, guid: 2f2b91e9eca4d814da22c47a102404e4, type: 3}
   - {fileID: 3842385805335925101, guid: 1fec562fbbcb36148add5971d7ad871e, type: 3}
-  - {fileID: 583661118224654350, guid: c917c3cf875cd5a429639e775a398781, type: 3}
   - {fileID: 466517687822773024, guid: bc0db106b1647b44aba974dcdbbfd034, type: 3}
+  - {fileID: 583661118224654350, guid: c917c3cf875cd5a429639e775a398781, type: 3}
   _isPlayerAlive: 1
   _speed: 5
   _lowAmmo: 0
@@ -12463,6 +12463,7 @@ MonoBehaviour:
   - {fileID: 3685129402977983647, guid: 49e520b66a74e9043af77ee936174f1b, type: 3}
   - {fileID: 3682334881974885399, guid: 77408fd0f8472224e98de4a322b57c85, type: 3}
   - {fileID: 4862063264571400234, guid: a215792a2a7d2a64aa8629ce62bc3277, type: 3}
+  - {fileID: 2178622456601202101, guid: 37d5207c6ffd3b641992eeff634707ab, type: 3}
 --- !u!4 &1165893514
 Transform:
   m_ObjectHideFlags: 0
@@ -13779,14 +13780,14 @@ RectTransform:
   m_GameObject: {fileID: 1609768896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2.25, z: 1}
   m_Children: []
   m_Father: {fileID: 1731447335}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 54, y: -78}
+  m_AnchoredPosition: {x: 54, y: -96.7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1609768898

@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2.5
-  powerupID: 5
+  powerupID: 6
   _powerupAudio: {fileID: 8300000, guid: 8124961ea90d91c48a2bdc2dfa93f44f, type: 3}
 --- !u!50 &5370777740309028562
 Rigidbody2D:

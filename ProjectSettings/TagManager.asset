@@ -15,6 +15,7 @@ TagManager:
   - Green Slime
   - Alien Enemy
   - Explosion
+  - Enemy Shielded
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Post Processing
   - Enemy_One
   - Enemy_SideToSide
-  - 
+  - Enemy_Shielded
   - 
   - 
   - 
