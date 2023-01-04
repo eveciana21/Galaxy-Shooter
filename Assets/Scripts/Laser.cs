@@ -8,10 +8,6 @@ public class Laser : MonoBehaviour
     [SerializeField] private int _speed;
     [SerializeField] private bool _enemyFiredLaser;
 
-
-
-
-
     void Update()
     {
         if (_enemyFiredLaser == false)
@@ -56,7 +52,15 @@ public class Laser : MonoBehaviour
         }
     }
 
+    public void FireLaserAtPlayer()
+    {
+        transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
+        if (transform.position.y > 8)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     public void EnemyFiredLaser()
     {

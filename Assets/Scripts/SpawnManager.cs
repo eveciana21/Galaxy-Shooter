@@ -83,9 +83,9 @@ public class SpawnManager : MonoBehaviour
         {
             int _randomEnemy = Random.Range(0, 2);
 
-            GameObject newEnemy = Instantiate(_enemyVariant[3], transform.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(_enemyVariant[0], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.6f);
+            yield return new WaitForSeconds(5.6f);
         }
         yield return new WaitForSeconds(2f);
 
