@@ -7,12 +7,12 @@ public class GreenAttack : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private GameObject _greenExplosion;
 
-    [SerializeField] Transform _target;
-    Rigidbody2D _rb;
+    private Transform _target;
+    private Rigidbody2D _rb;
 
-    [SerializeField] float _rotateSpeed;
+    [SerializeField] private float _rotateSpeed;
 
-    [SerializeField] Renderer _sprite;
+    [SerializeField] private Renderer _sprite;
 
     private int _lives = 2;
 

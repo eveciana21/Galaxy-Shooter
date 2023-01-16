@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
         _boostSlider.value = 0;
-        _ammoSlider.value = 50;
+        _ammoSlider.value = 100;
 
         WavesStartPos();
     }
@@ -168,7 +168,7 @@ public class UIManager : MonoBehaviour
 
     public void AmmoCount(int currentAmmo)
     {
-        _ammoCount.text = "Ammo: " + currentAmmo.ToString() + "/50";
+        _ammoCount.text = "Ammo: " + currentAmmo.ToString() + "/100";
     }
 
     public void AmmoSlider(int ammoCount)
@@ -176,7 +176,7 @@ public class UIManager : MonoBehaviour
         _ammoSlider.value = ammoCount;
 
         _ammoSlider.minValue = 0;
-        _ammoSlider.maxValue = 50;
+        _ammoSlider.maxValue = 100;
     }
 
     public void NoAmmo()

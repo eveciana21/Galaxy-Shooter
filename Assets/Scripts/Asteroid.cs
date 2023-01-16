@@ -9,9 +9,6 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private GameObject _explosionPrefab;
     [SerializeField] private bool _isAsteroidDestroyed;
     SpawnManager _spawnManager;
-    //[SerializeField] AudioClip _explosionAudio;
-
-
 
     void Start()
     {

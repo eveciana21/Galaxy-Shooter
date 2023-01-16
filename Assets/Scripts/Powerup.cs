@@ -11,16 +11,20 @@ public class Powerup : MonoBehaviour
     [SerializeField] AudioClip _powerupAudio;
     private int _volume = 1;
 
+    [SerializeField] private GameObject _explosionPrefab;
+
+    private GameObject _enemy;
+
 
     void Start()
     {
-        transform.position=new Vector3(Random.Range(-9, 9),8f, 0);
+        _enemy = GameObject.Find("Enemy");
     }
 
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        
+
         if (transform.position.y < -6)
         {
             Destroy(this.gameObject);
@@ -34,8 +38,8 @@ public class Powerup : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
 
             AudioSource.PlayClipAtPoint(_powerupAudio, transform.position, _volume);
-            
-            if (player !=null)
+
+            if (player != null)
             {
                 switch (powerupID)
                 {
@@ -60,18 +64,35 @@ public class Powerup : MonoBehaviour
                     case 6:
                         player.FighterBrigadePowerup();
                         break;
-                        
+
                         //case 6:
-                      //  player.HeatSeakingMissiles();
-                      //  break;
+                        //  player.HeatSeakingMissiles();
+                        //  break;
                 }
-
                 Destroy(this.gameObject);
-                
             }
+        }
 
+        if (other.tag == "Enemy Laser")
+        {
+            Destroy(other.gameObject);
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject, 0.05f);
+        }
 
+        if (other.tag == "Explosion")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject, 0.05f);
+        }
+
+        if (other.tag == "Collider")
+        {
+            if (_enemy != null)
+            {
+                Enemy enemy = _enemy.GetComponent<Enemy>();
+                enemy.FireAtPowerup();
+            }
         }
     }
-
 }

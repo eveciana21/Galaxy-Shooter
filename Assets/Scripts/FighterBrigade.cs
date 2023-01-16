@@ -30,8 +30,8 @@ public class FighterBrigade : MonoBehaviour
         }
         if (transform.position.y >= 7f)
         {
-            Destroy(this.gameObject);
             _onScreen = false;
+            Destroy(this.gameObject);
         }
 
         FighterOnScreenCameraShake();
@@ -45,7 +45,7 @@ public class FighterBrigade : MonoBehaviour
             {
                 if (fighter != null)
                 {
-                    Instantiate(_fighterLaserPrefab, fighter.transform.position, Quaternion.identity);
+                    Instantiate(_fighterLaserPrefab, fighter.transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
                 }
             }
         }
@@ -64,9 +64,7 @@ public class FighterBrigade : MonoBehaviour
         if (other.tag == "Enemy")
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-
             Destroy(other.gameObject);
-
             Destroy(this.gameObject);
         }
 
@@ -81,9 +79,7 @@ public class FighterBrigade : MonoBehaviour
         if (other.tag == "Enemy Laser")
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-
             Destroy(other.gameObject);
-
             Destroy(this.gameObject);
         }
 
@@ -100,7 +96,6 @@ public class FighterBrigade : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
-
     }
 }
 

@@ -12,50 +12,70 @@ public class RammingEnemy : MonoBehaviour
 
     [SerializeField] private float _rotateSpeed;
 
-    private float minDistance = 4f;
+    private float minDistance = 3f;
 
     [SerializeField] GameObject _thruster;
+    [SerializeField] GameObject _explosionPrefab;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _target = GameObject.Find("Player").transform;
 
+        if (_target == null)
+        {
+            Debug.Log("Player target is null");
+        }
+
         transform.position = new Vector3(Random.Range(-9, 9), 7.5f, 0);
     }
 
     void FixedUpdate()
     {
-        Vector3 transformDown = -transform.up;
-        float distance = Vector3.Distance(_target.position, _rb.position);
-
-        if (distance < minDistance)
+        if (_target != null)
         {
-            _thruster.SetActive(true);
+            Vector3 transformDown = -transform.up;
+            float distance = Vector3.Distance(_target.position, _rb.position);
 
-            _multipliedSpeed = _speed * 1.5f;
-            transform.Translate(Vector3.down * _multipliedSpeed * Time.deltaTime);
+            if (distance < minDistance)
+            {
+                _thruster.SetActive(true);
 
-            Vector3 direction = _target.position - (Vector3)_rb.position;
+                _multipliedSpeed = _speed * 1.5f;
+                transform.Translate(Vector3.down * _multipliedSpeed * Time.deltaTime);
 
-            direction.Normalize();
+                Vector3 direction = _target.position - (Vector3)_rb.position;
 
-            float rotateAmount = Vector3.Cross(direction, transformDown).z;
+                direction.Normalize();
 
-            _rb.angularVelocity = -rotateAmount * _rotateSpeed;
+                float rotateAmount = Vector3.Cross(direction, transformDown).z;
+
+                _rb.angularVelocity = -rotateAmount * _rotateSpeed;
+            }
+            else if (distance > minDistance)
+            {
+                _thruster.SetActive(false);
+
+                float _rotateSpeedToZero = 10f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.x, transform.rotation.y, 0), Time.deltaTime * _rotateSpeedToZero);
+
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+            }
         }
-        else if (distance > minDistance)
-        {
-            _thruster.SetActive(false);
-            
-            float _rotateSpeedToZero = 10f;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.x,transform.rotation.y,0),Time.deltaTime *_rotateSpeedToZero);
-
-            transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        }
+        
 
         if(transform.position.y < -6)
         {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Laser")
+        {
+            Destroy(other.gameObject);
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
     }

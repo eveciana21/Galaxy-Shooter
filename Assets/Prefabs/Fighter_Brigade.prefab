@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  _fighterLaserPrefab: {fileID: 2887609466707357480, guid: c45c6e8c873f6d84eaf2d02c6ab8fa48, type: 3}
+  _fighterLaserPrefab: {fileID: 3981781978085103220, guid: 53546dd0ae5ec9b48899508da43d7782, type: 3}
   _fighterBrigadeArray:
   - {fileID: 6678485034799097899}
   - {fileID: 6678485034471040616}

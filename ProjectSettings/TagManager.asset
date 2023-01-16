@@ -16,6 +16,8 @@ TagManager:
   - Alien Enemy
   - Explosion
   - Enemy Shielded
+  - Powerup
+  - Collider
   layers:
   - Default
   - TransparentFX

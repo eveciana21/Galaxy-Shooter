@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
 
     private bool _damageTaken;
 
-    private int _ammo = 50;
+    private int _ammo = 100;
     private bool _noAmmoLeft;
     [SerializeField] private bool _trySpawningAmmo;
 
@@ -263,7 +263,7 @@ public class Player : MonoBehaviour
 
     void AmmoLimits()
     {
-        if (_ammo <= 10)
+        if (_ammo <= 15)
         {
             if (_trySpawningAmmo == false)
             {
@@ -274,7 +274,7 @@ public class Player : MonoBehaviour
             _noAmmoLeft = false;
         }
 
-        else if (_ammo > 10)
+        else if (_ammo > 15)
         {
             _trySpawningAmmo = false;
             _spawnManager.EnoughAmmo();
@@ -296,9 +296,9 @@ public class Player : MonoBehaviour
         _uiManager.AmmoCount(_ammo);
         _uiManager.AmmoSlider(_ammo);
 
-        if (_ammo >= 50)
+        if (_ammo >= 100)
         {
-            _ammo = 50;
+            _ammo = 100;
             _uiManager.AmmoCount(_ammo);
         }
     }
@@ -345,7 +345,6 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdateLives(_playerLives);
 
-
         if (_playerLives < 1)
         {
             _isPlayerAlive = false;
@@ -391,7 +390,6 @@ public class Player : MonoBehaviour
             {
                 Damage();
                 Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
-
                 Destroy(other.gameObject);
             }
         }
@@ -447,22 +445,22 @@ public class Player : MonoBehaviour
         _currentKillCount++;
         Debug.Log("Current Kill Count: " + _currentKillCount);
 
-        if (_currentKillCount == 10 && _isPlayerAlive == true)
+        if (_currentKillCount == 15 && _isPlayerAlive == true)
         {
             _spawnManager.WaveTwo();
             _uiManager.WaveTwoUI();
         }
-        else if (_currentKillCount == 20 && _isPlayerAlive == true)
+        else if (_currentKillCount == 25 && _isPlayerAlive == true)
         {
             _spawnManager.WaveThree();
             _uiManager.WaveThreeUI();
         }
-        else if (_currentKillCount == 30 && _isPlayerAlive == true)
+        else if (_currentKillCount == 35 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFour();
             _uiManager.WaveFourUI();
         }
-        else if (_currentKillCount == 40 && _isPlayerAlive == true)
+        else if (_currentKillCount == 45 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFive();
             _uiManager.WaveFiveUI();

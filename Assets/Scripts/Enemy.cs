@@ -14,15 +14,20 @@ public class Enemy : MonoBehaviour
     private CameraShake _cameraShake;
 
     private bool _laserFiredUp;
+    private bool _fireAtPowerup;
+    private bool _warningGiven;
 
     private float minDistance = 4f;
 
     private Rigidbody2D _rb;
 
+    [SerializeField] private GameObject _laserWarning;
+
+    private int _randomNumber;
 
     void Start()
     {
-        transform.position = new Vector3(Random.Range(9.4f, -9.4f), 7.5f, 0);
+        transform.position = new Vector3(Random.Range(9.4f, -9.4f), 7.35f, 0);
 
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
@@ -30,6 +35,9 @@ public class Enemy : MonoBehaviour
 
         _rb = GetComponent<Rigidbody2D>();
 
+        _laserWarning.gameObject.SetActive(false);
+
+        _randomNumber = Random.Range(0, 2);
 
         if (_player == null)
         {
@@ -46,45 +54,67 @@ public class Enemy : MonoBehaviour
             Debug.LogError("Enemy laser is null");
         }
 
-        StartCoroutine(EnemyFireDelayOnStart());
+
     }
 
     void Update()
     {
         CalculateMovement();
-    }
 
-    IEnumerator EnemyFireDelayOnStart()
-    {
-        while (true)
+        if (_randomNumber == 0)
         {
-            yield return new WaitForSeconds(Random.Range(0.65f, 1.75f));
             FireLaser();
         }
     }
 
     private void FireLaser()
     {
-        float distanceY = Mathf.Abs(_player.transform.position.y - _rb.transform.position.y);
-        float distanceX = Mathf.Abs(_player.transform.position.x - _rb.transform.position.x);
+        Debug.Log("Random Number = " + _randomNumber);
 
         if (Time.time > _canFireLaser)
         {
             _fireRate = Random.Range(2f, 4f);
             _canFireLaser = Time.time + _fireRate;
-            GameObject _enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
-            Laser _lasers = _enemyLaser.GetComponent<Laser>();
-            _lasers.EnemyFiredLaser();
 
-            if (_laserFiredUp == false && _player.transform.position.y > _rb.position.y && distanceX < minDistance)
+            StartCoroutine(LaserWarning());
+        }
+    }
+
+    IEnumerator LaserWarning()
+    {
+        _laserWarning.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+
+        if (_player != null)
+        {
+            float distanceX = Mathf.Abs(_player.transform.position.x - _rb.transform.position.x);
+
+            if (_laserFiredUp == false && _player.transform.position.y > _rb.position.y && distanceX < minDistance && transform.position.y > -4f)
             {
-                Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, 0.75f, 0), Quaternion.identity);
-                _lasers.FireLaserAtPlayer();
+                GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, 0.75f, 0), Quaternion.identity);
+                Laser laser = enemyLaser.GetComponent<Laser>();
+                laser.FireLaserAtPlayer();
                 _laserFiredUp = true;
+                _laserWarning.gameObject.SetActive(false);
+            }
+            else
+            {
+                if (_randomNumber == 0 || _fireAtPowerup == true)
+                {
+                    GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
+                    Laser laser = enemyLaser.GetComponent<Laser>();
+                    laser.EnemyFiredLaser();
+                    _fireAtPowerup = false;
+                    _laserWarning.gameObject.SetActive(false);
+                }
             }
         }
+    }
 
-
+    public void FireAtPowerup()
+    {
+        _fireAtPowerup = true;
+        StartCoroutine(LaserWarning());
     }
 
     void CalculateMovement()
@@ -113,21 +143,16 @@ public class Enemy : MonoBehaviour
             }
 
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            //_speed = 1f;
             Destroy(this.gameObject, 0.05f);
         }
 
         if (other.tag == "Fighters")
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            //Destroy(other.gameObject);
+            Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
     }
-
-
-
-
 
 
 

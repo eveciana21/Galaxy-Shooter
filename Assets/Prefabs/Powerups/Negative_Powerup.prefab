@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 466517687822773049}
   m_Layer: 0
   m_Name: Negative_Powerup
-  m_TagString: Untagged
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4921,3 +4921,4 @@ MonoBehaviour:
   _speed: 2.5
   powerupID: 5
   _powerupAudio: {fileID: 8300000, guid: 8b7a9ab213997f44ebf2e4186b4ea403, type: 3}
+  _explosionPrefab: {fileID: 7027157661397510236, guid: 9ce27edf826c2f74d85de8330c00c400, type: 3}

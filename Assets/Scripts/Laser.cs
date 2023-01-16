@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-
     [SerializeField] private int _speed;
     [SerializeField] private bool _enemyFiredLaser;
 
@@ -27,15 +26,12 @@ public class Laser : MonoBehaviour
 
         if (transform.position.y > 7.5f)
         {
-
             if (transform.parent != null)
             {
                 Destroy(transform.parent.gameObject);
             }
-
             Destroy(this.gameObject);
         }
-
     }
     void MoveDown()
     {
@@ -43,11 +39,6 @@ public class Laser : MonoBehaviour
 
         if (transform.position.y < -5.5)
         {
-
-            if (transform.parent != null)
-            {
-                Destroy(transform.parent.gameObject);
-            }
             Destroy(this.gameObject);
         }
     }
@@ -67,9 +58,7 @@ public class Laser : MonoBehaviour
         _enemyFiredLaser = true;
     }
 
-    public void BrigadeFiredLaser()
-    {
-        _enemyFiredLaser = false;
-    }
+
 
 }
+

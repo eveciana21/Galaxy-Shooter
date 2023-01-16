@@ -105,7 +105,7 @@ public class Enemy_ZigZag : MonoBehaviour
                 _player.CurrentKillCount();
             }
             Destroy(other.gameObject);
-            Destroy(this.gameObject, 0.1f);
+            Destroy(this.gameObject, 0.075f);
         }
     }
 

@@ -235,6 +235,7 @@ MonoBehaviour:
   _speed: 2.75
   _rotateSpeed: 150
   _thruster: {fileID: 6589596190182115311}
+  _explosionPrefab: {fileID: 7027157661397510236, guid: 9ce27edf826c2f74d85de8330c00c400, type: 3}
 --- !u!1 &6589596190182115311
 GameObject:
   m_ObjectHideFlags: 0

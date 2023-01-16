@@ -47,7 +47,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(3f, 7f));
 
-        while (_lowAmmo == true)
+        while (_lowAmmo == true && _isPlayerAlive == true)
         {
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
             GameObject ammoPickup = Instantiate(_powerups[2], _spawnLocation, Quaternion.identity);
@@ -85,9 +85,9 @@ public class SpawnManager : MonoBehaviour
 
             GameObject newEnemy = Instantiate(_enemyVariant[0], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(5.6f);
+            yield return new WaitForSeconds(1.75f);
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.8f);
 
         //WAVE TWO
         while (_isPlayerAlive == true && _spawnWaveTwo == true)
@@ -95,17 +95,17 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 2);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2f);
         }
         yield return new WaitForSeconds(1.2f);
 
         //WAVE THREE
         while (_isPlayerAlive && _spawnWaveThree == true)
         {
-            int _randomEnemy = Random.Range(0, _enemyVariant.Length);
+            int _randomEnemy = Random.Range(0, 3);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.35f);
+            yield return new WaitForSeconds(1.75f);
         }
         yield return new WaitForSeconds(1);
 
@@ -115,7 +115,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(1.5f);
         }
         yield return new WaitForSeconds(0.88f);
 
@@ -125,7 +125,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.35f);
         }
     }
 
@@ -156,33 +156,32 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerupSpawn()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(9f);
 
         while (_isPlayerAlive == true)
         {
             _randomPowerup = Random.Range(0, 100);
-            Debug.Log("Random Powerup Value: " + _randomPowerup);
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
 
             if (_randomPowerup <= 35 && _randomPowerup > 10)
             {
                 int randomMidClass = Random.Range(3, 6);
-                GameObject newPowerup = Instantiate(_powerups[randomMidClass], transform.position, Quaternion.identity);
+                GameObject newPowerup = Instantiate(_powerups[randomMidClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }
             else if (_randomPowerup > 35)
             {
                 int randomLowClass = Random.Range(0, 3);
-                GameObject newPowerup = Instantiate(_powerups[randomLowClass], transform.position, Quaternion.identity);
+                GameObject newPowerup = Instantiate(_powerups[randomLowClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }
             if (_randomPowerup <= 10)
             {
                 int randomHiClass = 6;
-                GameObject newPowerup = Instantiate(_powerups[randomHiClass], transform.position, Quaternion.identity);
+                GameObject newPowerup = Instantiate(_powerups[randomHiClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }
-            yield return new WaitForSeconds(Random.Range(7f, 11f));
+            yield return new WaitForSeconds(Random.Range(6f, 10f));
         }
     }
 
@@ -195,7 +194,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 _spawnLocation = new Vector3(Random.Range(-9f, 9f), 8, 0);
             GameObject newAsteroid = Instantiate(_asteroidPrefab, _spawnLocation, Quaternion.identity);
             newAsteroid.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(Random.Range(3f, 8f));
+            yield return new WaitForSeconds(Random.Range(8f, 15f));
         }
     }
 

@@ -9,16 +9,26 @@ public class MiniAsteroid : MonoBehaviour
     private Player _player;
     [SerializeField] private GameObject _explosionPrefab;
     private float _rotation;
+
     [SerializeField] private GameObject _collectible;
+
     private CameraShake _cameraShake;
+
+
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
         _rotation = Random.Range(-1f, 1f);
-    }
 
+        if(_player == null)
+        {
+            Debug.Log("Player on Mini Asteroid is NULL");
+        }
+
+    }
 
     void Update()
     {
@@ -37,12 +47,15 @@ public class MiniAsteroid : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-
             _player.AddToScore(10);
-
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
-            Destroy(this.gameObject, 0.1f);
+            if (_collectible != null)
+            {
+                Instantiate(_collectible, transform.position, Quaternion.identity);
+            }
+
+            Destroy(this.gameObject, 0.05f);
         }
 
         if (other.tag == "Player")
@@ -55,7 +68,6 @@ public class MiniAsteroid : MonoBehaviour
             if (_cameraShake != null)
             {
                 _cameraShake.CameraShaking();
-
             }
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
