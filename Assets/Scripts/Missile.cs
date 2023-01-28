@@ -4,74 +4,83 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    private float _speed = 8f;
-    //private float _rotatingSpeed = 200f;
-    [SerializeField] private GameObject _enemy;
+    [SerializeField] private float _speed = 8f;
+    
+    [SerializeField] private GameObject[] _enemies;
     private Rigidbody2D _rb;
-    //private float _offsetAngle = -90f;
+    
+    private float _distanceToClosestEnemy;
+    private GameObject _closestEnemy;
 
+    private bool _closestEnemyFound;
 
-    //WORK IN PROGRESS
+    [SerializeField] private float _rotateSpeed = 750f;
+
 
 
     void Start()
     {
-        _enemy = GameObject.FindGameObjectWithTag("Enemy");
+        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
         _rb = GetComponent<Rigidbody2D>();
+
+        _distanceToClosestEnemy = Mathf.Infinity;
+        _closestEnemy = null;
     }
 
     void Update()
     {
-        if (transform.position.y > 8)
+        HomingMissile();
+
+        if (transform.position.y > 6.5f || transform.position.y < -5.2f || transform.position.x < -10.5f || transform.position.x > 10.5f)
         {
             Destroy(this.gameObject);
         }
+    }
 
-        if (_enemy == null)
+    private void FixedUpdate()
+    {
+        MoveTowardsEnemy();
+    }
+
+
+    private void HomingMissile()
+    {
+        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (var enemy in _enemies)
         {
-            transform.Translate(Vector3.up * _speed * Time.deltaTime);
-
-            if (transform.position.y > 7.5f)
+            if (enemy != null)
             {
-                Destroy(this.gameObject);
+                float distanceToEnemy = Vector3.Distance(_rb.transform.position, enemy.transform.position);
+
+                if (distanceToEnemy < _distanceToClosestEnemy)
+                {
+                    _distanceToClosestEnemy = distanceToEnemy;
+                    _closestEnemy = enemy;
+                    _closestEnemyFound = true;
+                }
+            }
+        }
+    }
+
+    private void MoveTowardsEnemy()
+    {
+        if (_closestEnemy != null)
+        {
+            if (_closestEnemyFound == true)
+            {
+                Vector3 direction = _closestEnemy.transform.position - (Vector3)_rb.position;
+                direction.Normalize();
+
+                float rotateAmount = Vector3.Cross(direction, transform.up).z;
+                _rb.angularVelocity = -rotateAmount * _rotateSpeed;
+                _rb.velocity = transform.up * _speed;
             }
         }
         else
         {
-
-        }
-        
-        
-        
-        
-        /*{
-            transform.position = Vector3.MoveTowards(transform.position, _enemy.transform.position, _speed * Time.deltaTime);
-            Vector3 offset = transform.position - _enemy.transform.position;
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, offset);
-
-            if(Vector3.Distance(transform.position, _enemy.transform.position)<0.001f)
-            {
-                _enemy.transform.position *= 1f;
-            }    
-        }*/
-        
-              
-        
-        /* {
-            Vector3 pointToTarget = (transform.position - _enemy.transform.position).normalized;
-            float value = Vector3.Cross(pointToTarget, transform.up).z;
-            _rb.angularVelocity = _rotatingSpeed * value;
             _rb.velocity = transform.up * _speed;
-        }*/
-
-
-
-        /*{
-            transform.position=Vector3.MoveTowards(transform.position, _enemy.transform.position, _speed * Time.deltaTime);
-            Vector3 playerToEnemy = (_enemy.transform.position - transform.position).normalized;
-            float angle = Mathf.Atan2(playerToEnemy.x, playerToEnemy.y) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(Vector3.forward * (angle + _offsetAngle));
-        }*/
-
+            _rb.angularVelocity = 0f;
+        }
     }
 }

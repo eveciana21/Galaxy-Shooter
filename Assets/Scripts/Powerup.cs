@@ -65,9 +65,9 @@ public class Powerup : MonoBehaviour
                         player.FighterBrigadePowerup();
                         break;
 
-                        //case 6:
-                        //  player.HeatSeakingMissiles();
-                        //  break;
+                    case 7:
+                        player.HeatSeakingMissiles();
+                        break;
                 }
                 Destroy(this.gameObject);
             }

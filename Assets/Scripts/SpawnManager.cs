@@ -29,7 +29,6 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.Log("UI Manager is Null");
         }
-
     }
 
 
@@ -163,7 +162,7 @@ public class SpawnManager : MonoBehaviour
             _randomPowerup = Random.Range(0, 100);
             Vector3 _spawnLocation = new Vector3(Random.Range(9f, -9f), 8, 0);
 
-            if (_randomPowerup <= 35 && _randomPowerup > 10)
+            if (_randomPowerup <= 35 && _randomPowerup > 5)
             {
                 int randomMidClass = Random.Range(3, 6);
                 GameObject newPowerup = Instantiate(_powerups[randomMidClass], _spawnLocation, Quaternion.identity);
@@ -175,9 +174,9 @@ public class SpawnManager : MonoBehaviour
                 GameObject newPowerup = Instantiate(_powerups[randomLowClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }
-            if (_randomPowerup <= 10)
+            if (_randomPowerup <= 5)
             {
-                int randomHiClass = 6;
+                int randomHiClass = Random.Range(6, 8);
                 GameObject newPowerup = Instantiate(_powerups[randomHiClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }

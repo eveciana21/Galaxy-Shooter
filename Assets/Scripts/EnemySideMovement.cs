@@ -22,10 +22,10 @@ public class EnemySideMovement : MonoBehaviour
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+       
         StartCoroutine(FireLaserDelay());
 
         transform.position = new Vector3(Random.Range(8.5f, -8.5f), 8, 0);
-
 
         _random = 0.25f;//Random.Range(4f, 10f);
 

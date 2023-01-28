@@ -14,8 +14,8 @@ public class Enemy : MonoBehaviour
     private CameraShake _cameraShake;
 
     private bool _laserFiredUp;
+
     private bool _fireAtPowerup;
-    private bool _warningGiven;
 
     private float minDistance = 4f;
 
@@ -24,6 +24,19 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _laserWarning;
 
     private int _randomNumber;
+
+    [SerializeField] private int _avoidLaserCount = 0;
+
+    [SerializeField] private float _dodgeSpeed;
+
+    private int _direction = -1;
+
+    [SerializeField] private GameObject _dodgeEffect;
+
+    [SerializeField] private bool _canDodge;
+
+    [SerializeField] private GameObject _laserWarningParticle;
+
 
     void Start()
     {
@@ -38,6 +51,7 @@ public class Enemy : MonoBehaviour
         _laserWarning.gameObject.SetActive(false);
 
         _randomNumber = Random.Range(0, 2);
+
 
         if (_player == null)
         {
@@ -54,7 +68,7 @@ public class Enemy : MonoBehaviour
             Debug.LogError("Enemy laser is null");
         }
 
-
+        _dodgeEffect.gameObject.SetActive(false);
     }
 
     void Update()
@@ -64,6 +78,14 @@ public class Enemy : MonoBehaviour
         if (_randomNumber == 0)
         {
             FireLaser();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (_canDodge == true)
+        {
+            StartCoroutine(DodgeLaser());
         }
     }
 
@@ -95,18 +117,17 @@ public class Enemy : MonoBehaviour
                 Laser laser = enemyLaser.GetComponent<Laser>();
                 laser.FireLaserAtPlayer();
                 _laserFiredUp = true;
+                yield return new WaitForSeconds(0.1f);
                 _laserWarning.gameObject.SetActive(false);
             }
             else
             {
-                if (_randomNumber == 0 || _fireAtPowerup == true)
-                {
-                    GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
-                    Laser laser = enemyLaser.GetComponent<Laser>();
-                    laser.EnemyFiredLaser();
-                    _fireAtPowerup = false;
-                    _laserWarning.gameObject.SetActive(false);
-                }
+                GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
+                 Laser laser = enemyLaser.GetComponent<Laser>();
+                laser.EnemyFiredLaser();
+                _fireAtPowerup = false;
+                yield return new WaitForSeconds(0.1f);
+                _laserWarning.gameObject.SetActive(false);
             }
         }
     }
@@ -119,8 +140,16 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (_randomNumber == 1)
+        {
+            transform.Translate(Vector3.down * _speed * 1.33f * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
         //if Enemy position reaches bottom of screen
+
         if (transform.position.y <= -6.5f)
         {
             //spawn at random x position
@@ -154,7 +183,46 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator DodgeLaser()
+    {
+        if (_canDodge == true)
+        {
+            if (_randomNumber == 0)
+            {
+                if (transform.position.x < -9)
+                {
+                    _direction = 1;
+                }
+            }
+            else if (_randomNumber == 1)
+            {
+                if (transform.position.x > 9)
+                {
+                    _direction = -1;
+                }
+            }
+            _rb.velocity = Vector3.one;
+            _rb.AddForce(Vector3.right * _direction * 250f);
+            _dodgeEffect.gameObject.SetActive(true);
+            GameObject dodge = Instantiate(_dodgeEffect, transform.position, Quaternion.identity);
+            Destroy(dodge, 1f);
+            yield return new WaitForSeconds(0.25f);
+            _rb.velocity = Vector3.zero;
+        }
+        _canDodge = false;
+    }
 
+    public void AvoidLaser()
+    {
+        _avoidLaserCount++;
+
+        _canDodge = true;
+
+        if (_avoidLaserCount >= 3)
+        {
+            _canDodge = false;
+        }
+    }
 
 
 
@@ -162,3 +230,10 @@ public class Enemy : MonoBehaviour
 
 
 }
+
+
+
+
+
+
+

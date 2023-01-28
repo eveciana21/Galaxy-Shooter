@@ -18,6 +18,7 @@ TagManager:
   - Enemy Shielded
   - Powerup
   - Collider
+  - Collider Avoid
   layers:
   - Default
   - TransparentFX

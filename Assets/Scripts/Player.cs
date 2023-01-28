@@ -78,6 +78,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _greenExplosion;
 
+    private float _minDistance = 5f;
+
     void Start()
     {
         _thrusterSpeed.SetActive(false);
@@ -144,12 +146,18 @@ public class Player : MonoBehaviour
             _fighterBrigadeActive = false;
             _uiManager.FighterBrigadeNotActive();
         }
+
+        PowerupCollect();
+
+
     }
     private void OnDestroy()
     {
         PlayerPrefs.SetInt("_highScore", _highScore);
         PlayerPrefs.Save();
     }
+
+    
 
     void ControlMovement()
     {
@@ -186,8 +194,6 @@ public class Player : MonoBehaviour
             _thrusterSpeed.SetActive(true);
             _thrusterMain.SetActive(false);
             _speedBoostParticleSystem.SetActive(true);
-
-            Debug.Log("Speed Multiplier: " + _speed * _speedMultiplier);
         }
 
         else if (_negativePowerupActive == true)
@@ -201,14 +207,12 @@ public class Player : MonoBehaviour
             {
                 SpeedBoostSliderIncrease();
             }
-
             transform.Translate(direction * _speed * Time.deltaTime);
 
             _thrusterSpeed.SetActive(false);
+            _thrusterMain.SetActive(true);
             _speedBoostParticleSystem.SetActive(false);
         }
-
-
 
         //X position
         if (transform.position.x > 10.75f)
@@ -236,7 +240,6 @@ public class Player : MonoBehaviour
         _uiManager.AmmoCount(_ammo);
         _uiManager.AmmoSlider(_ammo);
 
-
         _canFire = Time.time + _fireRate;
 
         if (_tripleShotIsActive == true)
@@ -255,7 +258,27 @@ public class Player : MonoBehaviour
         _audioSource.Play();
         _audioSource.volume = 0.2f;
     }
+    private void PowerupCollect()
+    {
+        if (Input.GetKey(KeyCode.C))
+        {
+            Powerup[] _powerup = FindObjectsOfType<Powerup>();
 
+            if (_powerup != null)
+            {
+                foreach (var powerup in _powerup)
+                {
+                    float powerupDistance = Vector3.Distance(transform.position, powerup.transform.position);
+
+                    if (powerupDistance < _minDistance)
+                    {
+                        float speed = 5f * Time.deltaTime;
+                        powerup.transform.position = Vector3.MoveTowards(powerup.transform.position, transform.position, speed);
+                    }
+                }
+            }
+        }
+    }
     public void HeatSeakingMissiles()
     {
         _heatSeakingMissilesActive = true;
@@ -466,8 +489,6 @@ public class Player : MonoBehaviour
             _uiManager.WaveFiveUI();
         }
     }
-
-
 
     public void NegativePowerupSlow()
     {
@@ -681,14 +702,12 @@ public class Player : MonoBehaviour
         while (_damageTaken == true)
         {
             _spriteRenderer.enabled = false;
-            _leftThruster.SetActive(false);
-            _rightThruster.SetActive(false);
+            _thrusterMain.SetActive(false);
 
             yield return _waitForSeconds02;
 
             _spriteRenderer.enabled = true;
-            _leftThruster.SetActive(true);
-            _rightThruster.SetActive(true);
+            _thrusterMain.SetActive(true);
 
             yield return _waitForSeconds02;
         }
