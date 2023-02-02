@@ -14,6 +14,7 @@ public class MiniAsteroid : MonoBehaviour
 
     private CameraShake _cameraShake;
 
+    private int _random;
 
 
     void Start()
@@ -23,7 +24,9 @@ public class MiniAsteroid : MonoBehaviour
 
         _rotation = Random.Range(-1f, 1f);
 
-        if(_player == null)
+        _random = Random.Range(0, 3);
+
+        if (_player == null)
         {
             Debug.Log("Player on Mini Asteroid is NULL");
         }
@@ -52,7 +55,10 @@ public class MiniAsteroid : MonoBehaviour
 
             if (_collectible != null)
             {
-                Instantiate(_collectible, transform.position, Quaternion.identity);
+                if (_random == 0)
+                {
+                    Instantiate(_collectible, transform.position, Quaternion.identity);
+                }
             }
 
             Destroy(this.gameObject, 0.05f);

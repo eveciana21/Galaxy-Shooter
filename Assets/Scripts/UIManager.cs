@@ -118,7 +118,7 @@ public class UIManager : MonoBehaviour
         _gameManager.PressRToRestart();
     }
 
-    public void FighterBrigadePowerup()
+    /*public void FighterBrigadePowerup()
     {
         _fighterBrigade.gameObject.SetActive(true);
         StartCoroutine(PressPFlicker());
@@ -137,7 +137,7 @@ public class UIManager : MonoBehaviour
     public void FighterBrigadeNotActive()
     {
         _fighterBrigade.gameObject.SetActive(false);
-    }
+    }*/
 
     public void PressShiftToBoost()
     {

@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 3616574073277386474}
   m_Layer: 8
   m_Name: Enemy_Side_Movement
-  m_TagString: Alien Enemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -678,8 +678,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1.5
-  _explosionPrefab: {fileID: 5713650149158864123, guid: 65b7e169b91e0b248b76c6db6e856976, type: 3}
+  _greenExplosionPrefab: {fileID: 5713650149158864123, guid: 65b7e169b91e0b248b76c6db6e856976, type: 3}
   _greenFlagellum: {fileID: 6015660018482963672, guid: 5df957b0b38a79e4f991837397fee673, type: 3}
+  _sprite: {fileID: 2003763888}
 --- !u!1 &5372575563078235563
 GameObject:
   m_ObjectHideFlags: 0

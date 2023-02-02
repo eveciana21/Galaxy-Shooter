@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 5130451592218785394}
   m_Layer: 0
   m_Name: Flagelum_Attack
-  m_TagString: Green Slime
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,6 +187,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1.75
   _greenExplosion: {fileID: 4199015229961659318, guid: 402ec4a70ebffe34bb0c4aee234959e0, type: 3}
-  _target: {fileID: 2617057948047859282, guid: e02466c9eccda994789f36ed904d7d1c, type: 3}
   _rotateSpeed: 150
   _sprite: {fileID: 1834995027393233095}

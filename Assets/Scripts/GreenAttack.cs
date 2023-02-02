@@ -12,17 +12,10 @@ public class GreenAttack : MonoBehaviour
 
     [SerializeField] private float _rotateSpeed;
 
-    [SerializeField] private Renderer _sprite;
-
-    private int _lives = 2;
-
     private void Start()
     {
         _target = GameObject.Find("Player").transform;
         _rb = GetComponent<Rigidbody2D>();
-
-        _sprite = gameObject.GetComponentInChildren<Renderer>();
-
 
         if (_target == null)
         {
@@ -57,34 +50,13 @@ public class GreenAttack : MonoBehaviour
         }
     }
 
-    private void Damage()
-    {
-        _lives--;
-
-        if (_lives == 1)
-        {
-            _speed = _speed / 2;
-            StartCoroutine(DamageFlicker());
-        }
-        if (_lives < 1)
-        {
-            Instantiate(_greenExplosion, transform.position, Quaternion.identity);
-            Destroy(this.gameObject, 0.05f);
-        }
-    }
-
-    IEnumerator DamageFlicker()
-    {
-        _sprite.material.color = new Color(6, 1, 2);
-        yield return new WaitForSeconds(0.1f);
-        _sprite.material.color = Color.white;
-    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Laser")
         {
-            Damage();
             Destroy(other.gameObject);
+            Instantiate(_greenExplosion, transform.position, Quaternion.identity);
+            Destroy(this.gameObject, 0.05f);
         }
     }
 }

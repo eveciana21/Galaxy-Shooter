@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed;
     private Player _player;
     [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _tinyExplosion;
     [SerializeField] private GameObject _enemyLaserPrefab;
     private float _canFireLaser;
     private float _fireRate;
@@ -35,7 +36,12 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private bool _canDodge;
 
+    private int _dodgeRandom;
+
     [SerializeField] private GameObject _laserWarningParticle;
+
+    private bool _bossOnScreen;
+
 
 
     void Start()
@@ -51,6 +57,8 @@ public class Enemy : MonoBehaviour
         _laserWarning.gameObject.SetActive(false);
 
         _randomNumber = Random.Range(0, 2);
+
+        _dodgeRandom = Random.Range(0, 2);
 
 
         if (_player == null)
@@ -83,7 +91,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_canDodge == true)
+        if (_canDodge == true && _dodgeRandom == 0)
         {
             StartCoroutine(DodgeLaser());
         }
@@ -123,7 +131,7 @@ public class Enemy : MonoBehaviour
             else
             {
                 GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
-                 Laser laser = enemyLaser.GetComponent<Laser>();
+                Laser laser = enemyLaser.GetComponent<Laser>();
                 laser.EnemyFiredLaser();
                 _fireAtPowerup = false;
                 yield return new WaitForSeconds(0.1f);
@@ -142,7 +150,7 @@ public class Enemy : MonoBehaviour
     {
         if (_randomNumber == 1)
         {
-            transform.Translate(Vector3.down * _speed * 1.33f * Time.deltaTime);
+            transform.Translate(Vector3.down * _speed * 1.3f * Time.deltaTime);
         }
         else
         {
@@ -150,12 +158,12 @@ public class Enemy : MonoBehaviour
         }
         //if Enemy position reaches bottom of screen
 
-        if (transform.position.y <= -6.5f)
+        /*if (transform.position.y <= -6.5f)
         {
             //spawn at random x position
             float randomX = Random.Range(9, -9);
             transform.position = new Vector3(randomX, 8, 0);
-        }
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -182,6 +190,8 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+
 
     IEnumerator DodgeLaser()
     {
@@ -212,6 +222,7 @@ public class Enemy : MonoBehaviour
         _canDodge = false;
     }
 
+
     public void AvoidLaser()
     {
         _avoidLaserCount++;
@@ -224,9 +235,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-
-
+    
 
 
 }

@@ -80,6 +80,8 @@ public class Player : MonoBehaviour
 
     private float _minDistance = 5f;
 
+    private bool _enemyAlien;
+
     void Start()
     {
         _thrusterSpeed.SetActive(false);
@@ -140,24 +142,13 @@ public class Player : MonoBehaviour
 
         AmmoLimits();
 
-        if (Input.GetKeyDown(KeyCode.P) && _fighterBrigadeActive == true)
-        {
-            Instantiate(_fighterBrigadePrefab, new Vector3(0, -9, 0), Quaternion.identity);
-            _fighterBrigadeActive = false;
-            _uiManager.FighterBrigadeNotActive();
-        }
-
         PowerupCollect();
-
-
     }
     private void OnDestroy()
     {
         PlayerPrefs.SetInt("_highScore", _highScore);
         PlayerPrefs.Save();
     }
-
-    
 
     void ControlMovement()
     {
@@ -282,6 +273,13 @@ public class Player : MonoBehaviour
     public void HeatSeakingMissiles()
     {
         _heatSeakingMissilesActive = true;
+        StartCoroutine(HeatSeakingCooldown());
+    }
+
+    IEnumerator HeatSeakingCooldown()
+    {
+        yield return new WaitForSeconds(5f);
+        _heatSeakingMissilesActive = false;
     }
 
     void AmmoLimits()
@@ -421,11 +419,18 @@ public class Player : MonoBehaviour
         {
             if (_damageTaken == false)
             {
-                SubtractFromScore(50);
                 Damage();
-
-                Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
                 CurrentKillCount();
+                SubtractFromScore(50);
+
+                if (_enemyAlien == true)
+                {
+                    Instantiate(_greenExplosion, other.transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(_explosionPrefab, other.transform.position, Quaternion.identity);
+                }
                 Destroy(other.gameObject);
             }
         }
@@ -435,24 +440,7 @@ public class Player : MonoBehaviour
             Damage();
             Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
         }
-        if (other.tag == "Alien Enemy")
-        {
-            SubtractFromScore(50);
-            Damage();
-            Instantiate(_greenExplosion, transform.position, Quaternion.identity);
-            CurrentKillCount();
-            Destroy(other.gameObject);
-        }
-        if (other.tag == "Green Slime")
-        {
-            if (_damageTaken == false)
-            {
-                Damage();
 
-                Instantiate(_greenExplosion, transform.position, Quaternion.identity);
-                Destroy(other.gameObject);
-            }
-        }
         if (other.tag == "Explosion")
         {
             if (_damageTaken == false)
@@ -463,12 +451,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void EnemyAlienGreenExplosion()
+    {
+        _enemyAlien = true;
+    }
+
     public void CurrentKillCount()
     {
         _currentKillCount++;
         Debug.Log("Current Kill Count: " + _currentKillCount);
 
-        if (_currentKillCount == 15 && _isPlayerAlive == true)
+        /*if (_currentKillCount == 15 && _isPlayerAlive == true)
         {
             _spawnManager.WaveTwo();
             _uiManager.WaveTwoUI();
@@ -487,6 +480,11 @@ public class Player : MonoBehaviour
         {
             _spawnManager.WaveFive();
             _uiManager.WaveFiveUI();
+        }*/
+        if (_currentKillCount == 3 && _isPlayerAlive == true)
+        {
+            _spawnManager.BossSpawn();
+            
         }
     }
 
@@ -597,8 +595,7 @@ public class Player : MonoBehaviour
 
     public void FighterBrigadePowerup()
     {
-        _fighterBrigadeActive = true;
-        _uiManager.FighterBrigadePowerup();
+        Instantiate(_fighterBrigadePrefab, new Vector3(0, -9, 0), Quaternion.identity);
     }
 
 

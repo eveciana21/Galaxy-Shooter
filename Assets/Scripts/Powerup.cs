@@ -14,11 +14,13 @@ public class Powerup : MonoBehaviour
     [SerializeField] private GameObject _explosionPrefab;
 
     private GameObject _enemy;
+    private GameObject _shieldedEnemy;
 
 
     void Start()
     {
         _enemy = GameObject.Find("Enemy");
+        _shieldedEnemy = GameObject.Find("Enemy Shielded");
     }
 
     void Update()
@@ -64,7 +66,6 @@ public class Powerup : MonoBehaviour
                     case 6:
                         player.FighterBrigadePowerup();
                         break;
-
                     case 7:
                         player.HeatSeakingMissiles();
                         break;
@@ -92,6 +93,12 @@ public class Powerup : MonoBehaviour
             {
                 Enemy enemy = _enemy.GetComponent<Enemy>();
                 enemy.FireAtPowerup();
+            }
+
+            if (_shieldedEnemy != null)
+            {
+                EnemyShielded shieldedEnemy = _shieldedEnemy.GetComponent<EnemyShielded>();
+                shieldedEnemy.FireAtPowerup();
             }
         }
     }

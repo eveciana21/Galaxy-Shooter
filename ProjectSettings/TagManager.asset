@@ -19,6 +19,9 @@ TagManager:
   - Powerup
   - Collider
   - Collider Avoid
+  - Boss Head
+  - Boss Claw Left
+  - Boss Claw Right
   layers:
   - Default
   - TransparentFX

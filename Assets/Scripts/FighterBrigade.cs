@@ -65,12 +65,12 @@ public class FighterBrigade : MonoBehaviour
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 0.05f);
         }
 
         if (other.tag == "Laser")
         {
-            if (transform.position.y > 8)
+            if (other.transform.position.y > 8)
             {
                 Destroy(other.gameObject);
             }
@@ -80,21 +80,7 @@ public class FighterBrigade : MonoBehaviour
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
-        }
-
-        if (other.tag == "Green Slime")
-        {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(other.gameObject);
-            Destroy(this.gameObject);
-        }
-
-        if (other.tag == "Alien Enemy")
-        {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 0.05f);
         }
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemySideMovement : MonoBehaviour
 {
-    [SerializeField] private float _speed = 1.8f;
+    [SerializeField] private float _speed;
 
-    [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private GameObject _greenExplosionPrefab;
 
     private float _fireRate;
     private float _canFireLaser;
@@ -18,14 +18,23 @@ public class EnemySideMovement : MonoBehaviour
     private float _ping, _pong;
     private int _direction = -1;
 
+    private bool _beginFiring;
+
+    private int _lives = 3;
+
+    [SerializeField] private Renderer _sprite;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
-       
+
         StartCoroutine(FireLaserDelay());
 
         transform.position = new Vector3(Random.Range(8.5f, -8.5f), 8, 0);
+
+        _sprite = gameObject.GetComponentInChildren<Renderer>();
+
 
         _random = 0.25f;//Random.Range(4f, 10f);
 
@@ -45,7 +54,10 @@ public class EnemySideMovement : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        FireLaser();
+        if (_beginFiring == true)
+        {
+            FireLaser();
+        }
     }
 
     private void SideMovement()
@@ -66,17 +78,16 @@ public class EnemySideMovement : MonoBehaviour
 
     IEnumerator FireLaserDelay()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(Random.Range(3.0f, 5.0f));
-            FireLaser();
-        }
+        yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
+        FireLaser();
+        _beginFiring = true;
     }
+
     void FireLaser()
     {
         if (_player != null)
         {
-            if (Time.time > _canFireLaser && transform.position.y < 5f)
+            if (Time.time > _canFireLaser)
             {
                 _fireRate = Random.Range(3f, 5f);
                 _canFireLaser = Time.time + _fireRate;
@@ -89,30 +100,40 @@ public class EnemySideMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Damage()
     {
-        if (other.tag == "Laser")
+        _lives--;
+        _speed = _speed / 1.5f;
+        StartCoroutine(DamageFlicker());
+
+        if (_lives < 1)
         {
-            Destroy(other.gameObject);
+            _player.EnemyAlienGreenExplosion();
 
             _cameraShake.EnemyScreenShake();
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Instantiate(_greenExplosionPrefab, transform.position, Quaternion.identity);
             if (_player != null)
             {
-                _player.AddToScore(50);
+                _player.AddToScore(100);
                 _player.CurrentKillCount();
             }
-
             Destroy(this.gameObject, 0.05f);
         }
     }
 
-    
+    IEnumerator DamageFlicker()
+    {
+        _sprite.material.color = new Color(6, 1, 2);
+        yield return new WaitForSeconds(0.1f);
+        _sprite.material.color = Color.white;
+    }
 
-
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Laser")
+        {
+            Damage();
+            Destroy(other.gameObject);
+        }
+    }
 }
-
-
-
-
-
