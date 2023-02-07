@@ -20,6 +20,7 @@ public class SpawnManager : MonoBehaviour
     private bool _spawnWaveOne, _spawnWaveTwo, _spawnWaveThree, _spawnWaveFour, _spawnWaveFive;
     private bool _spawnBoss;
     [SerializeField] private GameObject _bossPrefab;
+    [SerializeField] private GameObject _cloudPrefab;
 
     private UIManager _uiManager;
 
@@ -84,10 +85,9 @@ public class SpawnManager : MonoBehaviour
         while (_isPlayerAlive == true && _spawnWaveOne == true)
         {
             int _randomEnemy = Random.Range(0, 2);
-
             GameObject newEnemy = Instantiate(_enemyVariant[0], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.4f);
         }
         yield return new WaitForSeconds(1f);
 
@@ -159,17 +159,19 @@ public class SpawnManager : MonoBehaviour
     {
         _spawnWaveOne = false; // <<< temporary line of code 
         _spawnWaveFive = false;
-        _spawnBoss = true;
         StartCoroutine(SpawnBoss());
+        _spawnBoss = true;
         Debug.Log("Boss Wave");
     }
 
     IEnumerator SpawnBoss()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         if (_spawnBoss == true)
         {
+            Instantiate(_cloudPrefab, transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(3.5f);
             GameObject boss = Instantiate(_bossPrefab, transform.position, Quaternion.identity);
             boss.transform.parent = _enemyContainer.transform;
         }
@@ -202,7 +204,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject newPowerup = Instantiate(_powerups[randomHiClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }
-            yield return new WaitForSeconds(Random.Range(7f, 11f));
+            yield return new WaitForSeconds(Random.Range(9f, 13f));
         }
     }
 

@@ -415,6 +415,15 @@ public class Player : MonoBehaviour
             }
         }
 
+        if (other.tag == "Boss Claw")
+        {
+            if (_damageTaken == false)
+            {
+                Damage();
+                Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+            }
+        }
+
         if (other.tag == "Enemy")
         {
             if (_damageTaken == false)
@@ -481,7 +490,7 @@ public class Player : MonoBehaviour
             _spawnManager.WaveFive();
             _uiManager.WaveFiveUI();
         }*/
-        if (_currentKillCount == 3 && _isPlayerAlive == true)
+        if (_currentKillCount == 1 && _isPlayerAlive == true)
         {
             _spawnManager.BossSpawn();
             

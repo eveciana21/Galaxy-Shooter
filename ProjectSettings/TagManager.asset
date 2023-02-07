@@ -22,6 +22,7 @@ TagManager:
   - Boss Head
   - Boss Claw Left
   - Boss Claw Right
+  - Boss Claw
   layers:
   - Default
   - TransparentFX

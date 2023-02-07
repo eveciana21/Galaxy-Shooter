@@ -156,14 +156,14 @@ public class Enemy : MonoBehaviour
         {
             transform.Translate(Vector3.down * _speed * Time.deltaTime);
         }
-        //if Enemy position reaches bottom of screen
 
-        /*if (transform.position.y <= -6.5f)
+        if (transform.position.y <= -6.5f)
         {
+            Destroy(this.gameObject);
             //spawn at random x position
-            float randomX = Random.Range(9, -9);
-            transform.position = new Vector3(randomX, 8, 0);
-        }*/
+            //float randomX = Random.Range(9, -9);
+            //transform.position = new Vector3(randomX, 8, 0);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -235,7 +235,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    
+
 
 
 }
