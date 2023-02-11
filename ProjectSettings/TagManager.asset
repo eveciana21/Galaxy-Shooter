@@ -23,6 +23,8 @@ TagManager:
   - Boss Claw Left
   - Boss Claw Right
   - Boss Claw
+  - Spine Ball
+  - Laser Beam
   layers:
   - Default
   - TransparentFX

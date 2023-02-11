@@ -6,9 +6,7 @@ public class BossBehavior : MonoBehaviour
 {
     private int _speed = 3;
     [SerializeField] private GameObject _leftClaw, _rightClaw;
-    private Vector3 _originalPos;
-    private Vector3 _originalRightClawPos;
-    private Vector3 _originalLeftClawPos;
+    [SerializeField] private GameObject _head;
 
     [SerializeField] private bool _clawReachedBottom;
     [SerializeField] private bool _beginRightClawSwipe;
@@ -17,6 +15,8 @@ public class BossBehavior : MonoBehaviour
     private bool _canMove;
     private float _canFire = -1f;
     private float _fireRate;
+
+    private Animator _mouthOpenAnim;
 
     [SerializeField] private GameObject _bossLaser;
     [SerializeField] private GameObject _eyeParticle;
@@ -27,20 +27,36 @@ public class BossBehavior : MonoBehaviour
     [SerializeField] private ParticleSystem _leftClawParticle;
     [SerializeField] private ParticleSystem _rightClawParticle;
 
+    [SerializeField] private GameObject _targetArrows;
+    [SerializeField] private GameObject _spineBall;
+    private bool _fireSpineBall;
+
+    private Transform _player;
+
+    private int _shotsFired = 4;
+    private bool _canBeginFiring;
+
+    private bool _bossRush;
+
 
     void Start()
     {
+        _player = GameObject.Find("Player").transform;
         transform.position = new Vector3(0, 6, 0);
         _eyeParticle.gameObject.SetActive(false);
 
         _leftClawSwipe = _leftClaw.GetComponent<Animator>();
         _rightClawSwipe = _rightClaw.GetComponent<Animator>();
 
+        _mouthOpenAnim = _head.GetComponent<Animator>();
+
         _leftClawSwipe.enabled = false;
         _rightClawSwipe.enabled = false;
 
         _leftClawParticle.gameObject.SetActive(false);
         _rightClawParticle.gameObject.SetActive(false);
+
+        _targetArrows.gameObject.SetActive(false);
 
     }
 
@@ -55,28 +71,33 @@ public class BossBehavior : MonoBehaviour
         {
             transform.Translate(Vector3.down * _speed * Time.deltaTime);
         }
-        if (transform.position.y <= 0f)
+        if (transform.position.y <= 0f && _bossRush == false)
         {
             _canMove = true;
         }
 
+        if (_canBeginFiring == true)
+        {
+            FireSpineBalls();
+        }
 
+        //FireSpineBall();
     }
     private void SideMovement()
     {
         if (_canMove == true)
         {
-            FireLaser();
+            //FireLaser();
 
-            if (transform.position.x <= -4.5f)
+            if (transform.position.x <= -3.5f)
             {
                 _movementDirection = 1;
             }
-            else if (transform.position.x >= 4.5f)
+            else if (transform.position.x >= 3.5f)
             {
                 _movementDirection = -1;
             }
-            //transform.Translate(Vector3.right * _speed * _movementDirection * Time.deltaTime);
+            transform.Translate(Vector3.right * _speed * _movementDirection * Time.deltaTime);
         }
     }
 
@@ -105,8 +126,18 @@ public class BossBehavior : MonoBehaviour
     IEnumerator StartBossSequences()
     {
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(ClawSwipe());
-        yield return new WaitForSeconds(5f);
+        /*StartCoroutine(ClawSwipe());
+
+        if (_fireSpineBall == false)
+        {            
+            StartCoroutine(Arrows());
+            _fireSpineBall = true;
+        }*/
+
+
+        BossRush();
+        yield return new WaitForSeconds(10f);
+
     }
 
 
@@ -121,11 +152,61 @@ public class BossBehavior : MonoBehaviour
         _rightClawParticle.gameObject.SetActive(true);
     }
 
+    IEnumerator Arrows()
+    {
+        _targetArrows.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+        _targetArrows.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        _canBeginFiring = true;
+        _mouthOpenAnim.SetBool("_shotsFired", true);
+    }
 
+    /*private void TargetArrows()
+    {
+        //StartCoroutine(Arrows());
+    }*/
 
+    private void FireSpineBalls()
+    {
+        if (Time.time > _canFire)
+        {
+            _fireRate = 0.7f;
+            _canFire = Time.time + _fireRate;
 
+            if (_shotsFired >= 1)
+            {
+                _shotsFired--;
+                Instantiate(_spineBall, _head.transform.position + new Vector3(0, -2.4f, 0), Quaternion.identity);
 
+                if (_shotsFired == 0)
+                {
+                    _mouthOpenAnim.SetBool("_shotsFired", false);
+                }
+            }
+            else
+            {
+                _canBeginFiring = false;
+                _shotsFired = 4;
+            }
+        }
+    }
 
+    private void BossRush()
+    {
+        _canMove = false;
+        _bossRush = true;
+
+        transform.Translate(Vector3.down * _speed * 2 * Time.deltaTime);
+
+        if (transform.position.y < -15f)
+        {
+            transform.position = new Vector3(0, 6, 0);
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+            _bossRush = false;
+            _canMove = true;
+        }
+    }
 }
 
 

@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _powerupContainer;
     [SerializeField] private GameObject _asteroidPrefab;
     [SerializeField] private GameObject[] _powerups;
+    [SerializeField] private GameObject _heelRope;
     private int _randomPowerup;
 
     [SerializeField] private bool _isPlayerAlive;
@@ -74,6 +75,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(EnemySpawn());
         StartCoroutine(PowerupSpawn());
         StartCoroutine(AsteroidSpawn());
+        StartCoroutine(HeelRopeSpawn());
     }
 
 
@@ -155,7 +157,7 @@ public class SpawnManager : MonoBehaviour
         _spawnWaveFive = true;
         Debug.Log("Wave Five");
     }
-    public void BossSpawn ()
+    public void BossSpawn()
     {
         _spawnWaveOne = false; // <<< temporary line of code 
         _spawnWaveFive = false;
@@ -221,11 +223,24 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    IEnumerator HeelRopeSpawn()
+    {
+        yield return new WaitForSeconds(Random.Range(15, 25));
+        {
+            while (_isPlayerAlive && _spawnBoss == false)
+            {
+                GameObject heelRope = Instantiate(_heelRope, transform.position, Quaternion.identity);
+                heelRope.transform.parent = _enemyContainer.transform;
+                yield return new WaitForSeconds(Random.Range(15, 20));
+            }
+        }
+    }
+
     public void PlayerDead()
     {
         _isPlayerAlive = false;
     }
 
-    
+
 
 }

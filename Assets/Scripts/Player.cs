@@ -282,7 +282,7 @@ public class Player : MonoBehaviour
         _heatSeakingMissilesActive = false;
     }
 
-    void AmmoLimits()
+    private void AmmoLimits()
     {
         if (_ammo <= 15)
         {
@@ -458,6 +458,24 @@ public class Player : MonoBehaviour
                 Destroy(other.gameObject, 2f);
             }
         }
+
+        if (other.tag == "Spine Ball")
+        {
+            if (_damageTaken == false)
+            {
+                Damage();
+                Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+                Destroy(other.gameObject, 0.05f);
+            }
+        }
+        if (other.tag == "Laser Beam")
+        {
+            if (_damageTaken == false)
+            {
+                Damage();
+                Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+            }
+        }
     }
 
     public void EnemyAlienGreenExplosion()
@@ -493,7 +511,7 @@ public class Player : MonoBehaviour
         if (_currentKillCount == 1 && _isPlayerAlive == true)
         {
             _spawnManager.BossSpawn();
-            
+
         }
     }
 
