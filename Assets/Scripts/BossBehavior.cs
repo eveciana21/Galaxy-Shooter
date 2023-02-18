@@ -31,6 +31,8 @@ public class BossBehavior : MonoBehaviour
 
     [SerializeField] private ParticleSystem _leftRushingParticle, _rightRushingParticle;
 
+    [SerializeField] private ParticleSystem _headRushingParticle;
+
     [SerializeField] private GameObject _targetArrows;
     [SerializeField] private GameObject _spineBall;
 
@@ -70,17 +72,23 @@ public class BossBehavior : MonoBehaviour
 
     private int _previousAttack = 4;
 
+    private bool _animOn;
+
+    private UIManager _uiManager;
+    [SerializeField] private int _health = 100;
+
+    [SerializeField] private GameObject _healthSlider;
+
     void Start()
     {
-        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
-
         _startPos = transform.position = new Vector3(0, 6, 0);
 
-        _eyeParticle.gameObject.SetActive(false);
-
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _clawsAnim = _bothClaws.GetComponent<Animator>();
-
         _mouthOpenAnim = _head.GetComponent<Animator>();
+
+        _eyeParticle.gameObject.SetActive(false);
 
         _leftClawParticle.gameObject.SetActive(false);
         _rightClawParticle.gameObject.SetActive(false);
@@ -88,7 +96,10 @@ public class BossBehavior : MonoBehaviour
         _leftRushingParticle.gameObject.SetActive(false);
         _rightRushingParticle.gameObject.SetActive(false);
 
+        _headRushingParticle.gameObject.SetActive(false);
+
         _targetArrows.gameObject.SetActive(false);
+        _healthSlider.gameObject.SetActive(false);
     }
 
     void Update()
@@ -100,13 +111,15 @@ public class BossBehavior : MonoBehaviour
             if (transform.position.y <= 0)
             {
                 _bossEnteredGame = true;
-                _newAttack = Time.time + 3f;
+                _newAttack = Time.time + 5f;
             }
         }
 
         else
         {
-            StartCoroutine(StartBossSequences());
+            _healthSlider.gameObject.SetActive(true);
+
+            StartBossSequences();
 
             if (_bossRush == false)
             {
@@ -129,45 +142,43 @@ public class BossBehavior : MonoBehaviour
     }
 
 
-    IEnumerator StartBossSequences()
+    private void StartBossSequences()
     {
-        if (_bossHasDied == false && Time.time > _newAttack) //adjust so bosshasdied is first. Event least likely to happen goes first
+        if (_bossHasDied == false && Time.time > _newAttack)
         {
-            _newAttack = Time.time + 1000f; //added this at bosssentrance so time starts at this point
+            _newAttack = Time.time + 1000f;
             _randomAttack = Random.Range(0, 3);
-            Debug.Log("Random Attack = " + _randomAttack);
 
             if (_randomAttack == _previousAttack)
             {
                 _randomAttack = Random.Range(0, 3);
                 Debug.Log("Rerolling Random Attack " + _randomAttack);
             }
+
             _previousAttack = _randomAttack;
 
-            yield return new WaitForSeconds(3);
-
-            if (_randomAttack == 0)
+            switch (_randomAttack)
             {
-                if (_bossRush == false)
-                {
-                    StartCoroutine(BossRushPattern());
-                }
-            }
-            else if (_randomAttack == 1)
-            {
-                if (_fireSpineBall == false)
-                {
-                    StartCoroutine(Arrows());
-                    _fireSpineBall = true;
-                }
-            }
-            else if (_randomAttack == 2)
-            {
-                if (_canSwipe == false)
-                {
-                    StartCoroutine(ClawSwipe());
-                    _canSwipe = true;
-                }
+                case 0:
+                    if (_bossRush == false)
+                    {
+                        StartCoroutine(BossRushPattern());
+                    }
+                    break;
+                case 1:
+                    if (_fireSpineBall == false)
+                    {
+                        StartCoroutine(Arrows());
+                        _fireSpineBall = true;
+                    }
+                    break;
+                case 2:
+                    if (_canSwipe == false)
+                    {
+                        StartCoroutine(ClawSwipe());
+                        _canSwipe = true;
+                    }
+                    break;
             }
         }
     }
@@ -178,24 +189,21 @@ public class BossBehavior : MonoBehaviour
         {
             if (_moveUpwards == true)
             {
-                //moved anim to coroutine so it doesnt happen every frame while here
                 transform.Translate(Vector3.up * _speed * Time.deltaTime);
             }
             else
             {
-                _canShakeCamera = true;
                 transform.Translate(Vector3.down * _multipliedSpeed * Time.deltaTime);
-                //create a method for all the true 
-                _eyeParticle.gameObject.SetActive(true);
-                _mouthOpenAnim.SetBool("_shotsFired", true);
+                _canShakeCamera = true;
 
-                _leftRushingParticle.gameObject.SetActive(true);
-                _rightRushingParticle.gameObject.SetActive(true);
-
+                if (_animOn != true)
+                {
+                    AnimStart(true);
+                }
                 if (transform.position.y < -15f)
                 {
-                    _reachedBottom = true;
                     transform.position = new Vector3(Random.Range(-6f, 6f), 6, 0);
+                    _reachedBottom = true;
                 }
             }
             if (_reachedBottom == true)
@@ -206,28 +214,25 @@ public class BossBehavior : MonoBehaviour
 
                     if (_rushCount <= 0)
                     {
-                        //create a method for all the false
+                        _canShakeCamera = false;
 
-                        _eyeParticle.gameObject.SetActive(false);
-
-                        _mouthOpenAnim.SetBool("_shotsFired", false);
-
-                        _bossRush = false;
-                        _leftRushingParticle.gameObject.SetActive(false);
-                        _rightRushingParticle.gameObject.SetActive(false);
+                        if (_animOn != false)
+                        {
+                            AnimStart(false);
+                        }
                         _clawsAnim.SetBool("Claws Together", false);
 
                         _upwardCount = 1;
                         _rushCount = 3;
-                        _canShakeCamera = false;
+                        _bossRush = false;
                     }
                     _reachedBottom = false;
-                    _newAttack = Time.time + 3f;
+
+                    _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
                 }
             }
         }
     }
-
     IEnumerator BossRushPattern()
     {
         if (_upwardCount >= 1)
@@ -241,8 +246,20 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
+    private void AnimStart(bool isOn)
+    {
+        _animOn = isOn;
+        _eyeParticle.gameObject.SetActive(isOn);
+        _mouthOpenAnim.SetBool("Open Mouth", isOn);
+        _headRushingParticle.gameObject.SetActive(isOn);
+
+        _leftRushingParticle.gameObject.SetActive(isOn);
+        _rightRushingParticle.gameObject.SetActive(isOn);
+    }
+
     private void SideMovement()
     {
+
         if (transform.position.x <= -4.5f)
         {
             _movementDirection = 1;
@@ -257,6 +274,7 @@ public class BossBehavior : MonoBehaviour
         {
             FireLaser();
         }
+
     }
 
     private void FireLaser()
@@ -312,8 +330,7 @@ public class BossBehavior : MonoBehaviour
             _canSwipe = false;
             _swipeCount = 2;
 
-            _newAttack = Time.time + 3f;
-
+            _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
         }
     }
 
@@ -324,7 +341,7 @@ public class BossBehavior : MonoBehaviour
         _targetArrows.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         _canBeginFiring = true;
-        _mouthOpenAnim.SetBool("_shotsFired", true);
+        _mouthOpenAnim.SetBool("Open Mouth", true);
     }
 
     //if _canBeginFiring = true , Continue to FireSpineBalls ()
@@ -344,7 +361,7 @@ public class BossBehavior : MonoBehaviour
 
                 if (_shotsFired == 0)
                 {
-                    _mouthOpenAnim.SetBool("_shotsFired", false);
+                    _mouthOpenAnim.SetBool("Open Mouth", false);
                 }
             }
             else
@@ -353,14 +370,21 @@ public class BossBehavior : MonoBehaviour
                 _fireSpineBall = false;
                 _shotsFired = 4;
 
-                _newAttack = Time.time + 3f;
+                _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
             }
         }
     }
 
 
-
-
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Laser")
+        {
+            _health--;
+            _uiManager.BossHealthSlider(_health);
+        }
+       
+    }
 
 
 }

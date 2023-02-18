@@ -31,7 +31,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: _shotsFired
+    m_ConditionEvent: Open Mouth
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4539822441153293982}
@@ -154,7 +154,7 @@ AnimatorController:
   m_Name: Head
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: _shotsFired
+  - m_Name: Open Mouth
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -255,7 +255,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: _shotsFired
+    m_ConditionEvent: Open Mouth
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6677992280892030865}

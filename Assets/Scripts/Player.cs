@@ -61,8 +61,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _missile;
 
     private float _boostRemaining;
-    private bool _thrusterEngaged;
-    [SerializeField] private float _refuelSpeed = 20f;
+    private bool _boostEngaged;
+    [SerializeField] private float _refuelSpeed = 10f;
 
     [SerializeField] private GameObject _speedBoostParticleSystem;
 
@@ -152,6 +152,7 @@ public class Player : MonoBehaviour
 
     void ControlMovement()
     {
+
         float horizontal = Input.GetAxis("Horizontal");
         //transform.Translate(Vector3.right * horizontal * _speed * Time.deltaTime);
         float vertical = Input.GetAxis("Vertical");
@@ -176,8 +177,21 @@ public class Player : MonoBehaviour
             _turnAnim.SetBool("Left_Turn_anim", false);
         }
 
-        //SPEED POWERUP
-        if (Input.GetKey(KeyCode.J) && _isSpeedPowerUpActive == true && _damageTaken == false && _thrusterEngaged == true && _boostRemaining >= 1 && _negativePowerupActive == false)
+        //X position on screen
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -9.3f, 9.3f), transform.position.y, 0);
+
+        //Y position on screen
+        if (_isSpeedPowerUpActive == true)
+        {
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.05f, 5.75f), 0);
+        }
+        else
+        {
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.50f, 5.75f), 0);
+        }
+
+        //SPEED BOOST
+        if (Input.GetKey(KeyCode.J) && _boostEngaged == false && _boostRemaining >= 1 && _negativePowerupActive == false)
         {
             SpeedBoostSliderDecrease();
 
@@ -194,10 +208,8 @@ public class Player : MonoBehaviour
 
         else
         {
-            if (_isSpeedPowerUpActive == true)
-            {
-                SpeedBoostSliderIncrease();
-            }
+            SpeedBoostSliderIncrease();
+
             transform.Translate(direction * _speed * Time.deltaTime);
 
             _thrusterSpeed.SetActive(false);
@@ -205,25 +217,7 @@ public class Player : MonoBehaviour
             _speedBoostParticleSystem.SetActive(false);
         }
 
-        //X position
-        if (transform.position.x > 10.75f)
-        {
-            transform.position = new Vector3(-10.75f, transform.position.y, 0);
-        }
-        else if (transform.position.x < -10.75f)
-        {
-            transform.position = new Vector3(10.75f, transform.position.y, 0);
-        }
-
-        //Y position
-        if (_isSpeedPowerUpActive == true)
-        {
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.05f, 5.75f), 0);
-        }
-        else
-        {
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.50f, 5.75f), 0);
-        }
+        
     }
 
     void FireLaser()
@@ -416,6 +410,14 @@ public class Player : MonoBehaviour
         }
 
         if (other.tag == "Boss Claw")
+        {
+            if (_damageTaken == false)
+            {
+                Damage();
+                Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+            }
+        }
+        if (other.tag == "Boss Head")
         {
             if (_damageTaken == false)
             {
@@ -625,26 +627,6 @@ public class Player : MonoBehaviour
         Instantiate(_fighterBrigadePrefab, new Vector3(0, -9, 0), Quaternion.identity);
     }
 
-
-    public void SpeedBoostActive()
-    {
-        _isSpeedPowerUpActive = true;
-        _uiManager.PressShiftToBoost();
-        StopCoroutine("SpeedBoostActiveTime");
-        StartCoroutine("SpeedBoostActiveTime");
-    }
-
-    IEnumerator SpeedBoostActiveTime()
-    {
-        if (_isSpeedPowerUpActive == true)
-        {
-            _thrusterEngaged = true;
-            yield return new WaitForSeconds(20f);
-            _isSpeedPowerUpActive = false;
-            _uiManager.BoostSlider(_boostRemaining = 0);
-        }
-    }
-
     void SpeedBoostSliderIncrease()
     {
         _uiManager.BoostSlider(_boostRemaining += Time.deltaTime * _refuelSpeed);
@@ -654,13 +636,12 @@ public class Player : MonoBehaviour
         }
     }
 
-
     void SpeedBoostSliderDecrease()
     {
-        _uiManager.BoostSlider(_boostRemaining -= Time.deltaTime * _refuelSpeed);
+        _uiManager.BoostSlider(_boostRemaining -= Time.deltaTime * _refuelSpeed * 3);
         if (_boostRemaining <= 1)
         {
-            _thrusterEngaged = false;
+            _boostEngaged = true;
             StartCoroutine(SpeedBoostCooldown());
         }
     }
@@ -668,7 +649,7 @@ public class Player : MonoBehaviour
     IEnumerator SpeedBoostCooldown()
     {
         yield return new WaitForSeconds(1f);
-        _thrusterEngaged = true;
+        _boostEngaged = false;
     }
 
     public void ShieldActive()
