@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpineBall : MonoBehaviour
 {
     private float _speed = 7f;
-    private Transform _target;
+    private GameObject _target;
 
     private bool _continueMoving;
 
@@ -14,28 +14,39 @@ public class SpineBall : MonoBehaviour
 
     void Start()
     {
-        _target = GameObject.Find("Player").transform;
+        _target = GameObject.Find("Player");//.transform;
 
-        _playerStartPos = _target.transform.position;
+        if (_target != null)
+        {
+            _playerStartPos = _target.transform.position;
+            _direction = (_playerStartPos - transform.position).normalized;
+        }
 
-        _direction = (_playerStartPos - transform.position).normalized;       
     }
 
     void Update()
-    {      
-        if (_continueMoving == false)
+    {
+        if (_target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _playerStartPos, _speed * Time.deltaTime);
-
-            if (transform.position == _playerStartPos)
+            if (_continueMoving == false)
             {
-                _continueMoving = true;
+                transform.position = Vector3.MoveTowards(transform.position, _playerStartPos, _speed * Time.deltaTime);
+
+                if (transform.position == _playerStartPos)
+                {
+                    _continueMoving = true;
+                }
+            }
+            else
+            {
+                transform.Translate(_direction * _speed * Time.deltaTime);
             }
         }
         else
         {
-            transform.Translate(_direction * _speed * Time.deltaTime);
+            transform.Translate(-transform.up * _speed * Time.deltaTime);
         }
+
 
         if (transform.position.x > 11 || transform.position.x < -11 || transform.position.y < -6 || transform.position.y > 8)
         {

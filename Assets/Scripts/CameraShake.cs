@@ -9,9 +9,6 @@ public class CameraShake : MonoBehaviour
 
     private float _shakeDuration;
 
-
-
-
     private void Start()
     {
         transform.position = new Vector3(0, 1, -10);
