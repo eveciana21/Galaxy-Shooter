@@ -26,6 +26,7 @@ public class BossBehavior : MonoBehaviour
 
     private Animator _mouthOpenAnim;
     private Animator _clawsAnim;
+    private Animator _mainBossAnim;
 
     [SerializeField] private ParticleSystem _leftClawParticle, _rightClawParticle;
 
@@ -73,11 +74,20 @@ public class BossBehavior : MonoBehaviour
     private int _previousAttack = 4;
 
     private bool _animOn;
+    private bool _animTrue;
 
     private UIManager _uiManager;
     [SerializeField] private int _health = 100;
 
     [SerializeField] private GameObject _healthSlider;
+
+    [SerializeField] private GameObject _greenExplosion;
+    [SerializeField] private GameObject _largeGreenExplosion;
+
+    private bool _endBossExplosion;
+    private bool _deathSeqOver;
+
+
 
     void Start()
     {
@@ -85,8 +95,12 @@ public class BossBehavior : MonoBehaviour
 
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         _clawsAnim = _bothClaws.GetComponent<Animator>();
         _mouthOpenAnim = _head.GetComponent<Animator>();
+        _mainBossAnim = GetComponent<Animator>();
+
+        _mainBossAnim.enabled = false;
 
         _eyeParticle.gameObject.SetActive(false);
 
@@ -117,30 +131,77 @@ public class BossBehavior : MonoBehaviour
 
         else
         {
-            _healthSlider.gameObject.SetActive(true);
 
-            StartBossSequences();
+            if (_bossHasDied == false)
+            {
+                _healthSlider.gameObject.SetActive(true);
 
-            if (_bossRush == false)
-            {
-                SideMovement();
-            }
-            else if (_canShakeCamera == true && _bossRush == true)
-            {
-                _cameraShake.FighterBrigadeCameraShake();
-            }
+                StartBossSequences();
 
-            if (_bossRush == true)
-            {
-                BossRush();
+                if (_bossRush == false)
+                {
+                    SideMovement();
+                }
+                else if (_canShakeCamera == true && _bossRush == true)
+                {
+                    _cameraShake.FighterBrigadeCameraShake();
+                }
+
+                if (_bossRush == true)
+                {
+                    BossRush();
+                }
+                else if (_canBeginFiring == true)
+                {
+                    FireSpineBalls();
+                }
             }
-            else if (_canBeginFiring == true)
+            else
             {
-                FireSpineBalls();
+                if (_endBossExplosion == false)
+                {
+                    StartCoroutine(BossDeathSequence());
+                    _endBossExplosion = true;
+                }
+                if (_deathSeqOver == true)
+                {
+                    Destroy(this.gameObject, 0.2f);
+                }
             }
         }
     }
 
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(6);
+        Instantiate(_largeGreenExplosion, _head.transform.position, Quaternion.identity);
+        _deathSeqOver = true;
+    }
+
+    IEnumerator BossDeathSequence()
+    {
+        StartCoroutine(DeathTimer());
+
+        if (_animTrue != true)
+        {
+            DeathAnimStart(true);
+        }
+        while (_deathSeqOver == false)
+        {
+            float _randomRange = Random.Range(-2.5f, 2.5f);
+            float _randomSeconds = Random.Range(0.2f, 0.5f);
+            Instantiate(_greenExplosion, _head.transform.position + new Vector3(_randomRange, _randomRange, 0), Quaternion.identity);
+            yield return new WaitForSeconds(_randomSeconds);
+        }
+    }
+    private void DeathAnimStart(bool isTrue)
+    {
+        _animTrue = isTrue;
+        _mainBossAnim.enabled = isTrue;
+        _mainBossAnim.SetBool("Death State", isTrue);
+        _clawsAnim.SetBool("Claw Death", isTrue);
+        _mouthOpenAnim.SetBool("Head Shake", isTrue);
+    }
 
     private void StartBossSequences()
     {
@@ -228,6 +289,7 @@ public class BossBehavior : MonoBehaviour
                     }
                     _reachedBottom = false;
 
+                    _canFire = Time.time + 2; // allowing for 2 seconds before firing laser
                     _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
                 }
             }
@@ -252,34 +314,34 @@ public class BossBehavior : MonoBehaviour
         _eyeParticle.gameObject.SetActive(isOn);
         _mouthOpenAnim.SetBool("Open Mouth", isOn);
         _headRushingParticle.gameObject.SetActive(isOn);
-
         _leftRushingParticle.gameObject.SetActive(isOn);
         _rightRushingParticle.gameObject.SetActive(isOn);
     }
 
     private void SideMovement()
     {
-
-        if (transform.position.x <= -4.5f)
+        if (_bossHasDied == false)
         {
-            _movementDirection = 1;
-        }
-        else if (transform.position.x >= 4.5f)
-        {
-            _movementDirection = -1;
-        }
-        transform.Translate(Vector3.right * _speed * _movementDirection * Time.deltaTime);
+            if (transform.position.x <= -4.5f)
+            {
+                _movementDirection = 1;
+            }
+            else if (transform.position.x >= 4.5f)
+            {
+                _movementDirection = -1;
+            }
+            transform.Translate(Vector3.right * _speed * _movementDirection * Time.deltaTime);
 
-        if (_bossRush == false && _fireSpineBall == false)
-        {
-            FireLaser();
+            if (_bossRush == false && _fireSpineBall == false)
+            {
+                FireLaser();
+            }
         }
-
     }
 
     private void FireLaser()
     {
-        if (Time.time > _canFire)
+        if (_bossHasDied == false && Time.time > _canFire)
         {
             _fireRate = Random.Range(2f, 4f);
             _canFire = Time.time + _fireRate;
@@ -292,13 +354,17 @@ public class BossBehavior : MonoBehaviour
     {
         _eyeParticle.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.75f);
-        Instantiate(_bossLaser, transform.position + new Vector3(0, 5.6f, 0), Quaternion.identity);
+        if (_bossHasDied != true)
+        {
+            Instantiate(_bossLaser, transform.position + new Vector3(0, 5.6f, 0), Quaternion.identity);
+        }
         _eyeParticle.gameObject.SetActive(false);
+       
     }
 
     IEnumerator ClawSwipe()
     {
-        if (_swipeCount >= 1)
+        if (_bossHasDied == false && _swipeCount >= 1)
         {
             _clawsAnim.SetBool("Left Claw Swipe", true);
             yield return new WaitForSeconds(0.75f);
@@ -330,6 +396,7 @@ public class BossBehavior : MonoBehaviour
             _canSwipe = false;
             _swipeCount = 2;
 
+            _canFire = Time.time + 2; //allowing for 2 seconds before firing laser
             _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
         }
     }
@@ -349,7 +416,7 @@ public class BossBehavior : MonoBehaviour
 
     private void FireSpineBalls()
     {
-        if (Time.time > _canFireSpineBall)
+        if (_bossHasDied == false && Time.time > _canFireSpineBall)
         {
             _fireRate = 0.6f;
             _canFireSpineBall = Time.time + _fireRate;
@@ -370,6 +437,7 @@ public class BossBehavior : MonoBehaviour
                 _fireSpineBall = false;
                 _shotsFired = 4;
 
+                _canFire = Time.time + 2; //allowing for 2 seconds before firing laser
                 _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
             }
         }
@@ -380,10 +448,20 @@ public class BossBehavior : MonoBehaviour
     {
         if (other.tag == "Laser")
         {
-            _health--;
-            _uiManager.BossHealthSlider(_health);
+            if (_bossEnteredGame == true)
+            {
+                //_health--;
+                _health -= 25;
+                _uiManager.BossHealthSlider(_health);
+
+                if (_health <= 0)
+                {
+                    _bossHasDied = true;
+                    _healthSlider.gameObject.SetActive(false);
+                }
+            }
+            Destroy(other.gameObject);
         }
-       
     }
 
 

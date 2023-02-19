@@ -6,7 +6,7 @@ public class GreenExplosion : MonoBehaviour
 {
     void Start()
     {
-        Destroy(this.gameObject, 1.5f);
+        Destroy(this.gameObject, 1.2f);
     }
 
 }
