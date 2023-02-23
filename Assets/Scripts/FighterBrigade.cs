@@ -14,6 +14,8 @@ public class FighterBrigade : MonoBehaviour
     private float _canFire = 0;
     private float _fireRate = 1.75f;
 
+    [SerializeField] private AudioClip _laserAudio;
+
     void Start()
     {
         transform.position = new Vector3(0, -9, 0);
@@ -46,6 +48,7 @@ public class FighterBrigade : MonoBehaviour
                 if (fighter != null)
                 {
                     Instantiate(_fighterLaserPrefab, fighter.transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                    AudioSource.PlayClipAtPoint(_laserAudio, transform.position, 0.8f);
                 }
             }
         }
@@ -67,7 +70,6 @@ public class FighterBrigade : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(this.gameObject, 0.05f);
         }
-
         if (other.tag == "Laser")
         {
             if (other.transform.position.y > 8)
@@ -75,7 +77,6 @@ public class FighterBrigade : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
-
         if (other.tag == "Enemy Laser")
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);

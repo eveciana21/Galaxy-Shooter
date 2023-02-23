@@ -24,6 +24,8 @@ public class EnemySideMovement : MonoBehaviour
 
     [SerializeField] private Renderer _sprite;
 
+    [SerializeField] AudioClip _alienSpawnAudio;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -35,8 +37,7 @@ public class EnemySideMovement : MonoBehaviour
 
         _sprite = gameObject.GetComponentInChildren<Renderer>();
 
-
-        _random = 0.25f;//Random.Range(4f, 10f);
+        _random = 0.25f;
 
         _ping = transform.position.x;
         _ping = _ping + _random;
@@ -94,6 +95,8 @@ public class EnemySideMovement : MonoBehaviour
 
                 if (transform.position.y > -1.5f)
                 {
+                    AudioSource.PlayClipAtPoint(_alienSpawnAudio, transform.position, 1);
+
                     Instantiate(_greenFlagellum, transform.position + new Vector3(0, -1.7f, 0), Quaternion.identity);
                 }
             }

@@ -77,9 +77,7 @@ public class BossBehavior : MonoBehaviour
     private bool _animTrue;
 
     private UIManager _uiManager;
-    [SerializeField] private int _health = 100;
-
-    [SerializeField] private GameObject _healthSlider;
+    [SerializeField] private float _health = 100;
 
     [SerializeField] private GameObject _greenExplosion;
     [SerializeField] private GameObject _largeGreenExplosion;
@@ -87,6 +85,17 @@ public class BossBehavior : MonoBehaviour
     private bool _endBossExplosion;
     private bool _deathSeqOver;
 
+    private Player _player;
+    private SpawnManager _spawnManager;
+
+    [SerializeField] AudioClip _spineBallAudio;
+    [SerializeField] AudioClip _clawSwipeAudio;
+    [SerializeField] AudioClip _bossRushAudio;
+    [SerializeField] AudioClip _laserAudio;
+
+    private bool _rushAudio;
+
+    private int _volume = 1;
 
 
     void Start()
@@ -95,6 +104,8 @@ public class BossBehavior : MonoBehaviour
 
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
         _clawsAnim = _bothClaws.GetComponent<Animator>();
         _mouthOpenAnim = _head.GetComponent<Animator>();
@@ -111,9 +122,6 @@ public class BossBehavior : MonoBehaviour
         _rightRushingParticle.gameObject.SetActive(false);
 
         _headRushingParticle.gameObject.SetActive(false);
-
-        _targetArrows.gameObject.SetActive(false);
-        _healthSlider.gameObject.SetActive(false);
     }
 
     void Update()
@@ -125,6 +133,7 @@ public class BossBehavior : MonoBehaviour
             if (transform.position.y <= 0)
             {
                 _bossEnteredGame = true;
+                _uiManager.BossHealthSlider(_health);
                 _newAttack = Time.time + 5f;
             }
         }
@@ -134,8 +143,6 @@ public class BossBehavior : MonoBehaviour
 
             if (_bossHasDied == false)
             {
-                _healthSlider.gameObject.SetActive(true);
-
                 StartBossSequences();
 
                 if (_bossRush == false)
@@ -149,6 +156,11 @@ public class BossBehavior : MonoBehaviour
 
                 if (_bossRush == true)
                 {
+                    if (_rushAudio == false)
+                    {
+                        StartCoroutine(BossRushAudio());
+                        _rushAudio = true;
+                    }
                     BossRush();
                 }
                 else if (_canBeginFiring == true)
@@ -160,6 +172,8 @@ public class BossBehavior : MonoBehaviour
             {
                 if (_endBossExplosion == false)
                 {
+                    _spawnManager.PlayerDead();
+                    _uiManager.BossDead();
                     StartCoroutine(BossDeathSequence());
                     _endBossExplosion = true;
                 }
@@ -171,36 +185,10 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
-    IEnumerator DeathTimer()
+    IEnumerator BossRushAudio()
     {
-        yield return new WaitForSeconds(6);
-        Instantiate(_largeGreenExplosion, _head.transform.position, Quaternion.identity);
-        _deathSeqOver = true;
-    }
-
-    IEnumerator BossDeathSequence()
-    {
-        StartCoroutine(DeathTimer());
-
-        if (_animTrue != true)
-        {
-            DeathAnimStart(true);
-        }
-        while (_deathSeqOver == false)
-        {
-            float _randomRange = Random.Range(-2.5f, 2.5f);
-            float _randomSeconds = Random.Range(0.2f, 0.5f);
-            Instantiate(_greenExplosion, _head.transform.position + new Vector3(_randomRange, _randomRange, 0), Quaternion.identity);
-            yield return new WaitForSeconds(_randomSeconds);
-        }
-    }
-    private void DeathAnimStart(bool isTrue)
-    {
-        _animTrue = isTrue;
-        _mainBossAnim.enabled = isTrue;
-        _mainBossAnim.SetBool("Death State", isTrue);
-        _clawsAnim.SetBool("Claw Death", isTrue);
-        _mouthOpenAnim.SetBool("Head Shake", isTrue);
+        yield return new WaitForSeconds(1.25f);
+        AudioSource.PlayClipAtPoint(_bossRushAudio, _head.transform.position, 1f);
     }
 
     private void StartBossSequences()
@@ -285,12 +273,13 @@ public class BossBehavior : MonoBehaviour
 
                         _upwardCount = 1;
                         _rushCount = 3;
+                        _rushAudio = false;
                         _bossRush = false;
                     }
                     _reachedBottom = false;
 
-                    _canFire = Time.time + 2; // allowing for 2 seconds before firing laser
-                    _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
+                    _canFire = Time.time + 1; // allowing for 2 seconds before firing laser
+                    _newAttack = Time.time + 4f; //allowing for 3 seconds before next attack
                 }
             }
         }
@@ -357,18 +346,22 @@ public class BossBehavior : MonoBehaviour
         if (_bossHasDied != true)
         {
             Instantiate(_bossLaser, transform.position + new Vector3(0, 5.6f, 0), Quaternion.identity);
+            AudioSource.PlayClipAtPoint(_laserAudio, transform.position, _volume);
         }
         _eyeParticle.gameObject.SetActive(false);
-       
+
     }
 
     IEnumerator ClawSwipe()
     {
         if (_bossHasDied == false && _swipeCount >= 1)
         {
+
             _clawsAnim.SetBool("Left Claw Swipe", true);
             yield return new WaitForSeconds(0.75f);
             _leftClawParticle.gameObject.SetActive(true);
+            AudioSource.PlayClipAtPoint(_clawSwipeAudio, transform.position, 1f);
+
             _swipeCount--;
 
             yield return new WaitForSeconds(2);
@@ -376,6 +369,8 @@ public class BossBehavior : MonoBehaviour
 
             yield return new WaitForSeconds(0.75f);
             _rightClawParticle.gameObject.SetActive(true);
+            AudioSource.PlayClipAtPoint(_clawSwipeAudio, transform.position, 1f);
+
             _swipeCount--;
 
             if (_swipeCount == 0)
@@ -397,18 +392,19 @@ public class BossBehavior : MonoBehaviour
             _swipeCount = 2;
 
             _canFire = Time.time + 2; //allowing for 2 seconds before firing laser
-            _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
+            _newAttack = Time.time + 4f; //allowing for 3 seconds before next attack
         }
     }
 
     IEnumerator Arrows()
     {
-        _targetArrows.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2.5f);
-        _targetArrows.gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
-        _canBeginFiring = true;
-        _mouthOpenAnim.SetBool("Open Mouth", true);
+        if (_player != null)
+        {
+            _player.TargetArrows();
+            yield return new WaitForSeconds(3f);
+            _canBeginFiring = true;
+            _mouthOpenAnim.SetBool("Open Mouth", true);
+        }
     }
 
     //if _canBeginFiring = true , Continue to FireSpineBalls ()
@@ -418,6 +414,7 @@ public class BossBehavior : MonoBehaviour
     {
         if (_bossHasDied == false && Time.time > _canFireSpineBall)
         {
+
             _fireRate = 0.6f;
             _canFireSpineBall = Time.time + _fireRate;
 
@@ -425,6 +422,8 @@ public class BossBehavior : MonoBehaviour
             {
                 _shotsFired--;
                 Instantiate(_spineBall, _head.transform.position + new Vector3(0, -2.4f, 0), Quaternion.identity);
+                AudioSource.PlayClipAtPoint(_spineBallAudio, transform.position, 0.7f);
+
 
                 if (_shotsFired == 0)
                 {
@@ -437,12 +436,11 @@ public class BossBehavior : MonoBehaviour
                 _fireSpineBall = false;
                 _shotsFired = 4;
 
-                _canFire = Time.time + 2; //allowing for 2 seconds before firing laser
-                _newAttack = Time.time + 3f; //allowing for 3 seconds before next attack
+                _canFire = Time.time + 1; //allowing for 2 seconds before firing laser
+                _newAttack = Time.time + 4f; //allowing for 3 seconds before next attack
             }
         }
     }
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -450,19 +448,56 @@ public class BossBehavior : MonoBehaviour
         {
             if (_bossEnteredGame == true)
             {
-                //_health--;
+                //_health -= 0.5f;
                 _health -= 25;
                 _uiManager.BossHealthSlider(_health);
 
                 if (_health <= 0)
                 {
                     _bossHasDied = true;
-                    _healthSlider.gameObject.SetActive(false);
+                    _uiManager.BossDead();
                 }
             }
             Destroy(other.gameObject);
         }
     }
+
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(6);
+        Instantiate(_largeGreenExplosion, _head.transform.position, Quaternion.identity);
+        _deathSeqOver = true;
+    }
+
+    IEnumerator BossDeathSequence()
+    {
+        StartCoroutine(DeathTimer());
+
+        if (_animTrue != true)
+        {
+            DeathAnimStart(true);
+        }
+        while (_deathSeqOver == false)
+        {
+            float _randomRange = Random.Range(-2.5f, 2.5f);
+            float _randomSeconds = Random.Range(0.2f, 0.5f);
+            float _randomSmallRange = Random.Range(-0.7f, 0.7f);
+            Instantiate(_greenExplosion, _head.transform.position + new Vector3(_randomRange, _randomRange, 0), Quaternion.identity);
+            Instantiate(_greenExplosion, _leftClaw.transform.position + new Vector3(_randomSmallRange, _randomSmallRange, 0), Quaternion.identity);
+            Instantiate(_greenExplosion, _rightClaw.transform.position + new Vector3(_randomSmallRange, _randomSmallRange, 0), Quaternion.identity);
+
+            yield return new WaitForSeconds(_randomSeconds);
+        }
+    }
+    private void DeathAnimStart(bool isTrue)
+    {
+        _animTrue = isTrue;
+        _mainBossAnim.enabled = isTrue;
+        _mainBossAnim.SetBool("Death State", isTrue);
+        _clawsAnim.SetBool("Claw Death", isTrue);
+        _mouthOpenAnim.SetBool("Head Shake", isTrue);
+    }
+
 
 
 }

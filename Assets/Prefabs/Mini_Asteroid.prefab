@@ -136,5 +136,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _speedDown: 2
-  _explosionPrefab: {fileID: 7027157661397510236, guid: 9ce27edf826c2f74d85de8330c00c400, type: 3}
+  _explosionPrefab: {fileID: 5022426128043811226, guid: 5c0942b70a054a5458b5c2033fb85912, type: 3}
   _collectible: {fileID: 8337893125013117472, guid: 74af1a85d0877944e9cd57acd1d36f5d, type: 3}

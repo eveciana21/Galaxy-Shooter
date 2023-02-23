@@ -33,22 +33,34 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Slider _bossHealthSlider;
 
+    [SerializeField] private Slider _circleSlider;
 
+    private bool _bossIsDead;
+
+    [SerializeField] private GameObject _creditsAnim;
+
+    //[SerializeField] private Text _pressJ;
+    //[SerializeField] private Text _wasdKeys;
+    //[SerializeField] private Text _pressSpace;
 
     //Add a difficulty setting 
 
 
     void Start()
     {
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
         _scoreText.text = "Score: " + 0;
 
         _gameOverText.gameObject.SetActive(false);
         _restartLevel.gameObject.SetActive(false);
         _dangerUI.gameObject.SetActive(false);
         _highScore.gameObject.SetActive(false);
+        _bossHealthSlider.gameObject.SetActive(false);
+        _circleSlider.gameObject.SetActive(false);
+        _creditsAnim.gameObject.SetActive(false);
 
-
-        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _circleSlider.value = 100f;
 
         _boostSlider.value = 0;
         _ammoSlider.value = 100;
@@ -61,7 +73,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + playerScore.ToString();
     }
 
-    public void HighScore (int playerHighScore)
+    public void HighScore(int playerHighScore)
     {
         _highScore.gameObject.SetActive(true);
         _highScoreValue.text = playerHighScore.ToString();
@@ -138,6 +150,20 @@ public class UIManager : MonoBehaviour
         _ammoCount.color = Color.white;
     }
 
+    public void HomingMissileCircleSlider(float timeRemaining)
+    {
+        _circleSlider.gameObject.SetActive(true);
+
+        _circleSlider.value = timeRemaining;
+
+        _circleSlider.maxValue = 100f;
+        _circleSlider.minValue = 0f;
+    }
+
+    public void CircleSliderCompleted()
+    {
+        _circleSlider.gameObject.SetActive(false);
+    }
 
     public void BoostSlider(float boostPercent)
     {
@@ -157,7 +183,6 @@ public class UIManager : MonoBehaviour
 
     public void WaveOneUI()
     {
-        
         _waves[0].gameObject.SetActive(true);
         StartCoroutine(WaveOnScreenTime());
     }
@@ -198,7 +223,7 @@ public class UIManager : MonoBehaviour
     }
     public void DangerUIStop()
     {
-         StopCoroutine("DangerFlicker");
+        StopCoroutine("DangerFlicker");
         _dangerUI.SetActive(false);
     }
 
@@ -213,13 +238,35 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void BossHealthSlider(int damageTaken)
+    public void BossHealthSlider(float damageTaken)
     {
+        _bossHealthSlider.gameObject.SetActive(true);
         _bossHealthSlider.value = damageTaken;
 
         _bossHealthSlider.minValue = 0;
         _bossHealthSlider.maxValue = 100;
     }
+
+    public void BossDead()
+    {
+        _bossHealthSlider.gameObject.SetActive(false);
+        StartCoroutine(CreditsDelayTimer());
+
+    }
+    IEnumerator CreditsDelayTimer()
+    {
+        yield return new WaitForSeconds(9);
+        _creditsAnim.gameObject.SetActive(true);
+        StartCoroutine(CreditsEnd());
+    }
+
+    IEnumerator CreditsEnd()
+    {
+        yield return new WaitForSeconds(18);
+        _creditsAnim.gameObject.SetActive(false);
+        _gameManager.MainMenu();
+    }
+
 
 
 }

@@ -14,12 +14,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _damageTaken;
     private CameraShake _cameraShake;
 
-    private bool _laserFiredUp;
-
-    private bool _fireAtPowerup;
-
-    private float minDistance = 4f;
-
     private Rigidbody2D _rb;
 
     [SerializeField] private GameObject _laserWarning;
@@ -40,9 +34,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private GameObject _laserWarningParticle;
 
-    private bool _bossOnScreen;
-
-
+    [SerializeField] private AudioClip _laserAudio;
 
     void Start()
     {
@@ -99,8 +91,6 @@ public class Enemy : MonoBehaviour
 
     private void FireLaser()
     {
-        Debug.Log("Random Number = " + _randomNumber);
-
         if (Time.time > _canFireLaser)
         {
             _fireRate = Random.Range(2f, 4f);
@@ -117,33 +107,14 @@ public class Enemy : MonoBehaviour
 
         if (_player != null)
         {
-            float distanceX = Mathf.Abs(_player.transform.position.x - _rb.transform.position.x);
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
+            Laser laser = enemyLaser.GetComponent<Laser>();
+            laser.EnemyFiredLaser();
+            AudioSource.PlayClipAtPoint(_laserAudio, transform.position, 1f);
+            yield return new WaitForSeconds(0.1f);
+            _laserWarning.gameObject.SetActive(false);
 
-            if (_laserFiredUp == false && _player.transform.position.y > _rb.position.y && distanceX < minDistance && transform.position.y > -4f)
-            {
-                GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, 0.75f, 0), Quaternion.identity);
-                Laser laser = enemyLaser.GetComponent<Laser>();
-                laser.FireLaserAtPlayer();
-                _laserFiredUp = true;
-                yield return new WaitForSeconds(0.1f);
-                _laserWarning.gameObject.SetActive(false);
-            }
-            else
-            {
-                GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
-                Laser laser = enemyLaser.GetComponent<Laser>();
-                laser.EnemyFiredLaser();
-                _fireAtPowerup = false;
-                yield return new WaitForSeconds(0.1f);
-                _laserWarning.gameObject.SetActive(false);
-            }
         }
-    }
-
-    public void FireAtPowerup()
-    {
-        _fireAtPowerup = true;
-        StartCoroutine(LaserWarning());
     }
 
     void CalculateMovement()

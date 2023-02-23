@@ -260,7 +260,8 @@ MonoBehaviour:
   - {fileID: 6678485034495054969}
   - {fileID: 6678485035634021462}
   - {fileID: 6678485035467353151}
-  _explosionPrefab: {fileID: 6914487444124827508, guid: 6f0d63a50fdd9774490fe302073f08b1, type: 3}
+  _explosionPrefab: {fileID: 7027157661397510236, guid: 9ce27edf826c2f74d85de8330c00c400, type: 3}
+  _laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
 --- !u!1 &6678485033836853959
 GameObject:
   m_ObjectHideFlags: 0

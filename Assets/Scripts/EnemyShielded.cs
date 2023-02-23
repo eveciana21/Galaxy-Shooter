@@ -29,13 +29,13 @@ public class EnemyShielded : MonoBehaviour
 
     [SerializeField] private GameObject _thruster;
 
-    private bool _laserFiredUp;
-
-    private bool _fireAtPowerup;
-
     [SerializeField] private GameObject _laserWarning;
 
     private int _randomNumber;
+
+    [SerializeField] private AudioClip _laserAudio;
+
+    [SerializeField] private GameObject _shieldBurstParticle;
 
 
     void Start()
@@ -47,7 +47,7 @@ public class EnemyShielded : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
 
         _laserWarning.gameObject.SetActive(false);
-
+        _shieldBurstParticle.gameObject.SetActive(false);
         _thruster.gameObject.SetActive(false);
 
         transform.position = new Vector3(Random.Range(-9.4f, 9.4f), 7.5f, 0);
@@ -60,7 +60,7 @@ public class EnemyShielded : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        
+
         if (_randomNumber == 0)
         {
             FireLaser();
@@ -85,9 +85,6 @@ public class EnemyShielded : MonoBehaviour
                 {
                     _thruster.SetActive(true);
 
-                    //_multipliedSpeed = _speed * 1.5f;
-                    //transform.Translate(Vector3.down * _multipliedSpeed * Time.deltaTime);
-
                     Vector3 direction = _target.position - (Vector3)_rb.position;
 
                     direction.Normalize();
@@ -102,14 +99,12 @@ public class EnemyShielded : MonoBehaviour
 
                     float _rotateSpeedToZero = 15f;
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.x, transform.rotation.y, 0), Time.deltaTime * _rotateSpeedToZero);
-
-                    //transform.Translate(Vector3.down * _speed * Time.deltaTime);
                 }
             }
         }
     }
 
-    
+
     private void FireLaser()
     {
         if (Time.time > _canFire)
@@ -118,10 +113,6 @@ public class EnemyShielded : MonoBehaviour
             _canFire = _fireRate + Time.time;
 
             StartCoroutine(LaserWarning());
-
-            //GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
-            //Laser laser = enemyLaser.GetComponent<Laser>();
-            //laser.EnemyFiredLaser();
         }
     }
 
@@ -132,26 +123,13 @@ public class EnemyShielded : MonoBehaviour
 
         if (_player != null)
         {
-            float distanceX = Mathf.Abs(_player.transform.position.x - _rb.transform.position.x);
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
+            Laser laser = enemyLaser.GetComponent<Laser>();
+            laser.EnemyFiredLaser();
+            AudioSource.PlayClipAtPoint(_laserAudio, transform.position, 1f);
 
-            if (_laserFiredUp == false && _player.transform.position.y > _rb.position.y && distanceX < minDistance && transform.position.y > -4f)
-            {
-                GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.75f, 0), Quaternion.identity);
-                Laser laser = enemyLaser.GetComponent<Laser>();
-                laser.FireLaserAtPlayer();
-                _laserFiredUp = true;
-                yield return new WaitForSeconds(0.1f);
-                _laserWarning.gameObject.SetActive(false);
-            }
-            else
-            {
-                GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0, -0.65f, 0), Quaternion.identity);
-                Laser laser = enemyLaser.GetComponent<Laser>();
-                laser.EnemyFiredLaser();
-                _fireAtPowerup = false;
-                yield return new WaitForSeconds(0.1f);
-                _laserWarning.gameObject.SetActive(false);
-            }
+            yield return new WaitForSeconds(0.1f);
+            _laserWarning.gameObject.SetActive(false);
         }
     }
 
@@ -160,6 +138,7 @@ public class EnemyShielded : MonoBehaviour
         if (other.tag == "Player")
         {
             _lives--;
+            _shieldBurstParticle.gameObject.SetActive(true);
             _shieldPrefab.gameObject.SetActive(false);
 
             if (_lives == 0)
@@ -175,7 +154,7 @@ public class EnemyShielded : MonoBehaviour
 
             if (_lives == 1)
             {
-                Instantiate(_tinyExplosion, transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
+                _shieldBurstParticle.gameObject.SetActive(true);
             }
             else if (_lives == 0)
             {
@@ -186,11 +165,4 @@ public class EnemyShielded : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
-
-    public void FireAtPowerup()
-    {
-        _fireAtPowerup = true;
-        StartCoroutine(LaserWarning());
-    }
-
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BossLaser : MonoBehaviour
 {
-
     private float _speed = 12f;
 
     void Update()

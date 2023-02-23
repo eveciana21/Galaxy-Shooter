@@ -24556,7 +24556,7 @@ MonoBehaviour:
   _leftRushingParticle: {fileID: 1289497779}
   _rightRushingParticle: {fileID: 1384214412}
   _headRushingParticle: {fileID: 546779}
-  _targetArrows: {fileID: 0}
+  _targetArrows: {fileID: 14330344357257073, guid: c48bafde56dd9b745baed473a1149b8b, type: 3}
   _spineBall: {fileID: 9021937487419629199, guid: 9774a50fc10c2fc43ae80adc80cf29da, type: 3}
   _fireSpineBall: 0
   _shotsFired: 4
@@ -24573,9 +24573,12 @@ MonoBehaviour:
   _rushCount: 3
   _swipeCount: 2
   _health: 100
-  _healthSlider: {fileID: 0}
   _greenExplosion: {fileID: 4199015229961659318, guid: 402ec4a70ebffe34bb0c4aee234959e0, type: 3}
-  _largeGreenExplosion: {fileID: 5713650149158864123, guid: 65b7e169b91e0b248b76c6db6e856976, type: 3}
+  _largeGreenExplosion: {fileID: 8076882228849257062, guid: da5732ab681472c44b23c3ad98795f70, type: 3}
+  _spineBallAudio: {fileID: 8300000, guid: bac65e34c1fbcfe4b997522347eb8bc5, type: 3}
+  _clawSwipeAudio: {fileID: 8300000, guid: 1d52b391088460e4d9ba0acd2b0e8e57, type: 3}
+  _bossRushAudio: {fileID: 8300000, guid: af926fc70fbbbc34bafe1ebe42f59d2a, type: 3}
+  _laserAudio: {fileID: 8300000, guid: e6a0c6f9aa9c45548bd55cb3b1ac959c, type: 3}
 --- !u!70 &8027485602883000469
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

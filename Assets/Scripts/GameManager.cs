@@ -13,19 +13,23 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject _endGameText;
 
+    private bool restartAtBoss;
+
+    private SpawnManager _spawnManager;
+
 
     private void Start()
     {
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _endGameText.SetActive(false);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true && _canPress == true)
-        {
+        {      
             SceneManager.LoadScene(1); //Current Game Scene 
         }
-
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -45,14 +49,12 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             _escapePressed = false;
         }
-
-
-
-
-
     }
 
-
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0); //Main Menu
+    }
 
 
     public void GameOver()
@@ -64,4 +66,5 @@ public class GameManager : MonoBehaviour
     {
         _canPress = true;
     }
+
 }

@@ -25,7 +25,6 @@ public class SpawnManager : MonoBehaviour
 
     private UIManager _uiManager;
 
-
     private void Start()
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -35,11 +34,6 @@ public class SpawnManager : MonoBehaviour
             Debug.Log("UI Manager is Null");
         }
     }
-
-
-    //Create a difficulty level setting
-    //SIMPLE, REGULAR 
-
 
     public void StartSpawningAmmo()
     {
@@ -104,7 +98,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         //WAVE THREE
-        while (_isPlayerAlive && _spawnWaveThree == true)
+        while (_isPlayerAlive == true && _spawnWaveThree == true)
         {
             int _randomEnemy = Random.Range(0, 3);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
@@ -114,7 +108,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         //WAVE FOUR
-        while (_isPlayerAlive && _spawnWaveFour == true)
+        while (_isPlayerAlive == true && _spawnWaveFour == true)
         {
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
@@ -124,7 +118,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(0.88f);
 
         //WAVE FIVE
-        while (_isPlayerAlive && _spawnWaveFive == true)
+        while (_isPlayerAlive == true && _spawnWaveFive == true)
         {
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
@@ -159,18 +153,18 @@ public class SpawnManager : MonoBehaviour
     }
     public void BossSpawn()
     {
-        _spawnWaveOne = false; // <<< temporary line of code 
         _spawnWaveFive = false;
         StartCoroutine(SpawnBoss());
         _spawnBoss = true;
         Debug.Log("Boss Wave");
     }
 
+  
     IEnumerator SpawnBoss()
     {
         yield return new WaitForSeconds(3f);
 
-        if (_spawnBoss == true)
+        if (_isPlayerAlive == true && _spawnBoss == true)
         {
             Instantiate(_cloudPrefab, transform.position, Quaternion.identity);
             yield return new WaitForSeconds(3.5f);
@@ -227,7 +221,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(15, 25));
         {
-            while (_isPlayerAlive && _spawnBoss == false)
+            while (_isPlayerAlive == true && _spawnBoss == false)
             {
                 GameObject heelRope = Instantiate(_heelRope, transform.position, Quaternion.identity);
                 heelRope.transform.parent = _enemyContainer.transform;
@@ -235,12 +229,9 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
-
     public void PlayerDead()
     {
         _isPlayerAlive = false;
     }
-
-
 
 }

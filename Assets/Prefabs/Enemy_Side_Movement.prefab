@@ -681,6 +681,7 @@ MonoBehaviour:
   _greenExplosionPrefab: {fileID: 5713650149158864123, guid: 65b7e169b91e0b248b76c6db6e856976, type: 3}
   _greenFlagellum: {fileID: 6015660018482963672, guid: 5df957b0b38a79e4f991837397fee673, type: 3}
   _sprite: {fileID: 2003763888}
+  _alienSpawnAudio: {fileID: 8300000, guid: 0094d8090371c9c458a9a798ccddd609, type: 3}
 --- !u!1 &5372575563078235563
 GameObject:
   m_ObjectHideFlags: 0

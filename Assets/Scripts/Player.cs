@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
     private WaitForSeconds _waitForSeconds02 = new WaitForSeconds(0.15f);
     private GameManager _gameManager;
-    private Animator _turnAnim;
 
     [SerializeField] private AudioClip _laserAudio;
     private AudioSource _audioSource;
@@ -82,12 +81,19 @@ public class Player : MonoBehaviour
 
     private bool _enemyAlien;
 
+    private bool _powerupCollectActive;
+
+    [SerializeField] private GameObject _targetArrows;
+
+    private float _plasmaRemaining;
+
     void Start()
     {
         _thrusterSpeed.SetActive(false);
         _leftSmoke.SetActive(false);
         _rightSmoke.SetActive(false);
         _speedBoostParticleSystem.SetActive(false);
+        _targetArrows.gameObject.SetActive(false);
 
         transform.position = new Vector3(0, -2.5f, 0);
 
@@ -96,7 +102,6 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         _audioSource = GetComponent<AudioSource>();
-        _turnAnim = gameObject.GetComponent<Animator>();
         _shieldColor = GetComponent<Renderer>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
@@ -127,7 +132,6 @@ public class Player : MonoBehaviour
 
         _highScore = PlayerPrefs.GetInt("_highScore", _highScore);
         _uiManager.HighScore(_highScore);
-
     }
 
     void Update()
@@ -143,6 +147,9 @@ public class Player : MonoBehaviour
         AmmoLimits();
 
         PowerupCollect();
+
+
+        PlasmaAttackCooldown();
     }
     private void OnDestroy()
     {
@@ -152,30 +159,10 @@ public class Player : MonoBehaviour
 
     void ControlMovement()
     {
-
-        float horizontal = Input.GetAxis("Horizontal");
-        //transform.Translate(Vector3.right * horizontal * _speed * Time.deltaTime);
-        float vertical = Input.GetAxis("Vertical");
-        //transform.Translate(Vector3.up * vertical * _speed * Time.deltaTime);
+        float horizontal = Input.GetAxis("Horizontal"); //transform.Translate(Vector3.right * horizontal * _speed * Time.deltaTime);
+        float vertical = Input.GetAxis("Vertical"); //transform.Translate(Vector3.up * vertical * _speed * Time.deltaTime);
 
         Vector3 direction = new Vector3(horizontal, vertical, 0);
-
-        //TURNING ANIMATION
-        if (horizontal < 0 && _negativePowerupActive == false)
-        {
-            _turnAnim.SetBool("Left_Turn_anim", true);
-            _turnAnim.SetBool("Right_Turn_anim", false);
-        }
-        else if (horizontal > 0 && _negativePowerupActive == false)
-        {
-            _turnAnim.SetBool("Right_Turn_anim", true);
-            _turnAnim.SetBool("Left_Turn_anim", false);
-        }
-        else
-        {
-            _turnAnim.SetBool("Right_Turn_anim", false);
-            _turnAnim.SetBool("Left_Turn_anim", false);
-        }
 
         //X position on screen
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -9.3f, 9.3f), transform.position.y, 0);
@@ -200,7 +187,6 @@ public class Player : MonoBehaviour
             _thrusterMain.SetActive(false);
             _speedBoostParticleSystem.SetActive(true);
         }
-
         else if (_negativePowerupActive == true)
         {
             transform.Translate(direction * _speed / 3 * Time.deltaTime);
@@ -216,8 +202,6 @@ public class Player : MonoBehaviour
             _thrusterMain.SetActive(true);
             _speedBoostParticleSystem.SetActive(false);
         }
-
-        
     }
 
     void FireLaser()
@@ -243,9 +227,15 @@ public class Player : MonoBehaviour
         _audioSource.Play();
         _audioSource.volume = 0.2f;
     }
+
+    public void PowerupCollectActive()
+    {
+        _powerupCollectActive = true;
+    }
+
     private void PowerupCollect()
     {
-        if (Input.GetKey(KeyCode.C))
+        if (Input.GetKey(KeyCode.M) && _powerupCollectActive == true)
         {
             Powerup[] _powerup = FindObjectsOfType<Powerup>();
 
@@ -259,21 +249,39 @@ public class Player : MonoBehaviour
                     {
                         float speed = 5f * Time.deltaTime;
                         powerup.transform.position = Vector3.MoveTowards(powerup.transform.position, transform.position, speed);
+                        StartCoroutine(PowerupCollectCooldown());
                     }
                 }
             }
+
         }
     }
+
+    IEnumerator PowerupCollectCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        _powerupCollectActive = false;
+    }
+
+
     public void HeatSeakingMissiles()
     {
         _heatSeakingMissilesActive = true;
-        StartCoroutine(HeatSeakingCooldown());
     }
 
-    IEnumerator HeatSeakingCooldown()
+    private void PlasmaAttackCooldown()
     {
-        yield return new WaitForSeconds(5f);
-        _heatSeakingMissilesActive = false;
+        if (_heatSeakingMissilesActive == true)
+        {
+            float seconds = 5f;
+            _uiManager.HomingMissileCircleSlider(_plasmaRemaining -= 100 / seconds * Time.deltaTime);
+        }
+        if (_plasmaRemaining <= 0)
+        {
+            _heatSeakingMissilesActive = false;
+            _uiManager.CircleSliderCompleted();
+            _plasmaRemaining = 100;
+        }
     }
 
     private void AmmoLimits()
@@ -490,30 +498,29 @@ public class Player : MonoBehaviour
         _currentKillCount++;
         Debug.Log("Current Kill Count: " + _currentKillCount);
 
-        /*if (_currentKillCount == 15 && _isPlayerAlive == true)
+        if (_currentKillCount == 1 && _isPlayerAlive == true)
         {
             _spawnManager.WaveTwo();
             _uiManager.WaveTwoUI();
         }
-        else if (_currentKillCount == 25 && _isPlayerAlive == true)
+        else if (_currentKillCount == 2 && _isPlayerAlive == true)
         {
             _spawnManager.WaveThree();
             _uiManager.WaveThreeUI();
         }
-        else if (_currentKillCount == 35 && _isPlayerAlive == true)
+        else if (_currentKillCount == 3 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFour();
             _uiManager.WaveFourUI();
         }
-        else if (_currentKillCount == 45 && _isPlayerAlive == true)
+        else if (_currentKillCount == 4 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFive();
             _uiManager.WaveFiveUI();
-        }*/
-        if (_currentKillCount == 1 && _isPlayerAlive == true)
+        }
+        else if (_currentKillCount == 5 && _isPlayerAlive == true)
         {
             _spawnManager.BossSpawn();
-
         }
     }
 
@@ -701,7 +708,6 @@ public class Player : MonoBehaviour
             _damageTaken = false;
         }
     }
-
     IEnumerator SpriteFlicker()
     {
         while (_damageTaken == true)
@@ -718,9 +724,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TargetArrows()
+    {
+        StartCoroutine(TargetArrowsCooldown());
+    }
 
-
-
+    IEnumerator TargetArrowsCooldown()
+    {
+        _targetArrows.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+        _targetArrows.gameObject.SetActive(false);
+    }
 
 
 }

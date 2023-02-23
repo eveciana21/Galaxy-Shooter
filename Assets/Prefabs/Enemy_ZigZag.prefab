@@ -135,5 +135,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2.25
-  _explosionPrefab: {fileID: 6914487444124827508, guid: 6f0d63a50fdd9774490fe302073f08b1, type: 3}
+  _explosionPrefab: {fileID: 7027157661397510236, guid: 9ce27edf826c2f74d85de8330c00c400, type: 3}
   _energyBall: {fileID: 8177107801654264285, guid: 466a35099713fcd4ca5ef38a2d6ebe88, type: 3}

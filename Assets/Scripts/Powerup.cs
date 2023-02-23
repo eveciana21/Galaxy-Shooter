@@ -48,9 +48,9 @@ public class Powerup : MonoBehaviour
                     case 0:
                         player.TripleShotActive();
                         break;
-                    /*case 1:
-                        player.SpeedBoostActive();
-                        break;*/
+                    case 1:
+                        player.PowerupCollectActive();
+                        break;
                     case 2:
                         player.AmmoPickup();
                         break;
@@ -85,21 +85,6 @@ public class Powerup : MonoBehaviour
         {
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject, 0.05f);
-        }
-
-        if (other.tag == "Collider")
-        {
-            if (_enemy != null)
-            {
-                Enemy enemy = _enemy.GetComponent<Enemy>();
-                enemy.FireAtPowerup();
-            }
-
-            if (_shieldedEnemy != null)
-            {
-                EnemyShielded shieldedEnemy = _shieldedEnemy.GetComponent<EnemyShielded>();
-                shieldedEnemy.FireAtPowerup();
-            }
         }
     }
 }
