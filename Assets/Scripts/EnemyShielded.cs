@@ -37,6 +37,8 @@ public class EnemyShielded : MonoBehaviour
 
     [SerializeField] private GameObject _shieldBurstParticle;
 
+    private CameraShake _cameraShake;
+
 
     void Start()
     {
@@ -44,7 +46,10 @@ public class EnemyShielded : MonoBehaviour
 
         _target = GameObject.Find("Player").transform;
 
+
         _rb = GetComponent<Rigidbody2D>();
+
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
         _laserWarning.gameObject.SetActive(false);
         _shieldBurstParticle.gameObject.SetActive(false);
@@ -160,6 +165,7 @@ public class EnemyShielded : MonoBehaviour
             {
                 _player.AddToScore(50);
                 Instantiate(_explosion, transform.position, Quaternion.identity);
+                _cameraShake.EnemyScreenShake();
                 Destroy(this.gameObject, 0.1f);
             }
             Destroy(other.gameObject);

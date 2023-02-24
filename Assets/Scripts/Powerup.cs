@@ -13,16 +13,6 @@ public class Powerup : MonoBehaviour
 
     [SerializeField] private GameObject _explosionPrefab;
 
-    private GameObject _enemy;
-    private GameObject _shieldedEnemy;
-
-
-    void Start()
-    {
-        _enemy = GameObject.Find("Enemy");
-        _shieldedEnemy = GameObject.Find("Enemy Shielded");
-    }
-
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);

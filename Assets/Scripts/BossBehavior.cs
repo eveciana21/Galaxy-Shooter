@@ -98,6 +98,7 @@ public class BossBehavior : MonoBehaviour
     private int _volume = 1;
 
 
+
     void Start()
     {
         _startPos = transform.position = new Vector3(0, 6, 0);
@@ -188,7 +189,7 @@ public class BossBehavior : MonoBehaviour
     IEnumerator BossRushAudio()
     {
         yield return new WaitForSeconds(1.25f);
-        AudioSource.PlayClipAtPoint(_bossRushAudio, _head.transform.position, 1f);
+        AudioSource.PlayClipAtPoint(_bossRushAudio, _head.transform.position, _volume);
     }
 
     private void StartBossSequences()
@@ -360,7 +361,7 @@ public class BossBehavior : MonoBehaviour
             _clawsAnim.SetBool("Left Claw Swipe", true);
             yield return new WaitForSeconds(0.75f);
             _leftClawParticle.gameObject.SetActive(true);
-            AudioSource.PlayClipAtPoint(_clawSwipeAudio, transform.position, 1f);
+            AudioSource.PlayClipAtPoint(_clawSwipeAudio, transform.position, _volume);
 
             _swipeCount--;
 
@@ -446,19 +447,24 @@ public class BossBehavior : MonoBehaviour
     {
         if (other.tag == "Laser")
         {
-            if (_bossEnteredGame == true)
-            {
-                //_health -= 0.5f;
-                _health -= 25;
-                _uiManager.BossHealthSlider(_health);
-
-                if (_health <= 0)
-                {
-                    _bossHasDied = true;
-                    _uiManager.BossDead();
-                }
-            }
+            Damage();
             Destroy(other.gameObject);
+        }
+    }
+
+    public void Damage()
+    {
+        if (_bossEnteredGame == true)
+        {
+            _health -= 0.5f;
+
+            _uiManager.BossHealthSlider(_health);
+
+            if (_health <= 0)
+            {
+                _bossHasDied = true;
+                _uiManager.BossDead();
+            }
         }
     }
 
@@ -480,7 +486,7 @@ public class BossBehavior : MonoBehaviour
         while (_deathSeqOver == false)
         {
             float _randomRange = Random.Range(-2.5f, 2.5f);
-            float _randomSeconds = Random.Range(0.2f, 0.5f);
+            float _randomSeconds = Random.Range(0.2f, 0.7f);
             float _randomSmallRange = Random.Range(-0.7f, 0.7f);
             Instantiate(_greenExplosion, _head.transform.position + new Vector3(_randomRange, _randomRange, 0), Quaternion.identity);
             Instantiate(_greenExplosion, _leftClaw.transform.position + new Vector3(_randomSmallRange, _randomSmallRange, 0), Quaternion.identity);
@@ -500,12 +506,5 @@ public class BossBehavior : MonoBehaviour
 
 
 
+
 }
-
-
-
-
-
-
-
-

@@ -35,16 +35,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Slider _circleSlider;
 
-    private bool _bossIsDead;
+    [SerializeField] private Slider _tripleShotSlider;
 
     [SerializeField] private GameObject _creditsAnim;
 
-    //[SerializeField] private Text _pressJ;
-    //[SerializeField] private Text _wasdKeys;
-    //[SerializeField] private Text _pressSpace;
-
-    //Add a difficulty setting 
-
+    [SerializeField] private Image _magnet;
 
     void Start()
     {
@@ -59,9 +54,11 @@ public class UIManager : MonoBehaviour
         _bossHealthSlider.gameObject.SetActive(false);
         _circleSlider.gameObject.SetActive(false);
         _creditsAnim.gameObject.SetActive(false);
+        _tripleShotSlider.gameObject.SetActive(false);
+        _magnet.gameObject.SetActive(false);
 
+        _tripleShotSlider.value = 100f;
         _circleSlider.value = 100f;
-
         _boostSlider.value = 0;
         _ammoSlider.value = 100;
 
@@ -150,6 +147,21 @@ public class UIManager : MonoBehaviour
         _ammoCount.color = Color.white;
     }
 
+    public void TripleShotCooldown(float secondsRemaining)
+    {
+        _tripleShotSlider.gameObject.SetActive(true);
+
+        _tripleShotSlider.value = secondsRemaining;
+
+        _tripleShotSlider.maxValue = 100f;
+        _tripleShotSlider.minValue = 0f;
+    }
+
+    public void TripleShotTimerComplete()
+    {
+        _tripleShotSlider.gameObject.SetActive(false);
+    }
+
     public void HomingMissileCircleSlider(float timeRemaining)
     {
         _circleSlider.gameObject.SetActive(true);
@@ -171,6 +183,15 @@ public class UIManager : MonoBehaviour
 
         _boostSlider.maxValue = 100f;
         _boostSlider.minValue = 0f;
+    }
+
+    public void MagnetActive()
+    {
+        _magnet.gameObject.SetActive(true);
+    }
+    public void MagnetNotActive()
+    {
+        _magnet.gameObject.SetActive(false);
     }
 
     private void WavesStartPos()

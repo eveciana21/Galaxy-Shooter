@@ -39,7 +39,7 @@ public class MiniAsteroid : MonoBehaviour
 
         transform.Translate(Vector3.down * _speedDown * Time.deltaTime);
 
-        if (transform.position.y < -6)
+        if (transform.position.y < -6 || transform.position.x < -12 || transform.position.x > 12)
         {
             Destroy(this.gameObject);
         }

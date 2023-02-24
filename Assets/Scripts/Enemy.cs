@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private AudioClip _laserAudio;
 
+    [SerializeField] private GameObject _enemyContainer;
+
     void Start()
     {
         transform.position = new Vector3(Random.Range(9.4f, -9.4f), 7.35f, 0);
@@ -131,9 +133,6 @@ public class Enemy : MonoBehaviour
         if (transform.position.y <= -6.5f)
         {
             Destroy(this.gameObject);
-            //spawn at random x position
-            //float randomX = Random.Range(9, -9);
-            //transform.position = new Vector3(randomX, 8, 0);
         }
     }
 
@@ -161,8 +160,6 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-
 
     IEnumerator DodgeLaser()
     {
@@ -193,7 +190,7 @@ public class Enemy : MonoBehaviour
         _canDodge = false;
     }
 
-
+    
     public void AvoidLaser()
     {
         _avoidLaserCount++;

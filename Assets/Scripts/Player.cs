@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _greenExplosion;
 
-    private float _minDistance = 5f;
+    private float _minDistance = 8f;
 
     private bool _enemyAlien;
 
@@ -86,6 +86,10 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _targetArrows;
 
     private float _plasmaRemaining;
+
+    private float _tripleShotRemaining;
+
+    private bool thrusterOn, thrusterOff;
 
     void Start()
     {
@@ -150,6 +154,7 @@ public class Player : MonoBehaviour
 
 
         PlasmaAttackCooldown();
+        TripleShotTimer();
     }
     private void OnDestroy()
     {
@@ -178,18 +183,24 @@ public class Player : MonoBehaviour
         }
 
         //SPEED BOOST
-        if (Input.GetKey(KeyCode.J) && _boostEngaged == false && _boostRemaining >= 1 && _negativePowerupActive == false)
+
+
+        if (Input.GetKey(KeyCode.J) && _negativePowerupActive == false && _boostEngaged == false && _boostRemaining >= 1)
         {
             SpeedBoostSliderDecrease();
+
 
             transform.Translate(direction * _speed * _speedMultiplier * Time.deltaTime);
             _thrusterSpeed.SetActive(true);
             _thrusterMain.SetActive(false);
             _speedBoostParticleSystem.SetActive(true);
+
         }
         else if (_negativePowerupActive == true)
         {
             transform.Translate(direction * _speed / 3 * Time.deltaTime);
+            _thrusterSpeed.SetActive(false);
+            _speedBoostParticleSystem.SetActive(false);
         }
 
         else
@@ -203,6 +214,8 @@ public class Player : MonoBehaviour
             _speedBoostParticleSystem.SetActive(false);
         }
     }
+
+
 
     void FireLaser()
     {
@@ -231,6 +244,7 @@ public class Player : MonoBehaviour
     public void PowerupCollectActive()
     {
         _powerupCollectActive = true;
+        _uiManager.MagnetActive();
     }
 
     private void PowerupCollect()
@@ -259,8 +273,9 @@ public class Player : MonoBehaviour
 
     IEnumerator PowerupCollectCooldown()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         _powerupCollectActive = false;
+        _uiManager.MagnetNotActive();
     }
 
 
@@ -498,27 +513,27 @@ public class Player : MonoBehaviour
         _currentKillCount++;
         Debug.Log("Current Kill Count: " + _currentKillCount);
 
-        if (_currentKillCount == 1 && _isPlayerAlive == true)
+        if (_currentKillCount == 15 && _isPlayerAlive == true)
         {
             _spawnManager.WaveTwo();
             _uiManager.WaveTwoUI();
         }
-        else if (_currentKillCount == 2 && _isPlayerAlive == true)
+        else if (_currentKillCount == 30 && _isPlayerAlive == true)
         {
             _spawnManager.WaveThree();
             _uiManager.WaveThreeUI();
         }
-        else if (_currentKillCount == 3 && _isPlayerAlive == true)
+        else if (_currentKillCount == 45 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFour();
             _uiManager.WaveFourUI();
         }
-        else if (_currentKillCount == 4 && _isPlayerAlive == true)
+        else if (_currentKillCount == 60 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFive();
             _uiManager.WaveFiveUI();
         }
-        else if (_currentKillCount == 5 && _isPlayerAlive == true)
+        else if (_currentKillCount == 70 && _isPlayerAlive == true)
         {
             _spawnManager.BossSpawn();
         }
@@ -616,18 +631,23 @@ public class Player : MonoBehaviour
     public void TripleShotActive()
     {
         _tripleShotIsActive = true;
-        StopCoroutine("TripleShotActiveTime");
-        StartCoroutine("TripleShotActiveTime");
     }
 
-    IEnumerator TripleShotActiveTime()
+    private void TripleShotTimer()
     {
         if (_tripleShotIsActive == true)
         {
-            yield return new WaitForSeconds(10);
+            float seconds = 5f;
+            _uiManager.TripleShotCooldown(_tripleShotRemaining -= 100 / seconds * Time.deltaTime);
+        }
+        if (_tripleShotRemaining <= 0)
+        {
             _tripleShotIsActive = false;
+            _uiManager.TripleShotTimerComplete();
+            _tripleShotRemaining = 100;
         }
     }
+
 
     public void FighterBrigadePowerup()
     {
@@ -735,6 +755,4 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         _targetArrows.gameObject.SetActive(false);
     }
-
-
 }

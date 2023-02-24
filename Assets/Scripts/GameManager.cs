@@ -13,14 +13,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject _endGameText;
 
-    private bool restartAtBoss;
-
-    private SpawnManager _spawnManager;
-
-
     private void Start()
     {
-        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _endGameText.SetActive(false);
     }
 
@@ -31,7 +25,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(1); //Current Game Scene 
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && _isGameOver == false)
         {
             _endGameText.SetActive(true);
             Time.timeScale = 0;

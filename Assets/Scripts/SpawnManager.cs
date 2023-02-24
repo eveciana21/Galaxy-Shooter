@@ -93,7 +93,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 2);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.7f);
+            yield return new WaitForSeconds(1.6f);
         }
         yield return new WaitForSeconds(1f);
 
@@ -103,7 +103,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 3);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.65f);
+            yield return new WaitForSeconds(1.5f);
         }
         yield return new WaitForSeconds(1f);
 
@@ -113,7 +113,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.3f);
         }
         yield return new WaitForSeconds(0.88f);
 
@@ -123,7 +123,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.35f);
+            yield return new WaitForSeconds(1.25f);
         }
     }
 
@@ -162,7 +162,7 @@ public class SpawnManager : MonoBehaviour
   
     IEnumerator SpawnBoss()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         if (_isPlayerAlive == true && _spawnBoss == true)
         {
@@ -200,7 +200,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject newPowerup = Instantiate(_powerups[randomHiClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }
-            yield return new WaitForSeconds(Random.Range(9f, 13f));
+            yield return new WaitForSeconds(Random.Range(8f, 12f));
         }
     }
 
