@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 1209131078}
   m_Layer: 0
   m_Name: Fighter_Brigade
-  m_TagString: Fighters
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -374,8 +374,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6678485034471040631}
   - component: {fileID: 6678485034471040629}
-  - component: {fileID: 6678485034471040630}
   - component: {fileID: 904345915739459085}
+  - component: {fileID: 7719346609434132860}
   m_Layer: 0
   m_Name: Fighter_Brigade (2)
   m_TagString: Fighters
@@ -392,7 +392,7 @@ Transform:
   m_GameObject: {fileID: 6678485034471040616}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6678485035154873411}
   m_Father: {fileID: 6678485033683466022}
@@ -449,27 +449,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6678485034471040630
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6678485034471040616}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &904345915739459085
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -496,6 +475,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6491055, y: 1.627805}
   m_EdgeRadius: 0
+--- !u!50 &7719346609434132860
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678485034471040616}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &6678485034495054969
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,8 +506,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6678485034495054968}
   - component: {fileID: 6678485034495054918}
-  - component: {fileID: 6678485034495054919}
   - component: {fileID: 5921275761055938082}
+  - component: {fileID: 5840169424936276978}
   m_Layer: 0
   m_Name: Fighter_Brigade (3)
   m_TagString: Fighters
@@ -524,7 +524,7 @@ Transform:
   m_GameObject: {fileID: 6678485034495054969}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6678485034655370970}
   m_Father: {fileID: 6678485033683466022}
@@ -571,7 +571,7 @@ SpriteRenderer:
   m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e72b5607b24dd3247a7168ad745086fb, type: 3}
-  m_Color: {r: 0.8773585, g: 0.87239236, b: 0.87239236, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -581,27 +581,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6678485034495054919
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6678485034495054969}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &5921275761055938082
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -628,6 +607,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6491058, y: 1.6756303}
   m_EdgeRadius: 0
+--- !u!50 &5840169424936276978
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678485034495054969}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &6678485034655370971
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,8 +740,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6678485034799097898}
   - component: {fileID: 6678485034799097896}
-  - component: {fileID: 6678485034799097897}
   - component: {fileID: 4745690302267542340}
+  - component: {fileID: 4204210956506751599}
   m_Layer: 0
   m_Name: Fighter_Brigade (1)
   m_TagString: Fighters
@@ -816,27 +816,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6678485034799097897
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6678485034799097899}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &4745690302267542340
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -863,6 +842,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.0795326, y: 2.6640182}
   m_EdgeRadius: 0
+--- !u!50 &4204210956506751599
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678485034799097899}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &6678485035154873412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,8 +1077,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6678485035467353150}
   - component: {fileID: 6678485035467353148}
-  - component: {fileID: 6678485035467353149}
   - component: {fileID: 5957344348742965012}
+  - component: {fileID: 3806083478358268585}
   m_Layer: 0
   m_Name: Fighter_Brigade (5)
   m_TagString: Fighters
@@ -1095,7 +1095,7 @@ Transform:
   m_GameObject: {fileID: 6678485035467353151}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -6, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6678485035215874990}
   m_Father: {fileID: 6678485033683466022}
@@ -1142,7 +1142,7 @@ SpriteRenderer:
   m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e72b5607b24dd3247a7168ad745086fb, type: 3}
-  m_Color: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1152,27 +1152,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6678485035467353149
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6678485035467353151}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &5957344348742965012
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1199,6 +1178,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6331644, y: 1.6756303}
   m_EdgeRadius: 0
+--- !u!50 &3806083478358268585
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678485035467353151}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &6678485035634021462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,8 +1209,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6678485035634021461}
   - component: {fileID: 6678485035634021459}
-  - component: {fileID: 6678485035634021460}
   - component: {fileID: 6909445847699867883}
+  - component: {fileID: 3397021507190667881}
   m_Layer: 0
   m_Name: Fighter_Brigade (4)
   m_TagString: Fighters
@@ -1227,7 +1227,7 @@ Transform:
   m_GameObject: {fileID: 6678485035634021462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6678485033836853958}
   m_Father: {fileID: 6678485033683466022}
@@ -1274,7 +1274,7 @@ SpriteRenderer:
   m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e72b5607b24dd3247a7168ad745086fb, type: 3}
-  m_Color: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1284,27 +1284,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6678485035634021460
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6678485035634021462}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &6909445847699867883
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1331,3 +1310,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6012807, y: 1.6756303}
   m_EdgeRadius: 0
+--- !u!50 &3397021507190667881
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678485035634021462}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

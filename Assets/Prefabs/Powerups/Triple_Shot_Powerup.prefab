@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c2eb1b7adb51045ada68c42f764663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
+  _speed: 2.5
   powerupID: 0
   _powerupAudio: {fileID: 8300000, guid: 8124961ea90d91c48a2bdc2dfa93f44f, type: 3}
   _explosionPrefab: {fileID: 7027157661397510236, guid: 9ce27edf826c2f74d85de8330c00c400, type: 3}

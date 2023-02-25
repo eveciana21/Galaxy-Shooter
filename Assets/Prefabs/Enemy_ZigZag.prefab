@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 703287083
   m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 42e8b7de1a9ef4140ac6eb95ed5fb0fd, type: 3}
   m_Color: {r: 1, g: 0.7396226, b: 0.95277095, a: 1}
   m_FlipX: 0
@@ -134,6 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd873ac6a5c4b049a5d241c6077f1cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2.25
+  _speed: 2.5
   _explosionPrefab: {fileID: 7027157661397510236, guid: 9ce27edf826c2f74d85de8330c00c400, type: 3}
   _energyBall: {fileID: 8177107801654264285, guid: 466a35099713fcd4ca5ef38a2d6ebe88, type: 3}

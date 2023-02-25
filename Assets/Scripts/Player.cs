@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject _greenExplosion;
 
-    private float _minDistance = 8f;
+    private float _minDistance = 20f;
 
     private bool _enemyAlien;
 
@@ -88,8 +88,6 @@ public class Player : MonoBehaviour
     private float _plasmaRemaining;
 
     private float _tripleShotRemaining;
-
-    private bool thrusterOn, thrusterOff;
 
     void Start()
     {
@@ -261,7 +259,7 @@ public class Player : MonoBehaviour
 
                     if (powerupDistance < _minDistance)
                     {
-                        float speed = 5f * Time.deltaTime;
+                        float speed = 7f * Time.deltaTime;
                         powerup.transform.position = Vector3.MoveTowards(powerup.transform.position, transform.position, speed);
                         StartCoroutine(PowerupCollectCooldown());
                     }
@@ -470,9 +468,10 @@ public class Player : MonoBehaviour
         }
         if (other.tag == "Enemy Shielded")
         {
-            SubtractFromScore(50);
             Damage();
             Instantiate(_tinyExplosionPrefab, transform.position, Quaternion.identity);
+            SubtractFromScore(50);
+
         }
 
         if (other.tag == "Explosion")
@@ -513,27 +512,27 @@ public class Player : MonoBehaviour
         _currentKillCount++;
         Debug.Log("Current Kill Count: " + _currentKillCount);
 
-        if (_currentKillCount == 15 && _isPlayerAlive == true)
+        if (_currentKillCount == 20 && _isPlayerAlive == true)
         {
             _spawnManager.WaveTwo();
             _uiManager.WaveTwoUI();
         }
-        else if (_currentKillCount == 30 && _isPlayerAlive == true)
+        else if (_currentKillCount == 40 && _isPlayerAlive == true)
         {
             _spawnManager.WaveThree();
             _uiManager.WaveThreeUI();
         }
-        else if (_currentKillCount == 45 && _isPlayerAlive == true)
+        else if (_currentKillCount == 60 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFour();
             _uiManager.WaveFourUI();
         }
-        else if (_currentKillCount == 60 && _isPlayerAlive == true)
+        else if (_currentKillCount == 80 && _isPlayerAlive == true)
         {
             _spawnManager.WaveFive();
             _uiManager.WaveFiveUI();
         }
-        else if (_currentKillCount == 70 && _isPlayerAlive == true)
+        else if (_currentKillCount == 100 && _isPlayerAlive == true)
         {
             _spawnManager.BossSpawn();
         }

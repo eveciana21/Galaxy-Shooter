@@ -83,9 +83,9 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 2);
             GameObject newEnemy = Instantiate(_enemyVariant[0], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.4f);
+            yield return new WaitForSeconds(1.2f);
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
 
         //WAVE TWO
         while (_isPlayerAlive == true && _spawnWaveTwo == true)
@@ -93,9 +93,9 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 2);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.6f);
+            yield return new WaitForSeconds(0.85f);
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
 
         //WAVE THREE
         while (_isPlayerAlive == true && _spawnWaveThree == true)
@@ -103,9 +103,9 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, 3);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.2f);
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
 
         //WAVE FOUR
         while (_isPlayerAlive == true && _spawnWaveFour == true)
@@ -113,9 +113,9 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.3f);
+            yield return new WaitForSeconds(1f);
         }
-        yield return new WaitForSeconds(0.88f);
+        yield return new WaitForSeconds(0.1f);
 
         //WAVE FIVE
         while (_isPlayerAlive == true && _spawnWaveFive == true)
@@ -123,7 +123,7 @@ public class SpawnManager : MonoBehaviour
             int _randomEnemy = Random.Range(0, _enemyVariant.Length);
             GameObject newEnemy = Instantiate(_enemyVariant[_randomEnemy], transform.position, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(1.25f);
+            yield return new WaitForSeconds(0.8f);
         }
     }
 
@@ -159,7 +159,7 @@ public class SpawnManager : MonoBehaviour
         Debug.Log("Boss Wave");
     }
 
-  
+
     IEnumerator SpawnBoss()
     {
         yield return new WaitForSeconds(2f);
@@ -200,7 +200,7 @@ public class SpawnManager : MonoBehaviour
                 GameObject newPowerup = Instantiate(_powerups[randomHiClass], _spawnLocation, Quaternion.identity);
                 newPowerup.transform.parent = _powerupContainer.transform;
             }
-            yield return new WaitForSeconds(Random.Range(8f, 12f));
+            yield return new WaitForSeconds(Random.Range(7.5f, 10f));
         }
     }
 

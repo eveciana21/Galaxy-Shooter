@@ -41,6 +41,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Image _magnet;
 
+    [SerializeField] private GameObject _starsParticle;
+
     void Start()
     {
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
@@ -56,6 +58,7 @@ public class UIManager : MonoBehaviour
         _creditsAnim.gameObject.SetActive(false);
         _tripleShotSlider.gameObject.SetActive(false);
         _magnet.gameObject.SetActive(false);
+        _starsParticle.gameObject.SetActive(false);
 
         _tripleShotSlider.value = 100f;
         _circleSlider.value = 100f;
@@ -278,16 +281,17 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(9);
         _creditsAnim.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2);
+        _starsParticle.gameObject.SetActive(true);
         StartCoroutine(CreditsEnd());
     }
 
     IEnumerator CreditsEnd()
     {
-        yield return new WaitForSeconds(18);
+        yield return new WaitForSeconds(15);
         _creditsAnim.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1);
+        _starsParticle.gameObject.SetActive(false);
         _gameManager.MainMenu();
     }
-
-
-
 }

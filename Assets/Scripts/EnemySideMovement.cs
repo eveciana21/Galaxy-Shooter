@@ -50,7 +50,7 @@ public class EnemySideMovement : MonoBehaviour
     {
         SideMovement();
 
-        if (transform.position.y < -8)
+        if (transform.position.y < -6.5)
         {
             Destroy(this.gameObject);
         }
@@ -93,7 +93,7 @@ public class EnemySideMovement : MonoBehaviour
                 _fireRate = Random.Range(3f, 5f);
                 _canFireLaser = Time.time + _fireRate;
 
-                if (transform.position.y > -1.5f)
+                if (transform.position.y > 0f)
                 {
                     AudioSource.PlayClipAtPoint(_alienSpawnAudio, transform.position, 1);
 

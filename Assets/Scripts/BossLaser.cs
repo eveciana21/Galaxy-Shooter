@@ -15,4 +15,13 @@ public class BossLaser : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Fighters")
+        {
+            Destroy(other.gameObject, 0.05f);
+            Destroy(this.gameObject, 0.05f);
+        }
+    }
 }

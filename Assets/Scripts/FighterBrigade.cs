@@ -30,7 +30,7 @@ public class FighterBrigade : MonoBehaviour
         {
             _onScreen = true;
         }
-        if (transform.position.y >= 7f)
+        if (transform.position.y >= 6.8f)
         {
             _onScreen = false;
             Destroy(this.gameObject);
@@ -83,6 +83,17 @@ public class FighterBrigade : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(this.gameObject, 0.05f);
         }
+        if (other.tag == "Boss Claw")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject, 0.05f);
+        }
+        if (other.tag == "Boss Head")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(this.gameObject, 0.05f);
+        }
+
     }
 }
 

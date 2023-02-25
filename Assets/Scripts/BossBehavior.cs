@@ -457,7 +457,6 @@ public class BossBehavior : MonoBehaviour
         if (_bossEnteredGame == true)
         {
             _health -= 0.5f;
-
             _uiManager.BossHealthSlider(_health);
 
             if (_health <= 0)
@@ -503,8 +502,4 @@ public class BossBehavior : MonoBehaviour
         _clawsAnim.SetBool("Claw Death", isTrue);
         _mouthOpenAnim.SetBool("Head Shake", isTrue);
     }
-
-
-
-
 }

@@ -70,6 +70,10 @@ public class EnemyShielded : MonoBehaviour
         {
             FireLaser();
         }
+        if (transform.position.y <= -6f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void FixedUpdate()

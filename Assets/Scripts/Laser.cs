@@ -43,16 +43,6 @@ public class Laser : MonoBehaviour
         }
     }
 
-    public void FireLaserAtPlayer()
-    {
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
-
-        if (transform.position.y > 8)
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
     public void EnemyFiredLaser()
     {
         _enemyFiredLaser = true;
