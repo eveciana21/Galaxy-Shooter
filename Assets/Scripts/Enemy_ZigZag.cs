@@ -85,7 +85,7 @@ public class Enemy_ZigZag : MonoBehaviour
     {
         if (Time.time > _canFire)
         {
-            float _randomRange = Random.Range(2f, 4f);
+            float _randomRange = Random.Range(3f, 6f);
             _fireRate = _randomRange;
             _canFire = Time.time + _fireRate;
             Instantiate(_energyBall, transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);

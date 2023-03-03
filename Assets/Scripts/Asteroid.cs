@@ -35,7 +35,7 @@ public class Asteroid : MonoBehaviour
 
             Destroy(other.gameObject);
             _spawnManager.StartSpawning();
-            Destroy(this.gameObject, 0.1f);
+            Destroy(this.gameObject, 0.05f);
         }
 
         if (other.tag == "Player")
@@ -44,7 +44,7 @@ public class Asteroid : MonoBehaviour
 
             _player.Damage();
             _spawnManager.StartSpawning();
-            Destroy(this.gameObject, 0.1f);
+            Destroy(this.gameObject, 0.05f);
         }
 
         if(other.tag == "Fighters")
@@ -52,15 +52,8 @@ public class Asteroid : MonoBehaviour
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
             _spawnManager.StartSpawning();
-            Destroy(this.gameObject, 0.1f);
+            Destroy(this.gameObject, 0.05f);
         }
 
     }
-
-
-
-
-
-
-
 }

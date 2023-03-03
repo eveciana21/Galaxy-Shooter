@@ -275,7 +275,6 @@ public class UIManager : MonoBehaviour
     {
         _bossHealthSlider.gameObject.SetActive(false);
         StartCoroutine(CreditsDelayTimer());
-
     }
     IEnumerator CreditsDelayTimer()
     {

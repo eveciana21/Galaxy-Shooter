@@ -17,9 +17,7 @@ public class MainMenu : MonoBehaviour
         {
             _playerShip.transform.position = new Vector3(0f, -3.25f, 0);
         }
-
         _controlsText.SetActive(false);
-
     }
 
     private void Update()
@@ -35,8 +33,9 @@ public class MainMenu : MonoBehaviour
         {
             _isPressed = true;
             _playerShip.transform.Translate(Vector3.up * _speed * Time.deltaTime);
+            _controlsText.SetActive(false);
 
-            if (_playerShip.transform.position.y > 7)
+            if (_playerShip.transform.position.y > 4.6f)
             {
                 SceneManager.LoadScene(1); // Main Game Scene
                 Destroy(_playerShip);
@@ -53,15 +52,4 @@ public class MainMenu : MonoBehaviour
     {
         _controlsText.SetActive(true);
     }
-
-
-
-
-
-
-
-
-
-
-
 }

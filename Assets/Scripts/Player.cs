@@ -108,6 +108,7 @@ public class Player : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
+
         //NULL CHECKS
         if (_spawnManager == null)
         {
@@ -134,6 +135,7 @@ public class Player : MonoBehaviour
 
         _highScore = PlayerPrefs.GetInt("_highScore", _highScore);
         _uiManager.HighScore(_highScore);
+
     }
 
     void Update()
@@ -299,7 +301,7 @@ public class Player : MonoBehaviour
 
     private void AmmoLimits()
     {
-        if (_ammo <= 15)
+        if (_ammo <= 20)
         {
             if (_trySpawningAmmo == false)
             {
@@ -310,7 +312,7 @@ public class Player : MonoBehaviour
             _noAmmoLeft = false;
         }
 
-        else if (_ammo > 15)
+        else if (_ammo > 20)
         {
             _trySpawningAmmo = false;
             _spawnManager.EnoughAmmo();
@@ -664,7 +666,7 @@ public class Player : MonoBehaviour
 
     void SpeedBoostSliderDecrease()
     {
-        _uiManager.BoostSlider(_boostRemaining -= Time.deltaTime * _refuelSpeed * 3);
+        _uiManager.BoostSlider(_boostRemaining -= Time.deltaTime * _refuelSpeed * 2f);
         if (_boostRemaining <= 1)
         {
             _boostEngaged = true;

@@ -11,8 +11,6 @@ public class Powerup : MonoBehaviour
     [SerializeField] AudioClip _powerupAudio;
     private int _volume = 1;
 
-    [SerializeField] private GameObject _explosionPrefab;
-
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -62,19 +60,6 @@ public class Powerup : MonoBehaviour
                 }
                 Destroy(this.gameObject);
             }
-        }
-
-        if (other.tag == "Enemy Laser")
-        {
-            Destroy(other.gameObject);
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(this.gameObject, 0.05f);
-        }
-
-        if (other.tag == "Explosion")
-        {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(this.gameObject, 0.05f);
         }
     }
 }

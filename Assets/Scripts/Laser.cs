@@ -48,6 +48,24 @@ public class Laser : MonoBehaviour
         _enemyFiredLaser = true;
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Easy")
+        {
+            PlayerPrefs.GetInt("Difficulty", 0);
+            Debug.Log("Easy");
+        }
+        if (other.tag == "Moderate")
+        {
+            PlayerPrefs.GetInt("Difficulty", 1);
+            Debug.Log("Moderate");
+        }
+        if (other.tag == "Hard")
+        {
+            PlayerPrefs.GetInt("Difficulty", 2);
+            Debug.Log("Hard");
+        }
+    }
 
 
 }

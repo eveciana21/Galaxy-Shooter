@@ -33,7 +33,7 @@ public class EnemySideMovement : MonoBehaviour
 
         StartCoroutine(FireLaserDelay());
 
-        transform.position = new Vector3(Random.Range(8.5f, -8.5f), 8, 0);
+        transform.position = new Vector3(Random.Range(8.5f, -8.5f), 8.3f, 0);
 
         _sprite = gameObject.GetComponentInChildren<Renderer>();
 

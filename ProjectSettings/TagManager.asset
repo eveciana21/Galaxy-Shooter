@@ -25,6 +25,9 @@ TagManager:
   - Boss Claw
   - Spine Ball
   - Laser Beam
+  - Easy
+  - Moderate
+  - Hard
   layers:
   - Default
   - TransparentFX

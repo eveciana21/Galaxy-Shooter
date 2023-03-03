@@ -120,6 +120,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -222,6 +223,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -581,6 +594,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Atlas_green_0: -6373888868986473788
+      Atlas_green_1: 377378964431972348
+      Atlas_green_10: -3769714300810358745
+      Atlas_green_11: -5646704137104423201
+      Atlas_green_12: -1812305029068559970
+      Atlas_green_13: 2396044483727671432
+      Atlas_green_14: -8512260683687075065
+      Atlas_green_15: -1735159217340676488
+      Atlas_green_2: 7742669842780221598
+      Atlas_green_3: -6390052751682770176
+      Atlas_green_4: 458764661404605443
+      Atlas_green_5: -4451628812775942882
+      Atlas_green_6: -5451783366986214861
+      Atlas_green_7: -6033015994108273455
+      Atlas_green_8: -3471506869811479106
+      Atlas_green_9: -4183539681193276713
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

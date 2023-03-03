@@ -21,11 +21,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true && _canPress == true)
-        {      
+        {
             SceneManager.LoadScene(1); //Current Game Scene 
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && _isGameOver == false)
+        if (Input.GetKeyDown(KeyCode.Escape))// && _isGameOver == false)
         {
             _endGameText.SetActive(true);
             Time.timeScale = 0;
@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0); //Main Menu
     }
 
-
     public void GameOver()
     {
         _isGameOver = true;
@@ -60,5 +59,7 @@ public class GameManager : MonoBehaviour
     {
         _canPress = true;
     }
+
+
 
 }
